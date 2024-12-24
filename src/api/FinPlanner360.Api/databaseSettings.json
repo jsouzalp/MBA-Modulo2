@@ -1,0 +1,6 @@
+{
+  "DatabaseSettings": {
+    "ConnectionStringFinPlanner360": "Data Source=..\\..\\..\\data\\FinPlanner360_DV.db",
+    "ConnectionStringIdentity": "Data Source=..\\..\\..\\data\\FinPlanner360_DV.db"
+  }
+}
