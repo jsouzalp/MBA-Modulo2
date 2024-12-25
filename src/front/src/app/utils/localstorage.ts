@@ -1,0 +1,65 @@
+import { environment } from "src/environments/environment";
+import { UserTokenModel } from "../pages/authentication/models/user-token.model";
+import { AES, enc } from "crypto-js";
+
+
+export class LocalStorageUtils {
+    private _key = environment.aesKey;
+
+    public getUserToken(): string {
+        return localStorage.getItem('mba.grupo1.token') ?? '';
+    }
+
+    public setUserToken(token: string) {
+        localStorage.setItem('mba.grupo1.token', token);
+        this.setExpiresAt();
+    }
+
+    public setUser(user: UserTokenModel) {
+        const envryptedObject = AES.encrypt(JSON.stringify(user), this._key);
+        localStorage.setItem('mba.grupo1.user', envryptedObject.toString());
+    }
+
+    public getUser(): UserTokenModel {
+        const userToken: UserTokenModel = Object.create(null);
+
+        const ttUser = localStorage.getItem('mba.grupo1.user');
+        if (!ttUser) return userToken;
+
+        const decrypted2 = AES.decrypt(ttUser!, this._key);
+        const decryptedObject = decrypted2.toString(enc.Utf8);
+        const user: UserTokenModel = JSON.parse(decryptedObject);
+        return user;
+    }
+
+    private setExpiresAt() {
+        let today = new Date();
+        var minutesToAdd = 4 * 60;
+        let dt = new Date(today.getTime() + minutesToAdd * 60000);
+        localStorage.setItem("mba.grupo1.expires_at", JSON.stringify(dt.valueOf()));
+    }
+
+    public getExpiresAt(): number {
+
+        const expired = new Date('2000-01-01');
+        const milesecExpiration = localStorage.getItem("mba.grupo1.expires_at") ?? expired.valueOf().toString();
+        return parseInt(milesecExpiration);
+    }
+
+    public setEmail(email: string) {
+        localStorage.setItem('mba.grupo1.Email', email);
+    }
+
+    public getEmail(): string {
+
+        const email = localStorage.getItem('mba.grupo1.Email');
+        return email ?? '';
+
+    }
+
+    public clear() {
+        localStorage.removeItem('mba.grupo1.token');
+        localStorage.removeItem('mba.grupo1..user');
+        localStorage.removeItem("mba.grupo1.expires_at");
+    }
+}

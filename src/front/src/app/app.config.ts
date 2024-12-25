@@ -26,6 +26,11 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 //Import all material modules
 import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
+import { AuthGuard } from './auth.guard';
+import { LocalStorageUtils } from './utils/localstorage';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -36,7 +41,7 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'enabled',
         anchorScrolling: 'enabled',
       }),
-      withComponentInputBinding()
+      withComponentInputBinding(),
     ),
     provideHttpClient(withInterceptorsFromDi()),
     provideClientHydration(),
@@ -49,5 +54,14 @@ export const appConfig: ApplicationConfig = {
       TablerIconsModule.pick(TablerIcons),
       NgScrollbarModule,
     ),
+    provideAnimations(),
+    provideToastr({
+      timeOut: 5000,
+      preventDuplicates: true,
+      progressBar: true,
+      closeButton: true,
+    }),
+    LocalStorageUtils,
+    AuthGuard
   ],
 };

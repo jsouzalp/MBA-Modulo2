@@ -6,16 +6,17 @@ import {
   FormsModule,
   ReactiveFormsModule,
   FormControlName,
+  FormBuilder,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material.module';
 import { MatButtonModule } from '@angular/material/button';
-import { LocalStorageUtils } from 'src/app/utils/localstorage';
+import { ToastrService } from 'ngx-toastr';
 import { FormBaseComponent } from 'src/app/components/base-components/form-base.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-side-login',
+  selector: 'app-restore-password',
   standalone: true,
   imports: [
     CommonModule,
@@ -25,59 +26,62 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     MatButtonModule,
   ],
-  templateUrl: './side-login.component.html',
+  templateUrl: './restore-password.component.html',
 })
-export class AppSideLoginComponent extends FormBaseComponent implements OnInit, AfterViewInit,  OnDestroy {
+export class RestorePasswordComponent extends FormBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements!: ElementRef[];
-  
-  email: string;
-  form: FormGroup = new FormGroup({});
+  form: FormGroup;
 
-  constructor(private router: Router, private localStorageUtils: LocalStorageUtils) {
+  constructor(private router: Router, private toastr: ToastrService, private fb: FormBuilder) {
     super();
 
     this.validationMessages = {
-      email: {
-        required: 'Informe o email.',
-        email: 'E-mail inválido'
-      },
       password: {
         required: 'Informe a senha',
-      }
+        pattern: 'A senha deve ter entre 8 e 50 caracteres, incluindo números e símbolos.',
+      },
+      confirmPassword: {
+        required: 'Confirme sua senha',
+        notMatching: 'As senhas não coincidem.',
+      },
     };
 
     super.configureMensagesValidation(this.validationMessages);
   }
 
   ngOnInit(): void {
-    this.email = this.localStorageUtils.getEmail();
+    this.form = this.fb.group(
+      {
+        password: new FormControl('', [
+          Validators.required,
+          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/),
+        ]),
+        confirmPassword: ['', Validators.required],
+      },
+      { validators: this.passwordsMatch }
+    );
 
-    this.form = new FormGroup({
-      email: new FormControl(this.email, [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
-    });
   }
-  
+
   ngAfterViewInit(): void {
     super.configureValidationFormBase(this.formInputElements, this.form);
   }
 
-
   get f() {
     return this.form.controls;
-  }
-  get getEmail() {
-    return this.f['email'];
   }
 
   submit() {
     console.log(this.form.value);
-    this.localStorageUtils.setUserToken('token');
-    this.localStorageUtils.setEmail(this.getEmail.value);
-    this.router.navigate(['/dashboard']);
+    this.toastr.success('Senha alterada, faça login.');
+    this.router.navigate(['/login']);
+
   }
 
+
+
   ngOnDestroy(): void {
-    //throw new Error('Method not implemented.');
+
   }
+
 }

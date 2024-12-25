@@ -17,40 +17,56 @@
             </a>
           </div>
 
-          <form class="m-t-30">
+          <form class="m-t-30" [formGroup]="form">
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
               >Nome completo</mat-label
             >
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput />
+              <input matInput type="text" formControlName="userName"/>
             </mat-form-field>
+            <span *ngIf="displayMessage['userName']">
+              <mat-error>{{displayMessage['userName']}}</mat-error>
+            </span>
+
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
               >E-mail</mat-label
             >
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="email" />
+              <input matInput type="email" formControlName="email"/>
             </mat-form-field>
+            <span *ngIf="displayMessage['email']" >
+              <mat-error>{{displayMessage['email']}}</mat-error>
+            </span>
+
             <!-- password -->
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
               >Senha</mat-label
             >
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="password" />
+              <input matInput type="password" formControlName="password"/>
             </mat-form-field>
+            <span *ngIf="displayMessage['password']" >
+              <mat-error>{{displayMessage['password']}}</mat-error>
+            </span>
+
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
               >Confirmação de senha</mat-label
             >
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="password" />
+              <input matInput type="password" formControlName="confirmPassword"/>
             </mat-form-field>
+            <span *ngIf="displayMessage['confirmPassword']">
+              <mat-error>{{displayMessage['confirmPassword']}}</mat-error>
+            </span>
 
             <a
-              [routerLink]="['/']"
+            (click)="submit()"
               mat-flat-button
               color="primary"
               class="w-100"
+              [disabled]="!form.valid"
             >
-              Acessar
+              Cadastrar
             </a>
             <!-- input -->
           </form>

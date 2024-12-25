@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -10,12 +10,13 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material.module';
 import { MatButtonModule } from '@angular/material/button';
+import { ToastrService } from 'ngx-toastr';
 import { LocalStorageUtils } from 'src/app/utils/localstorage';
-import { FormBaseComponent } from 'src/app/components/base-components/form-base.component';
 import { CommonModule } from '@angular/common';
+import { FormBaseComponent } from 'src/app/components/base-components/form-base.component';
 
 @Component({
-  selector: 'app-side-login',
+  selector: 'app-forgot-password',
   standalone: true,
   imports: [
     CommonModule,
@@ -25,15 +26,13 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     MatButtonModule,
   ],
-  templateUrl: './side-login.component.html',
+  templateUrl: './forgot-password.component.html',
 })
-export class AppSideLoginComponent extends FormBaseComponent implements OnInit, AfterViewInit,  OnDestroy {
+export class ForgotPasswordComponent extends FormBaseComponent implements OnInit, AfterViewInit {
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements!: ElementRef[];
-  
-  email: string;
   form: FormGroup = new FormGroup({});
 
-  constructor(private router: Router, private localStorageUtils: LocalStorageUtils) {
+  constructor(private router: Router, private toastr: ToastrService, private localStorageUtils: LocalStorageUtils) {
     super();
 
     this.validationMessages = {
@@ -41,43 +40,29 @@ export class AppSideLoginComponent extends FormBaseComponent implements OnInit, 
         required: 'Informe o email.',
         email: 'E-mail inválido'
       },
-      password: {
-        required: 'Informe a senha',
-      }
     };
 
     super.configureMensagesValidation(this.validationMessages);
   }
 
   ngOnInit(): void {
-    this.email = this.localStorageUtils.getEmail();
-
+    const email = this.localStorageUtils.getEmail();
     this.form = new FormGroup({
-      email: new FormControl(this.email, [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
+      email: new FormControl(email, [Validators.required, Validators.email]),
     });
   }
-  
+
   ngAfterViewInit(): void {
     super.configureValidationFormBase(this.formInputElements, this.form);
   }
 
-
   get f() {
     return this.form.controls;
-  }
-  get getEmail() {
-    return this.f['email'];
   }
 
   submit() {
     console.log(this.form.value);
-    this.localStorageUtils.setUserToken('token');
-    this.localStorageUtils.setEmail(this.getEmail.value);
-    this.router.navigate(['/dashboard']);
-  }
-
-  ngOnDestroy(): void {
-    //throw new Error('Method not implemented.');
+    this.toastr.success('E-mail de recuperação enviado');
+    this.router.navigate(['/login']);
   }
 }
