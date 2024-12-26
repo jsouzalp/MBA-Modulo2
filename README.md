@@ -109,6 +109,13 @@ Deverá existir uma pasta ./data e caso não exista, a mesma será criada automa
    - Navegar para a pasta do projeto .\FinPlanner360.Api
    - Para executar o migration do *Identity*:
      - dotnet ef migrations add InitialMigration --project .\FinPlanner360.Repositories --startup-project .\FinPlanner360.Api --context ApplicationDbContext
+   - Para remover o migration:
+     - dotnet ef migrations remove --project .\FinPlanner360.Repositories --startup-project .\FinPlanner360.Api --context ApplicationDbContext
+   - Para ver o script que será gerado:
+     - dotnet ef migrations script --no-build
+   - Para sincronizar com o BD:
+     - dotnet ef database update --project .\FinPlanner360.Api --context ApplicationDbContext
+
 
 3. **Executar a Aplicação MVC:**
    - `cd src/Blog.Mvc/`
