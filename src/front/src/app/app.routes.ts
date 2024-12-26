@@ -18,7 +18,7 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        path: 'dashboard',
+        path: 'pages',
         loadChildren: () => import('./pages/pages.routes').then((m) => m.PagesRoutes),
         runGuardsAndResolvers: 'always',
         canActivate: [AuthGuard]

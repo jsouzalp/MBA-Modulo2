@@ -7,7 +7,7 @@ import { AppPopularProductsComponent } from 'src/app/components/popular-products
 import { AppEarningReportsComponent } from 'src/app/components/earning-reports/earning-reports.component';
 
 @Component({
-  selector: 'app-starter',
+  selector: 'app-dashboard',
   standalone: true,
   imports: [
     MaterialModule,
@@ -17,8 +17,8 @@ import { AppEarningReportsComponent } from 'src/app/components/earning-reports/e
     AppPopularProductsComponent,
     AppEarningReportsComponent
   ],
-  templateUrl: './starter.component.html',
-  styleUrls: ['./starter.component.scss'],
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class StarterComponent {}
+export class DashboardComponent {}

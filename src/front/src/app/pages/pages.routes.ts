@@ -1,16 +1,34 @@
 import { Routes } from '@angular/router';
-import { StarterComponent } from './starter/starter.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { CategoryListComponent } from './category/category-list.component';
+import { BudgetByCategoryComponent } from './budget/budget-by-category.component';
+import { BudgetGeneralComponent } from './budget/budget-general.component';
+import { TransactionCreateComponent } from './transaction/transaction-create.component';
 
 export const PagesRoutes: Routes = [
   {
     path: '',
-    component: StarterComponent,
-    data: {
-      title: 'Starter',
-      urls: [
-        { title: 'Dashboard', url: '/dashboard' },
-        { title: 'Starter' },
-      ],
-    },
+    children: [
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+      },
+      {
+        path: 'category/list',
+        component: CategoryListComponent,
+      },
+      {
+        path: 'budget/by-category',
+        component: BudgetByCategoryComponent,
+      },      
+      {
+        path: 'budget/general',
+        component: BudgetGeneralComponent,
+      },
+      {
+        path: 'transaction/create',
+        component: TransactionCreateComponent,
+      }, 
+    ],
   },
 ];

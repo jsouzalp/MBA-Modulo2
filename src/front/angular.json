@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "MaterialM": {
+    "MBA.Modulo2": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -18,7 +18,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": ["apexcharts", "bezier-easing", "moment"],
-            "outputPath": "dist/MaterialM",
+            "outputPath": "dist/MBA.Modulo2",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -63,10 +63,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "MaterialM:build:production"
+              "buildTarget": "MBA.Modulo2:build:production"
             },
             "development": {
-              "buildTarget": "MaterialM:build:development"
+              "buildTarget": "MBA.Modulo2:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -74,7 +74,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "MaterialM:build"
+            "buildTarget": "MBA.Modulo2:build"
           }
         },
         "test": {

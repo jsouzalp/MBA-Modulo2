@@ -7,7 +7,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Dashboard',
     iconName: 'material-symbols-light:dashboard-outline',
-    route: '/dashboard',
+    route: 'pages/dashboard',
   },
   {
     navCap: 'Categorias',
@@ -16,7 +16,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Manutenção',
     iconName: 'material-symbols-light:engineering-outline',
-    route: '/dashboard-',
+    route: 'pages/category/list',
   },
   {
     navCap: 'Planejamento de gastos',
@@ -25,12 +25,12 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Por categoria',
     iconName: 'fluent:money-hand-16-regular',
-    route: '/dashboard-',
+    route: 'pages/budget/by-category',
   },
   {
     displayName: 'Geral',
     iconName: 'solar:money-bag-linear',
-    route: '/dashboard-',
+    route: 'pages/budget/general',
   },
   {
     navCap: 'Transações',
@@ -39,7 +39,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Registro',
     iconName: 'tabler:transaction-dollar',
-    route: '/dashboard-',
+    route: 'pages/transaction/create',
   },
   {
     displayName: 'Consulta',

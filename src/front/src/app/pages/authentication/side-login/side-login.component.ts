@@ -74,7 +74,7 @@ export class AppSideLoginComponent extends FormBaseComponent implements OnInit, 
     console.log(this.form.value);
     this.localStorageUtils.setUserToken('token');
     this.localStorageUtils.setEmail(this.getEmail.value);
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/pages/dashboard']);
   }
 
   ngOnDestroy(): void {
