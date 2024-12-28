@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "8626b4eb-9726-4207-b2b0-d8437b2f7a59",
+		"name": "MBA - Project 2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3078282"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"var accessToken = responseData.result.AccessToken;\r",
+									"pm.collectionVariables.set(\"apiAccessToken\", accessToken);\r",
+									"\r",
+									"var userId = responseData.result.Id;\r",
+									"pm.collectionVariables.set(\"userId\", userId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Email\": \"jsouza.lp@gmail.com\",\r\n  \"Password\": \"Password@2024\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/User/login",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"User",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"var accessToken = responseData.result.AccessToken;\r",
+									"pm.collectionVariables.set(\"apiAccessToken\", accessToken);\r",
+									"\r",
+									"var userId = responseData.result.Id;\r",
+									"pm.collectionVariables.set(\"userId\", userId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Name\": \"Jairo Souza 5\",\r\n  \"Email\": \"jsouza.lp6@gmail.com\",\r\n  \"Password\": \"Password@2024\",\r\n  \"ConfirmPassword\": \"Password@2024\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/User/register",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"User",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tests",
+			"item": [
+				{
+					"name": "Hello",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Tests/Hello",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Tests",
+								"Hello"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseEndpoint",
+			"value": "https://localhost:5001",
+			"type": "string"
+		},
+		{
+			"key": "apiAccessToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

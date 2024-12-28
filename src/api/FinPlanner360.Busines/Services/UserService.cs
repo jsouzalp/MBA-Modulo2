@@ -88,8 +88,8 @@ public class UserService : BaseService, IUserService
         var claims = new List<Claim>
         {
             new (JwtRegisteredClaimNames.Sub, user.Id),
-            new (ClaimTypes.Name, user.UserName),
-            new (ClaimTypes.Email, user.Email)
+            new (JwtRegisteredClaimNames.Email, user.Email),
+            new (ClaimTypes.Name, user.UserName)
         };
 
         foreach (var role in roles)

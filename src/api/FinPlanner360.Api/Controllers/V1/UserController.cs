@@ -2,10 +2,12 @@
 using FinPlanner360.Busines.Interfaces.Repositories;
 using FinPlanner360.Busines.Interfaces.Services;
 using FinPlanner360.Busines.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinPlanner360.Api.Controllers.V1;
 
+[AllowAnonymous]
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[Controller]")]

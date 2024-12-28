@@ -2,15 +2,32 @@
 using FinPlanner360.Busines.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace FinPlanner360.Api.Controllers;
 
 [ApiController]
 public class MainController : ControllerBase
 {
+    internal Guid UserId
+    {
+        get
+        {
+            HttpContext.Items.TryGetValue(JwtRegisteredClaimNames.Sub, out var userIdValue);
+            return Guid.Parse(userIdValue?.ToString() ?? Guid.Empty.ToString());
+        }
+    }
+
+    internal string UserEmail
+    {
+        get
+        {
+            HttpContext.Items.TryGetValue(JwtRegisteredClaimNames.Email, out var emailValue);
+            return emailValue?.ToString() ?? string.Empty;
+        }
+    }
+
     private readonly INotificationService _notificationService;
-    public Guid UserId { get; set; }
-    public bool IsAuthenticated { get; set; }
 
     protected MainController(INotificationService notificationService)
     {

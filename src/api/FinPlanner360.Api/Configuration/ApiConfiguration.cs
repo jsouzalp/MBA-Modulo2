@@ -10,7 +10,9 @@ public static class ApiConfiguration
         services.AddControllers(options =>
         {
             options.Filters.Add<ExceptionFilter>();
+            options.Filters.Add<LoggingFilter>();
         });
+        services.AddScoped<ValidateAccessTokenFilter>();
 
         services.AddApiVersioning(options =>
         {
