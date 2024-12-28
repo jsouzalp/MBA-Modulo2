@@ -1,75 +1,73 @@
 ﻿using FinPlanner360.Busines.Interfaces.Services;
 using FinPlanner360.Busines.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace FinPlanner360.Api.Controllers
+namespace FinPlanner360.Api.Controllers;
+
+[ApiController]
+public class MainController : ControllerBase
 {
-    [ApiController]
-    public class MainController : ControllerBase
+    private readonly INotificationService _notificationService;
+    public Guid UserId { get; set; }
+    public bool IsAuthenticated { get; set; }
+
+    protected MainController(INotificationService notificationService)
     {
-        private readonly INotificationService _notificationService;
-        public Guid UserId { get; set; }
-        public bool IsAuthenticated { get; set; }
+        _notificationService = notificationService;
 
-        protected MainController(INotificationService notificationService)
-        {
-            _notificationService = notificationService;
-
-            //if (appUser.IsAuthenticated())
-            //{
-            //    UsuarioId = appUser.GetUserId();
-            //    UsuarioAutenticado = true;
-            //}
-        }
-
-        //protected bool OperacaoValida()
+        //if (appUser.IsAuthenticated())
         //{
-        //    return !_notificador.TemNotificacao();
+        //    UsuarioId = appUser.GetUserId();
+        //    UsuarioAutenticado = true;
         //}
+    }
 
-        protected ActionResult GenerateResponse(object result = null, int statusCode = StatusCodes.Status200OK)
+    //protected bool OperacaoValida()
+    //{
+    //    return !_notificador.TemNotificacao();
+    //}
+
+    protected ActionResult GenerateResponse(object result = null, int statusCode = StatusCodes.Status200OK)
+    {
+        if (!_notificationService.HasNotification())
         {
-            if (!_notificationService.HasNotification())
+            return new JsonResult(result)
             {
-                return new JsonResult(result)
+                StatusCode = statusCode,
+                Value = new
                 {
-                    StatusCode = statusCode, 
-                    Value = new
-                    {
-                        success = true, 
-                        result = result
-                    }
-                };
-            }
-
-            return BadRequest(new
-            {
-                success = false,
-                errors = _notificationService.GetNotifications().Select(n => n.Message)
-            });
+                    success = true,
+                    result = result
+                }
+            };
         }
 
-        protected void Notify(string message)
+        return BadRequest(new
         {
-            _notificationService.Handle(new Notification(message));
-        }
+            success = false,
+            errors = _notificationService.GetNotifications().Select(n => n.Message)
+        });
+    }
 
-        protected ActionResult GenerateResponse(ModelStateDictionary modelState)
+    protected ActionResult GenerateResponse(ModelStateDictionary modelState)
+    {
+        if (!modelState.IsValid) NotifyInvalidModel(modelState);
+        return GenerateResponse();
+    }
+
+    protected void Notify(string message)
+    {
+        _notificationService.Handle(new Notification(message));
+    }
+
+    protected void NotifyInvalidModel(ModelStateDictionary modelState)
+    {
+        var errors = modelState.Values.SelectMany(e => e.Errors);
+
+        foreach (var error in errors)
         {
-            if (!modelState.IsValid) NotifyInvalidModel(modelState);
-            return GenerateResponse();
-        }
-
-        protected void NotifyInvalidModel(ModelStateDictionary modelState)
-        {
-            var errors = modelState.Values.SelectMany(e => e.Errors);
-
-            foreach (var error in errors)
-            {
-                Notify(error?.Exception?.Message ?? error?.ErrorMessage);
-            }
+            Notify(error?.Exception?.Message ?? error?.ErrorMessage);
         }
     }
 }

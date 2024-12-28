@@ -16,7 +16,7 @@ export class LoginService extends BaseService {
     }
     login(login: LoginModel): Observable<LoginModel> {
         let response = this.http
-            .post(this.UrlServiceV1 + 'Auth/user-login', login, this.getHeaderJson())
+            .post(this.UrlServiceV1 + 'v1/user/login', login, this.getHeaderJson())
             .pipe(
                 map(this.extractData),
                 catchError(this.serviceError));

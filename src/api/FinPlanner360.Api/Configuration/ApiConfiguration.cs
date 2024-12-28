@@ -1,33 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace FinPlanner360.Api.Configuration
+namespace FinPlanner360.Api.Configuration;
+
+public static class ApiConfiguration
 {
-    public static class ApiConfiguration
+    public static IServiceCollection AddApiConfiguration(this IServiceCollection services)
     {
-        public static IServiceCollection AddApiConfiguration(this IServiceCollection services)
+        services.AddControllers();
+
+        services.AddApiVersioning(options =>
         {
-            services.AddControllers();
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.DefaultApiVersion = new ApiVersion(1, 0);
+            options.ReportApiVersions = true;
+        });
 
-            services.AddApiVersioning(options =>
-            {
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-                options.ReportApiVersions = true;
-            });
+        services.AddVersionedApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'VVV";
+            options.SubstituteApiVersionInUrl = true;
+        });
 
-            services.AddVersionedApiExplorer(options =>
-            {
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
-            });
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
 
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            });
-
-            services.AddSwaggerGen();
-            return services;
-        }
+        services.AddSwaggerGen();
+        return services;
     }
 }

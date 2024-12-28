@@ -1,10 +1,8 @@
-﻿
-using FinPlanner360.Busines.Models;
+﻿using FinPlanner360.Busines.Models;
 
-namespace FinPlanner360.Busines.Interfaces.Repositories
+namespace FinPlanner360.Busines.Interfaces.Repositories;
+
+public interface IUserRepository : IRepository<User>
 {
-    public interface IUserRepository : IRepository<User>
-    {
-        Task<User> GetByEmailAsync(string email);
-    }
+    Task<User> GetByEmailAsync(string email);
 }

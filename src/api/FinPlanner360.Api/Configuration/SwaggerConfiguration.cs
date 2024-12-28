@@ -1,25 +1,25 @@
 ﻿using Microsoft.OpenApi.Models;
 
-namespace FinPlanner360.Api.Configuration
-{
-    public static class SwaggerConfiguration
-    {
-        public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
-        {
-            services.AddSwaggerGen(c =>
-            {
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = "Token JWT: Bearer {seu token}",
-                    Name = "Authorization",
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey
-                });
+namespace FinPlanner360.Api.Configuration;
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
+public static class SwaggerConfiguration
+{
+    public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
+    {
+        services.AddSwaggerGen(c =>
+        {
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Description = "Token JWT: Bearer {seu token}",
+                Name = "Authorization",
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey
+            });
+
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
                     {
                         new OpenApiSecurityScheme
                         {
@@ -31,10 +31,9 @@ namespace FinPlanner360.Api.Configuration
                         },
                         Array.Empty<string>()
                     }
-                });
             });
+        });
 
-            return services;
-        }
+        return services;
     }
 }

@@ -3,16 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35506.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinPlanner360.Api", "FinPlanner360.Api\FinPlanner360.Api.csproj", "{F5C5A4AB-D9D0-4D23-B473-3C2C6FCD84B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinPlanner360.Api", "FinPlanner360.Api\FinPlanner360.Api.csproj", "{F5C5A4AB-D9D0-4D23-B473-3C2C6FCD84B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinPlanner360.Repositories", "FinPlanner360.Repositories\FinPlanner360.Repositories.csproj", "{D0F80C0C-96CB-4410-AAD3-FED12B688962}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinPlanner360.Repositories", "FinPlanner360.Repositories\FinPlanner360.Repositories.csproj", "{D0F80C0C-96CB-4410-AAD3-FED12B688962}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".helpers", ".helpers", "{A3D33461-CC47-4CB2-B055-5656E284AE3E}"
 	ProjectSection(SolutionItems) = preProject
 		..\ClearBinObj.cmd = ..\ClearBinObj.cmd
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinPlanner360.Busines", "FinPlanner360.Busines\FinPlanner360.Busines.csproj", "{09892B31-D09F-4B42-9FAC-6CD4BA510ED0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinPlanner360.Busines", "FinPlanner360.Busines\FinPlanner360.Busines.csproj", "{09892B31-D09F-4B42-9FAC-6CD4BA510ED0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

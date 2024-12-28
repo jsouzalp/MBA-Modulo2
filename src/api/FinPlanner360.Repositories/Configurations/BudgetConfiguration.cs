@@ -2,63 +2,65 @@
 using Microsoft.EntityFrameworkCore;
 using FinPlanner360.Busines.Models;
 
-namespace FinPlanner360.Repositories.Configurations
+namespace FinPlanner360.Repositories.Configurations;
+
+public class BudgetConfiguration : IEntityTypeConfiguration<Budget>
 {
-    public class BudgetConfiguration : IEntityTypeConfiguration<Budget>
+    public void Configure(EntityTypeBuilder<Budget> builder)
     {
-        public void Configure(EntityTypeBuilder<Budget> builder)
-        {
-            #region Mapping columns
-            builder.ToTable("TB_BUDGET");
+        #region Mapping columns
 
-            builder.HasKey(x => x.BudgetId)
-                .HasName("PK_TB_BUDGET");
+        builder.ToTable("TB_BUDGET");
 
-            builder.Property(x => x.BudgetId)
-                .HasColumnName("BUDGET_ID")
-                .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
-                .IsRequired();
+        builder.HasKey(x => x.BudgetId)
+            .HasName("PK_TB_BUDGET");
 
-            builder.Property(x => x.UserId)
-                .HasColumnName("USER_ID")
-                .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
-                .IsRequired();
+        builder.Property(x => x.BudgetId)
+            .HasColumnName("BUDGET_ID")
+            .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
+            .IsRequired();
 
-            builder.Property(x => x.CategoryId)
-                .HasColumnName("CATEGORY_ID")
-                .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
-                .IsRequired();
-            
-            builder.Property(x => x.Amount)
-                .HasColumnName("AMOUNT")
-                .HasColumnType(DatabaseTypeConstant.Money)
-                .HasPrecision(2)
-                .IsRequired();
+        builder.Property(x => x.UserId)
+            .HasColumnName("USER_ID")
+            .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
+            .IsRequired();
 
-            builder.Property(x => x.CreatedDate)
-                .HasColumnName("CREATED_DATE")
-                .HasColumnType(DatabaseTypeConstant.DateTime)
-                .IsRequired();
+        builder.Property(x => x.CategoryId)
+            .HasColumnName("CATEGORY_ID")
+            .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
+            .IsRequired();
 
-            builder.Property(x => x.RemovedDate)
-                .HasColumnName("REMOVED_DATE")
-                .HasColumnType(DatabaseTypeConstant.DateTime);
-            #endregion
+        builder.Property(x => x.Amount)
+            .HasColumnName("AMOUNT")
+            .HasColumnType(DatabaseTypeConstant.Money)
+            .HasPrecision(2)
+            .IsRequired();
 
-            #region Ignores
-            #endregion
+        builder.Property(x => x.CreatedDate)
+            .HasColumnName("CREATED_DATE")
+            .HasColumnType(DatabaseTypeConstant.DateTime)
+            .IsRequired();
 
-            #region Indexes
-            builder.HasIndex(x => x.UserId).HasDatabaseName("IDX_TB_BUDGET_01");
-            #endregion
+        builder.Property(x => x.RemovedDate)
+            .HasColumnName("REMOVED_DATE")
+            .HasColumnType(DatabaseTypeConstant.DateTime);
 
-            #region Relationships
-            builder.HasOne(x => x.User)
-                .WithMany(x => x.Budgets)
-                .HasForeignKey(x => x.UserId)
-                .HasConstraintName("FK_TB_BUDGET_01")
-                .OnDelete(DeleteBehavior.NoAction);
-            #endregion
-        }
+        #endregion Mapping columns
+
+        #region Indexes
+
+        builder.HasIndex(x => x.UserId).HasDatabaseName("IDX_TB_BUDGET_01");
+
+        #endregion Indexes
+
+        #region Relationships
+
+        builder.HasOne(x => x.User)
+            .WithMany(x => x.Budgets)
+            .HasForeignKey(x => x.UserId)
+            .HasConstraintName("FK_TB_BUDGET_01")
+            .OnDelete(DeleteBehavior.NoAction);
+
+        #endregion Relationships
     }
 }

@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
-import { AppSideLoginComponent } from './pages/authentication/side-login/side-login.component';
+import { LoginComponent } from './pages/authentication/login/login.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ForgotPasswordComponent } from './pages/authentication/forgot-password/forgot-password.component';
 import { RestorePasswordComponent } from './pages/authentication/restore-password/restore-password.component';
@@ -48,7 +48,7 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: 'login', component: AppSideLoginComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'authentication/forgot-password', component: ForgotPasswordComponent },
   { path: 'restore-password', component: RestorePasswordComponent },
   { path: '**', component: NotFoundComponent }

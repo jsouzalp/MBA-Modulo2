@@ -1,29 +1,31 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace FinPlanner360.Busines.Models
+namespace FinPlanner360.Busines.Models;
+
+public class User : Entity
 {
-    public class User : Entity
-    {
-        #region Attributes
-        public Guid UserId { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public Guid AuthenticationId { get; set; }
-        #endregion
+    #region Attributes
 
-        #region Helper only for EF Mapping
-        [JsonIgnore]
-        public ICollection<Transaction> Transactions { get; set; }
+    public Guid UserId { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public Guid AuthenticationId { get; set; }
 
-        [JsonIgnore]
-        public ICollection<Category> Categories { get; set; }
+    #endregion Attributes
 
-        [JsonIgnore]
-        public ICollection<Budget> Budgets { get; set; }
+    #region Helper only for EF Mapping
 
-        [JsonIgnore]
-        public ICollection<GeneralBudget> GeneralBudgets { get; set; }
-        #endregion
+    [JsonIgnore]
+    public ICollection<Transaction> Transactions { get; set; }
 
-    }
+    [JsonIgnore]
+    public ICollection<Category> Categories { get; set; }
+
+    [JsonIgnore]
+    public ICollection<Budget> Budgets { get; set; }
+
+    [JsonIgnore]
+    public ICollection<GeneralBudget> GeneralBudgets { get; set; }
+
+    #endregion Helper only for EF Mapping
 }

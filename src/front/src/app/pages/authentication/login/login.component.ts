@@ -13,9 +13,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { LocalStorageUtils } from 'src/app/utils/localstorage';
 import { FormBaseComponent } from 'src/app/components/base-components/form-base.component';
 import { CommonModule } from '@angular/common';
+import { LoginService } from 'src/app/services/login.service';
+import { LoginModel } from '../models/login.model';
+import { Subject, takeUntil } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-side-login',
+  selector: 'app-login',
   standalone: true,
   imports: [
     CommonModule,
@@ -25,15 +29,17 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     MatButtonModule,
   ],
-  templateUrl: './side-login.component.html',
+  templateUrl: './login.component.html',
 })
-export class AppSideLoginComponent extends FormBaseComponent implements OnInit, AfterViewInit,  OnDestroy {
+export class LoginComponent extends FormBaseComponent implements OnInit, AfterViewInit,  OnDestroy {
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements!: ElementRef[];
   
   email: string;
   form: FormGroup = new FormGroup({});
+  loginModel!: LoginModel;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private router: Router, private localStorageUtils: LocalStorageUtils) {
+  constructor(private router: Router, private localStorageUtils: LocalStorageUtils, private loginSevice :LoginService, private toastr: ToastrService) {
     super();
 
     this.validationMessages = {
@@ -71,13 +77,33 @@ export class AppSideLoginComponent extends FormBaseComponent implements OnInit, 
   }
 
   submit() {
-    console.log(this.form.value);
-    this.localStorageUtils.setUserToken('token');
-    this.localStorageUtils.setEmail(this.getEmail.value);
-    this.router.navigate(['/pages/dashboard']);
+    
+    this.loginModel = this.form.value;
+
+    this.loginSevice.login(this.loginModel)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (success) => {
+        console.log('success', success);
+        this.localStorageUtils.setUserToken('token');
+        this.localStorageUtils.setEmail(this.getEmail.value);
+        this.router.navigate(['/pages/dashboard']);
+      },
+      error: (fail) => {
+        this.processFail(fail);
+      }
+    });
+
+  }
+
+  processFail(fail: any) {
+    console.log('fail', fail);
+    this.form.patchValue({ password: '' });
+    this.toastr.error(fail.error.errors);
   }
 
   ngOnDestroy(): void {
-    //throw new Error('Method not implemented.');
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }
