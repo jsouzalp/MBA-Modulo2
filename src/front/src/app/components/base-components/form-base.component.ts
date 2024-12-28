@@ -16,7 +16,7 @@ export abstract class FormBaseComponent {
     mudancasNaoSalvas!: boolean;
 
 
-    protected configureMensagesValidation(validationMessages: ValidationMessages) {
+    protected configureMessagesValidation(validationMessages: ValidationMessages) {
         this.genericValidator = new GenericValidator(validationMessages);
     }
 

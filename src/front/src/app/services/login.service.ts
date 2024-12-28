@@ -5,6 +5,7 @@ import { BaseService } from './BaseService';
 import { LoginModel } from '../pages/authentication/models/login.model';
 import { LoginRecoveryModel } from '../pages/authentication/models/login-recovery.model';
 import { LoginResetModel } from '../pages/authentication/models/login-reset.model';
+import { UserTokenModel } from '../pages/authentication/models/user-token.model';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService extends BaseService {
@@ -14,7 +15,7 @@ export class LoginService extends BaseService {
     constructor(private http: HttpClient) {
         super();
     }
-    login(login: LoginModel): Observable<LoginModel> {
+    login(login: LoginModel): Observable<UserTokenModel> {
         let response = this.http
             .post(this.UrlServiceV1 + 'v1/user/login', login, this.getHeaderJson())
             .pipe(

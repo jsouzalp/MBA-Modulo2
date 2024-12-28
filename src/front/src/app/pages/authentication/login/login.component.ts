@@ -52,7 +52,7 @@ export class LoginComponent extends FormBaseComponent implements OnInit, AfterVi
       }
     };
 
-    super.configureMensagesValidation(this.validationMessages);
+    super.configureMessagesValidation(this.validationMessages);
   }
 
   ngOnInit(): void {
@@ -83,10 +83,8 @@ export class LoginComponent extends FormBaseComponent implements OnInit, AfterVi
     this.loginSevice.login(this.loginModel)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
-      next: (success) => {
-        console.log('success', success);
-        this.localStorageUtils.setUserToken('token');
-        this.localStorageUtils.setEmail(this.getEmail.value);
+      next: (response) => {
+        this.localStorageUtils.setUser(response);
         this.router.navigate(['/pages/dashboard']);
       },
       error: (fail) => {

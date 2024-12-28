@@ -45,7 +45,7 @@ export class UserRegisterComponent extends FormBaseComponent implements OnInit, 
       },
     };
 
-    super.configureMensagesValidation(this.validationMessages);
+    super.configureMessagesValidation(this.validationMessages);
 
   }
 

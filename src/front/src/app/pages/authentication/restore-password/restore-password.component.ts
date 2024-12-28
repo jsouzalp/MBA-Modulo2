@@ -46,7 +46,7 @@ export class RestorePasswordComponent extends FormBaseComponent implements OnIni
       },
     };
 
-    super.configureMensagesValidation(this.validationMessages);
+    super.configureMessagesValidation(this.validationMessages);
   }
 
   ngOnInit(): void {
