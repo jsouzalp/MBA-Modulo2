@@ -24,35 +24,41 @@ namespace FinPlanner360.Api.Controllers.V1
             _userRepository = userRepository;
         }
 
-        //[HttpPost]
-        //[Route("register")]
-        //public async Task<ActionResult> Register(RegisterUserViewModel registerUserViewModel)
-        //{
-        //    if (!ModelState.IsValid) return CustomResponse(ModelState);
-        //    var user = new IdentityUser
-        //    {
-        //        UserName = registerUserViewModel.Email,
-        //        Email = registerUserViewModel.Email,
-        //        EmailConfirmed = true
-        //    };
-        //    var result = await _userManager.CreateAsync(user, registerUserViewModel.Password);
-        //    if (result.Succeeded)
-        //    {
-        //        return CustomResponse(await GenerateJwt(registerUserViewModel.Email));
-        //    }
-        //    foreach (var error in result.Errors)
-        //    {
-        //        NotificarErro(error.Description);
-        //    }
-        //    return CustomResponse();
-        //}
+        [HttpPost("register")]
+        public async Task<ActionResult> RegisterAsync(RegisterViewModel registerViewModel)
+        {
+            LoginOutputViewModel result = null;
+            if (!ModelState.IsValid) return GenerateResponse(ModelState);
+
+            var accessToken = await _authenticationService.RegisterUserAsync(registerViewModel.Email, registerViewModel.Password);
+
+            if (accessToken.UserId != Guid.Empty)
+            {
+                // TODO :: Poderia ser refatorado de forma a ir para o autoMapper?
+                await _userRepository.CreateAsync(new User
+                {
+                    UserId = accessToken.UserId,
+                    Email = registerViewModel.Email,
+                    Name = registerViewModel.Name,
+                    AuthenticationId = accessToken.UserId
+                });
+
+                result = new LoginOutputViewModel();
+                result.Id = accessToken.UserId;
+                result.Name = registerViewModel.Name;
+                result.Email = registerViewModel.Email;
+                result.AccessToken = accessToken.AccessToken;
+            }
+
+            return GenerateResponse(result);
+        }
 
         [HttpPost("login")]
-        public async Task<ActionResult> Login(LoginViewModel loginViewModel)
+        public async Task<ActionResult> LoginAsync(LoginViewModel loginViewModel)
         {
             LoginOutputViewModel result = null;
 
-            if (!ModelState.IsValid) return GenerateResponse(ModelState, StatusCodes.Status400BadRequest);
+            if (!ModelState.IsValid) return GenerateResponse(ModelState);
 
             string accessToken = await _authenticationService.LoginUserAsync(loginViewModel.Email, loginViewModel.Password);
 

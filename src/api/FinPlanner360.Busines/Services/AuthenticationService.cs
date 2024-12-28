@@ -32,6 +32,35 @@ namespace FinPlanner360.Busines.Services
             _jwtSettings = jwtSettings.Value;
         }
 
+        public async Task<(Guid UserId, string AccessToken)> RegisterUserAsync(string email, string password)
+        {
+            (Guid UserId, string AccessToken) result = new();
+
+            var user = new IdentityUser
+            {
+                Id = Guid.NewGuid().ToString(),
+                UserName = email,
+                Email = email
+            };
+            var registerResult = await _userManager.CreateAsync(user, password);
+
+            if (registerResult.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                result.UserId = Guid.Parse(user.Id);
+                result.AccessToken = await GenerateJwtAsync(user);
+            }
+            else
+            {
+                foreach (var error in registerResult.Errors)
+                {
+                    Notify(error.Description);
+                }
+            }
+
+            return result;
+        }
+
         public async Task<string> LoginUserAsync(string email, string password)
         {
             string accessToken = string.Empty;

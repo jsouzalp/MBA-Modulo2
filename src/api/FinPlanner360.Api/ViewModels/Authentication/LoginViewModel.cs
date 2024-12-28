@@ -4,12 +4,12 @@ namespace FinPlanner360.Api.ViewModels.Authentication
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [EmailAddress(ErrorMessage = "O campo {0} está em formato inválido")] 
+        [Required(ErrorMessage = "Atributo {0} é obrigatório")]
+        [EmailAddress(ErrorMessage = "Atributo {0} está em formato inválido")] 
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [StringLength(maximumLength: 25, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 8)]
+        [Required(ErrorMessage = "Atributo {0} é obrigatório")]
+        [StringLength(maximumLength: 25, ErrorMessage = "Atributo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 8)]
         public string Password { get; set; }
     }
 }

@@ -21,10 +21,10 @@ namespace FinPlanner360.Api.Configuration
                 options.SubstituteApiVersionInUrl = true;
             });
 
-            //services.Configure<ApiBehaviorOptions>(options =>
-            //{
-            //    options.SuppressModelStateInvalidFilter = true;
-            //});
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             services.AddSwaggerGen();
             return services;
