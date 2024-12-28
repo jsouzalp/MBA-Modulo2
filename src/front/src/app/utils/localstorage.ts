@@ -1,6 +1,6 @@
 import { environment } from "src/environments/environment";
-import { UserTokenModel } from "../pages/authentication/models/user-token.model";
 import { AES, enc } from "crypto-js";
+import { UserTokenModel } from "../pages/user/models/user-token.model";
 
 
 export class LocalStorageUtils {
