@@ -94,7 +94,7 @@ Deverá existir uma pasta ./data e caso não exista, a mesma será criada automa
    - Instalar o dotnet ef (caso não tenha feito ainda):
      - dotnet tool install --global dotnet-ef
    - Para executar o migration:
-     - dotnet ef migrations add InitialMigration --project .\FinPlanner360.Repositories --startup-project .\FinPlanner360.Api --context FinPlanner360DbContext
+     - dotnet ef migrations add InitialMigration --project .\FinPlanner360.Repositories --startup-project .\FinPlanner360.Api --context FinPlanner360DbContext --output-dir Migrations\FinPlanner360Db
    - Para remover o migration:
      - dotnet ef migrations remove --project .\FinPlanner360.Repositories --startup-project .\FinPlanner360.Api --context FinPlanner360DbContext
    - Para ver o script que será gerado:
@@ -108,7 +108,7 @@ Deverá existir uma pasta ./data e caso não exista, a mesma será criada automa
      - dotnet tool install --global dotnet-ef
    - Navegar para a pasta do projeto .\FinPlanner360.Api
    - Para executar o migration do *Identity*:
-     - dotnet ef migrations add InitialMigration --project .\FinPlanner360.Repositories --startup-project .\FinPlanner360.Api --context ApplicationDbContext
+     - dotnet ef migrations add InitialMigration --project .\FinPlanner360.Repositories --startup-project .\FinPlanner360.Api --context ApplicationDbContext --output-dir Migrations\IdentityDb
    - Para remover o migration:
      - dotnet ef migrations remove --project .\FinPlanner360.Repositories --startup-project .\FinPlanner360.Api --context ApplicationDbContext
    - Para ver o script que será gerado:
