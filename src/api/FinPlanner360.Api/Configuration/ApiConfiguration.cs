@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FinPlanner360.Api.Filters;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FinPlanner360.Api.Configuration;
 
