@@ -7,7 +7,10 @@ public static class ApiConfiguration
 {
     public static IServiceCollection AddApiConfiguration(this IServiceCollection services)
     {
-        services.AddControllers();
+        services.AddControllers(options =>
+        {
+            options.Filters.Add<ExceptionFilter>();
+        });
 
         services.AddApiVersioning(options =>
         {
