@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using FinPlanner360.Entities.GeneralBudgets;
+using FinPlanner360.Busines.Models;
 
 namespace FinPlanner360.Repositories.Configurations
 {
@@ -42,6 +42,11 @@ namespace FinPlanner360.Repositories.Configurations
             //builder.Property(x => x.RemovedDate)
             //    .HasColumnName("REMOVED_DATE")
             //    .HasColumnType(DatabaseTypeConstant.DateTime);
+            #endregion
+
+            #region Ignores
+            builder.Ignore(x => x.CreatedDate);
+            builder.Ignore(x => x.RemovedDate);
             #endregion
 
             #region Indexes

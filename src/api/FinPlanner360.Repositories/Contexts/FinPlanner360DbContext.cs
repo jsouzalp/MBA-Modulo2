@@ -1,8 +1,4 @@
-﻿using FinPlanner360.Entities.Budgets;
-using FinPlanner360.Entities.Categories;
-using FinPlanner360.Entities.GeneralBudgets;
-using FinPlanner360.Entities.Transactions;
-using FinPlanner360.Entities.Users;
+﻿using FinPlanner360.Busines.Models;
 using FinPlanner360.Repositories.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +15,8 @@ namespace FinPlanner360.Repositories.Contexts
         public FinPlanner360DbContext(DbContextOptions<FinPlanner360DbContext> options)
             : base(options)
         {
+            //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            //ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,6 +26,23 @@ namespace FinPlanner360.Repositories.Contexts
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
             modelBuilder.ApplyConfiguration(new BudgetConfiguration());
             modelBuilder.ApplyConfiguration(new GeneralBudgetConfiguration());
+
+            foreach (var property in modelBuilder.Model.GetEntityTypes()
+                                                       .SelectMany(e => e.GetProperties()
+                                                       .Where(p => p.ClrType == typeof(string))))
+            {
+                if (property.GetMaxLength() == null)
+                {
+                    property.SetMaxLength(100);
+                }
+            }
+
+            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(FinPlanner360DbContext).Assembly);
+
+            //foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            //{
+            //    relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+            //}
 
             base.OnModelCreating(modelBuilder);
         }

@@ -5,16 +5,14 @@ VisualStudioVersion = 17.12.35506.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinPlanner360.Api", "FinPlanner360.Api\FinPlanner360.Api.csproj", "{F5C5A4AB-D9D0-4D23-B473-3C2C6FCD84B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinPlanner360.Entities", "FinPlanner360.Entities\FinPlanner360.Entities.csproj", "{3F437E68-8581-4061-93EB-223042A6BA64}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinPlanner360.Domains", "FinPlanner360.Domains\FinPlanner360.Domains.csproj", "{CA3B8135-702C-4A3A-8E90-379AF18E11FA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinPlanner360.Repositories", "FinPlanner360.Repositories\FinPlanner360.Repositories.csproj", "{D0F80C0C-96CB-4410-AAD3-FED12B688962}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".helpers", ".helpers", "{A3D33461-CC47-4CB2-B055-5656E284AE3E}"
 	ProjectSection(SolutionItems) = preProject
 		..\ClearBinObj.cmd = ..\ClearBinObj.cmd
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinPlanner360.Busines", "FinPlanner360.Busines\FinPlanner360.Busines.csproj", "{09892B31-D09F-4B42-9FAC-6CD4BA510ED0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,18 +24,14 @@ Global
 		{F5C5A4AB-D9D0-4D23-B473-3C2C6FCD84B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5C5A4AB-D9D0-4D23-B473-3C2C6FCD84B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5C5A4AB-D9D0-4D23-B473-3C2C6FCD84B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F437E68-8581-4061-93EB-223042A6BA64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F437E68-8581-4061-93EB-223042A6BA64}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F437E68-8581-4061-93EB-223042A6BA64}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F437E68-8581-4061-93EB-223042A6BA64}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA3B8135-702C-4A3A-8E90-379AF18E11FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA3B8135-702C-4A3A-8E90-379AF18E11FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA3B8135-702C-4A3A-8E90-379AF18E11FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA3B8135-702C-4A3A-8E90-379AF18E11FA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D0F80C0C-96CB-4410-AAD3-FED12B688962}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D0F80C0C-96CB-4410-AAD3-FED12B688962}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0F80C0C-96CB-4410-AAD3-FED12B688962}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0F80C0C-96CB-4410-AAD3-FED12B688962}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09892B31-D09F-4B42-9FAC-6CD4BA510ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09892B31-D09F-4B42-9FAC-6CD4BA510ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09892B31-D09F-4B42-9FAC-6CD4BA510ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09892B31-D09F-4B42-9FAC-6CD4BA510ED0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

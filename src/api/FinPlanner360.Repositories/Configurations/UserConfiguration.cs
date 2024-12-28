@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using FinPlanner360.Entities.Users;
+using FinPlanner360.Busines.Models;
 
 namespace FinPlanner360.Repositories.Configurations
 {
@@ -35,6 +35,20 @@ namespace FinPlanner360.Repositories.Configurations
                 .HasColumnName("AUTHENTICATION_ID")
                 .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
                 .IsRequired();
+
+            //builder.Property(x => x.CreatedDate)
+            //    .HasColumnName("CREATED_DATE")
+            //    .HasColumnType(DatabaseTypeConstant.DateTime)
+            //    .IsRequired();
+
+            //builder.Property(x => x.RemovedDate)
+            //    .HasColumnName("REMOVED_DATE")
+            //    .HasColumnType(DatabaseTypeConstant.DateTime);
+            #endregion
+
+            #region Ignores
+            builder.Ignore(x => x.CreatedDate);
+            builder.Ignore(x => x.RemovedDate);
             #endregion
 
             #region Indexes

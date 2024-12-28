@@ -1,6 +1,5 @@
-using FinPlanner360.Api.Extensions;
-using FinPlanner360.Domains.Extensions;
-using FinPlanner360.Entities.Settings;
+using FinPlanner360.Api.Configuration;
+using FinPlanner360.Busines.Settings;
 
 internal class Program
 {
@@ -26,9 +25,10 @@ internal class Program
 
         #region Extended Services configuration
         builder.Services.AddHttpContextAccessor();
-        builder.Services.AddDomains(databaseSettings);
         builder.Services.AddJwtConfiguration(jwtSettings);
-        builder.Services.AddControllers();
+        builder.Services.AddBusinesConfiguration(databaseSettings);
+        builder.Services.AddRepositoryConfiguration(databaseSettings, builder.Environment.IsProduction());
+        builder.Services.AddApiConfiguration();
         builder.Services.AddCorsConfiguration();
         builder.Services.AddJsonConfiguration();
         builder.Services.AddEndpointsApiExplorer();
@@ -36,8 +36,7 @@ internal class Program
         #endregion
 
         var app = builder.Build();
-        app.ConfigureEnvironment();
-
+        app.ExecuteEnvironmentConfiguration();
         app.Run();
     }
 }
