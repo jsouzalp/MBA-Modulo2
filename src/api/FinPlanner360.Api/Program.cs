@@ -29,6 +29,7 @@ internal class Program
         builder.Services.AddBusinesConfiguration(databaseSettings);
         builder.Services.AddRepositoryConfiguration(databaseSettings, builder.Environment.IsProduction());
         builder.Services.AddApiConfiguration();
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddCorsConfiguration();
         builder.Services.AddJsonConfiguration();
         builder.Services.AddEndpointsApiExplorer();
