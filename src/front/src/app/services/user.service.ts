@@ -17,6 +17,7 @@ export class UserService extends BaseService {
   constructor(private http: HttpClient) {
     super();
   }
+
   login(login: LoginModel): Observable<UserTokenModel> {
     let response = this.http
       .post(this.UrlServiceV1 + 'v1/user/login', login, this.getHeaderJson())
@@ -26,6 +27,15 @@ export class UserService extends BaseService {
 
     return response;
   }
+
+  logout(): Observable<void> {
+    let response = this.http
+      .post<void>(this.UrlServiceV1 + 'v1/user/logout', null, this.getAuthHeaderJson())
+      .pipe(
+        catchError(this.serviceError));
+
+    return response;
+  }  
 
   passwordRecovery(login: LoginRecoveryModel): Observable<boolean> {
     let response = this.http
