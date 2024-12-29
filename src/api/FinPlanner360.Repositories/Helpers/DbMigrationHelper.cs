@@ -58,8 +58,8 @@ public static class DbMigrationHelper
         identityContext.Roles.Add(new IdentityRole
         {
             Id = roleId,
-            Name = "ADMIN",
-            NormalizedName = "ADMIN",
+            Name = "USER",
+            NormalizedName = "USER",
             ConcurrencyStamp = DateTime.Now.ToString()
         });
 

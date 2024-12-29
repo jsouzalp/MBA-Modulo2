@@ -43,6 +43,7 @@ public class UserService : BaseService, IUserService
 
         if (registerResult.Succeeded)
         {
+            await _userManager.AddToRoleAsync(user, "USER");
             await _signInManager.SignInAsync(user, isPersistent: false);
             result.UserId = Guid.Parse(user.Id);
             result.AccessToken = await GenerateJwtAsync(user);
@@ -79,6 +80,11 @@ public class UserService : BaseService, IUserService
         }
 
         return accessToken;
+    }
+
+    public async Task LogoutAsync()
+    {
+        await _signInManager.SignOutAsync();
     }
 
     private async Task<string> GenerateJwtAsync(IdentityUser user)

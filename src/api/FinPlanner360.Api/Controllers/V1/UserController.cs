@@ -48,7 +48,7 @@ public class UserController : MainController
             result.AccessToken = accessToken.AccessToken;
         }
 
-        return GenerateResponse(result);
+        return GenerateResponse(result, System.Net.HttpStatusCode.Created);
     }
 
     [HttpPost("login")]
@@ -81,4 +81,9 @@ public class UserController : MainController
 
         return GenerateResponse(result);
     }
+
+    [HttpPost("logout")]
+    public async Task LogoutAsync() => await _authenticationService.LogoutAsync();
+
+
 }

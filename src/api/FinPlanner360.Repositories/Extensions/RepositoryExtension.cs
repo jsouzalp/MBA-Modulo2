@@ -55,6 +55,7 @@ public static class RepositoryExtension
         });
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         return services;
     }

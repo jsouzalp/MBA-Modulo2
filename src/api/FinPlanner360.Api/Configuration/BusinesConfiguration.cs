@@ -10,6 +10,7 @@ public static class BusinesConfiguration
     {
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<ICategoryService, CategoryService>();
 
         return services;
     }
