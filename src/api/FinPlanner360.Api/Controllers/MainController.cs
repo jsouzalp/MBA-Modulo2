@@ -3,6 +3,7 @@ using FinPlanner360.Business.Models;
 using FinPlanner360.Business.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Net;
 
 namespace FinPlanner360.Api.Controllers;
 
@@ -33,13 +34,13 @@ public class MainController : ControllerBase
     //    return !_notificador.TemNotificacao();
     //}
 
-    protected ActionResult GenerateResponse(object result = null, int statusCode = StatusCodes.Status200OK)
+    protected ActionResult GenerateResponse(object result = null, HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         if (!_notificationService.HasNotification())
         {
             return new JsonResult(result)
             {
-                StatusCode = statusCode,
+                StatusCode = Convert.ToInt32(statusCode),
                 Value = new
                 {
                     success = true,

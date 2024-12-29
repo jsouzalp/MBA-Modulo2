@@ -1,7 +1,9 @@
-﻿using FinPlanner360.Business.Interfaces.Services;
-using FinPlanner360.Business.Models;
+﻿using FinPlanner360.Busines.Interfaces.Services;
+using FinPlanner360.Busines.Models;
+using FluentValidation;
+using FluentValidation.Results;
 
-namespace FinPlanner360.Business.Services;
+namespace FinPlanner360.Busines.Services;
 
 public class BaseService
 {
@@ -12,27 +14,27 @@ public class BaseService
         _notificationService = notificationService;
     }
 
-    //protected void Notificar(ValidationResult validationResult)
-    //{
-    //    foreach (var error in validationResult.Errors)
-    //    {
-    //        Notificar(error.ErrorMessage);
-    //    }
-    //}
+    protected void Notify(ValidationResult validationResult)
+    {
+        foreach (var error in validationResult.Errors)
+        {
+            Notify(error.ErrorMessage);
+        }
+    }
 
     protected void Notify(string message)
     {
         _notificationService.Handle(new Notification(message));
     }
 
-    //protected bool ExecutarValidacao<TV, TE>(TV validacao, TE entidade) where TV : AbstractValidator<TE> where TE : Entity
-    //{
-    //    var validator = validacao.Validate(entidade);
+    protected bool IsValid<TV, TE>(TV validacao, TE entidade) where TV : AbstractValidator<TE> where TE : Entity
+    {
+        var validator = validacao.Validate(entidade);
 
-    //    if (validator.IsValid) return true;
+        if (validator.IsValid) return true;
 
-    //    Notificar(validator);
+        Notify(validator);
 
-    //    return false;
-    //}
+        return false;
+    }
 }
