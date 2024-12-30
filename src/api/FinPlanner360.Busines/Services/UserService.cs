@@ -37,7 +37,8 @@ public class UserService : BaseService, IUserService
         {
             Id = Guid.NewGuid().ToString(),
             UserName = email,
-            Email = email
+            Email = email,
+            EmailConfirmed = true,
         };
         var registerResult = await _userManager.CreateAsync(user, password);
 
