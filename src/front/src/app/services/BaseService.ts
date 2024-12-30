@@ -43,28 +43,28 @@ export abstract class BaseService {
             customResponse.error.errors = customError;
             return throwError(() => customResponse);
         }
-        if (response.status === 404) {
+        else if (response.status === 404) {
             customError.push("O recurso solicitado não existe. Entre em contato com o suporte.");
             customResponse.error.errors = customError;
             return throwError(() => customResponse);
         }
-        if (response.status === 403) {
+        else if (response.status === 403) {
 
             customError.push("Você não tem autorização para essa ação. Faça login novamente ou contate o nosso suporte.");
 
             customResponse.error.errors = customError;
             return throwError(() => customResponse);
         }
-        if (response.status === 401) {
+        else if (response.status === 401) {
             window.location.href = '/login';
         }
 
-        return throwError(() => customResponse);
+        return throwError(() => response);
     }
 
     protected extractData(response: any) {
-        if (response.data) {
-            return response.data || {};
+        if (response.result) {
+            return response.result || {};
         }
         else {
             return response;

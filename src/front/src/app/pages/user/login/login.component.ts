@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { LocalStorageUtils } from 'src/app/utils/localstorage';
 import { FormBaseComponent } from 'src/app/components/base-components/form-base.component';
 import { CommonModule } from '@angular/common';
-import { LoginService } from 'src/app/services/login.service';
+import { UserService } from 'src/app/services/user.service';
 import { LoginModel } from '../models/login.model';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -31,15 +31,15 @@ import { ToastrService } from 'ngx-toastr';
   ],
   templateUrl: './login.component.html',
 })
-export class LoginComponent extends FormBaseComponent implements OnInit, AfterViewInit,  OnDestroy {
+export class LoginComponent extends FormBaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements!: ElementRef[];
-  
+
   email: string;
   form: FormGroup = new FormGroup({});
   loginModel!: LoginModel;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private router: Router, private localStorageUtils: LocalStorageUtils, private loginSevice :LoginService, private toastr: ToastrService) {
+  constructor(private router: Router, private localStorageUtils: LocalStorageUtils, private loginSevice: UserService, private toastr: ToastrService) {
     super();
 
     this.validationMessages = {
@@ -52,7 +52,7 @@ export class LoginComponent extends FormBaseComponent implements OnInit, AfterVi
       }
     };
 
-    super.configureMensagesValidation(this.validationMessages);
+    super.configureMessagesValidation(this.validationMessages);
   }
 
   ngOnInit(): void {
@@ -63,7 +63,7 @@ export class LoginComponent extends FormBaseComponent implements OnInit, AfterVi
       password: new FormControl('', [Validators.required]),
     });
   }
-  
+
   ngAfterViewInit(): void {
     super.configureValidationFormBase(this.formInputElements, this.form);
   }
@@ -77,22 +77,20 @@ export class LoginComponent extends FormBaseComponent implements OnInit, AfterVi
   }
 
   submit() {
-    
+
     this.loginModel = this.form.value;
 
     this.loginSevice.login(this.loginModel)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (success) => {
-        console.log('success', success);
-        this.localStorageUtils.setUserToken('token');
-        this.localStorageUtils.setEmail(this.getEmail.value);
-        this.router.navigate(['/pages/dashboard']);
-      },
-      error: (fail) => {
-        this.processFail(fail);
-      }
-    });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.localStorageUtils.setUser(response);
+          this.router.navigate(['/pages/dashboard']);
+        },
+        error: (fail) => {
+          this.processFail(fail);
+        }
+      });
 
   }
 
