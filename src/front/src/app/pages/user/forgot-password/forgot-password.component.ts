@@ -42,7 +42,7 @@ export class ForgotPasswordComponent extends FormBaseComponent implements OnInit
       },
     };
 
-    super.configureMensagesValidation(this.validationMessages);
+    super.configureMessagesValidation(this.validationMessages);
   }
 
   ngOnInit(): void {

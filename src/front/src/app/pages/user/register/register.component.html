@@ -22,10 +22,10 @@
               >Nome completo</mat-label
             >
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="text" formControlName="userName"/>
+              <input matInput type="text" formControlName="name"/>
             </mat-form-field>
-            <span *ngIf="displayMessage['userName']">
-              <mat-error>{{displayMessage['userName']}}</mat-error>
+            <span *ngIf="displayMessage['name']">
+              <mat-error>{{displayMessage['name']}}</mat-error>
             </span>
 
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"

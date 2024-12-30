@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
-import { LoginComponent } from './pages/authentication/login/login.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { ForgotPasswordComponent } from './pages/authentication/forgot-password/forgot-password.component';
-import { RestorePasswordComponent } from './pages/authentication/restore-password/restore-password.component';
+
 import { AuthGuard } from './auth.guard';
+import { LoginComponent } from './pages/user/login/login.component';
+import { ForgotPasswordComponent } from './pages/user/forgot-password/forgot-password.component';
+import { RestorePasswordComponent } from './pages/user/restore-password/restore-password.component';
 
 export const routes: Routes = [
   {
@@ -44,7 +45,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'authentication',
-        loadChildren: () => import('./pages/authentication/authentication.routes').then((m) => m.AuthenticationRoutes),
+        loadChildren: () => import('./pages/user/user.routes').then((m) => m.UserRoutes),
       },
     ],
   },

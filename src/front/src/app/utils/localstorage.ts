@@ -1,23 +1,23 @@
 import { environment } from "src/environments/environment";
-import { UserTokenModel } from "../pages/authentication/models/user-token.model";
+
 import { AES, enc } from "crypto-js";
+import { UserTokenModel } from "../pages/user/models/user-token.model";
 
 
 export class LocalStorageUtils {
     private _key = environment.aesKey;
 
+
     public getUserToken(): string {
         return localStorage.getItem('mba.grupo1.token') ?? '';
-    }
-
-    public setUserToken(token: string) {
-        localStorage.setItem('mba.grupo1.token', token);
-        this.setExpiresAt();
     }
 
     public setUser(user: UserTokenModel) {
         const envryptedObject = AES.encrypt(JSON.stringify(user), this._key);
         localStorage.setItem('mba.grupo1.user', envryptedObject.toString());
+        localStorage.setItem('mba.grupo1.token', user.AccessToken);
+        localStorage.setItem('mba.grupo1.email', user.Email);
+        this.setExpiresAt();
     }
 
     public getUser(): UserTokenModel {
@@ -46,13 +46,9 @@ export class LocalStorageUtils {
         return parseInt(milesecExpiration);
     }
 
-    public setEmail(email: string) {
-        localStorage.setItem('mba.grupo1.Email', email);
-    }
-
     public getEmail(): string {
 
-        const email = localStorage.getItem('mba.grupo1.Email');
+        const email = localStorage.getItem('mba.grupo1.email');
         return email ?? '';
 
     }
