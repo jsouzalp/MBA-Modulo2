@@ -19,7 +19,7 @@ export class CategoryService extends BaseService {
     super();
   }
 
-  getAll(): Observable<CategoryModel> {
+  getAll(): Observable<CategoryModel[]> {
     let response = this.http
       .get(this.UrlServiceV1 + 'v1/category/get-all',  this.getAuthHeaderJson())
       .pipe(
