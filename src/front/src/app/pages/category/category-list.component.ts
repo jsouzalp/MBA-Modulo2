@@ -19,7 +19,7 @@ import { CategoryTypeDescriptions, CategoryTypeEnum } from './enums/category-typ
 
 export class CategoryListComponent implements OnInit, OnDestroy {
   categoryModel: CategoryModel[];
-  displayedColumns: string[] = ['Description', 'Type'];
+  displayedColumns: string[] = ['description', 'type'];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private categorySevice: CategoryService, private toastr: ToastrService) {}

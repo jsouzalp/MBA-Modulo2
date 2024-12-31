@@ -12,7 +12,7 @@ public static class CorsConfiguration
                     .AllowAnyHeader());
 
             options.AddPolicy("Prod", builder =>
-                builder.WithOrigins("https://localhost:5001")
+                builder.WithOrigins("https://localhost:4200")
                     .WithMethods("OPTIONS", "GET", "POST", "PUT", "DELETE")
                     .AllowAnyHeader());
         });

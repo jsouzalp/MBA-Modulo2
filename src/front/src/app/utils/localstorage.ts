@@ -15,8 +15,8 @@ export class LocalStorageUtils {
     public setUser(user: UserTokenModel) {
         const envryptedObject = AES.encrypt(JSON.stringify(user), this._key);
         localStorage.setItem('mba.grupo1.user', envryptedObject.toString());
-        localStorage.setItem('mba.grupo1.token', user.AccessToken);
-        localStorage.setItem('mba.grupo1.email', user.Email);
+        localStorage.setItem('mba.grupo1.token', user.accessToken);
+        localStorage.setItem('mba.grupo1.email', user.email);
         this.setExpiresAt();
     }
 

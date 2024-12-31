@@ -1,7 +1,7 @@
 
 export interface CategoryModel {
-    CategoryId: string;
-    UserId: string;
-    Description: string;
-    Type: string;
+    categoryId: string;
+    userId: string;
+    description: string;
+    type: string;
 }
