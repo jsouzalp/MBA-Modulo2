@@ -18,18 +18,26 @@ public class CategoryService : BaseService, ICategoryService
         _categoryRepository = categoryRepository;
     }
 
+    private bool CategoryExistsWithSameName(Guid? userId, string description)
+    {
+        if (_categoryRepository.FilterAsync(c => c.Description.ToUpper() == description.ToUpper() && (c.UserId == null || c.UserId == userId)).Result.Any())
+        {
+            Notify("Já existe uma categoria com essa descrição.");
+            return true;
+        }
+
+        return false;
+    }
+
     public async Task CreateAsync(Category category)
     {
         if (!await _validationFactory.ValidateAsync(category))
             return;
 
-        if (_categoryRepository.FilterAsync(c => c.Description == category.Description).Result.Any())
+        if (!CategoryExistsWithSameName(category.UserId, category.Description))
         {
-            Notify("Já existe uma categoria com essa descrição.");
-            return;
+            await _categoryRepository.CreateAsync(category);
         }
-
-        await _categoryRepository.CreateAsync(category);
     }
 
     public async Task UpdateAsync(Category category)
@@ -37,13 +45,10 @@ public class CategoryService : BaseService, ICategoryService
         if (!await _validationFactory.ValidateAsync(category))
             return;
 
-        if (_categoryRepository.FilterAsync(c => c.Description == category.Description).Result.Any())
+        if (!CategoryExistsWithSameName(category.UserId, category.Description))
         {
-            Notify("Já existe uma categoria com essa descrição.");
-            return;
+            await _categoryRepository.UpdateAsync(category);
         }
-
-        await _categoryRepository.UpdateAsync(category);
     }
 
     public async Task DeleteAsync(Guid categoryId)

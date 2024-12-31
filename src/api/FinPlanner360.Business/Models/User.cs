@@ -6,7 +6,6 @@ public class User : Entity
 {
     #region Attributes
 
-    public Guid UserId { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
     public Guid AuthenticationId { get; set; }

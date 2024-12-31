@@ -1,4 +1,5 @@
 ﻿using FinPlanner360.Business.Interfaces.Repositories;
+using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
 using FinPlanner360.Repositories.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -7,8 +8,8 @@ namespace FinPlanner360.Repositories.Repositories;
 
 public class UserRepository : BaseRepository<User>, IUserRepository
 {
-    public UserRepository(FinPlanner360DbContext context)
-        : base(context)
+    public UserRepository(FinPlanner360DbContext context, IAppIdentityUser appIdentityUser)
+        : base(context, appIdentityUser)
     {
     }
 

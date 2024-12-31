@@ -1,5 +1,7 @@
 ﻿using FinPlanner360.Business.Interfaces.Repositories;
+using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
+using FinPlanner360.Business.Services;
 using FinPlanner360.Repositories.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -8,11 +10,13 @@ namespace FinPlanner360.Repositories.Repositories;
 
 public abstract class BaseRepository<T> : IRepository<T> where T : Entity, new()
 {
+    protected readonly IAppIdentityUser _appIdentityUser;
     protected readonly FinPlanner360DbContext _context;
     protected readonly DbSet<T> _dbSet;
 
-    protected BaseRepository(FinPlanner360DbContext context)
+    protected BaseRepository(FinPlanner360DbContext context, IAppIdentityUser appIdentityUser)
     {
+        _appIdentityUser = appIdentityUser;
         _context = context;
         _dbSet = _context.Set<T>();
     }
@@ -27,9 +31,18 @@ public abstract class BaseRepository<T> : IRepository<T> where T : Entity, new()
         return await _dbSet.FindAsync(id);
     }
 
-    public async Task<ICollection<T>> GetAllAsync()
+    public virtual async Task<ICollection<T>> GetAllAsync()
     {
-        return await _dbSet.ToListAsync();
+        Guid? userId = _appIdentityUser != null ? _appIdentityUser.GetUserId() : null;
+
+        if (userId != null)
+        {
+            return await _dbSet.Where(x => x.UserId == userId.Value).ToListAsync();
+        }
+        else
+        {
+            return await _dbSet.ToListAsync();
+        }
     }
 
     public async Task<ICollection<T>> FilterAsync(Expression<Func<T, bool>> predicate)
