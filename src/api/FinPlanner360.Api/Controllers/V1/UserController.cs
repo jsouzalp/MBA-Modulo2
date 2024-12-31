@@ -1,7 +1,7 @@
 ﻿using FinPlanner360.Api.ViewModels.User;
-using FinPlanner360.Busines.Interfaces.Repositories;
-using FinPlanner360.Busines.Interfaces.Services;
-using FinPlanner360.Busines.Models;
+using FinPlanner360.Business.Interfaces.Repositories;
+using FinPlanner360.Business.Interfaces.Services;
+using FinPlanner360.Business.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinPlanner360.Api.Controllers.V1;
@@ -16,7 +16,8 @@ public class UserController : MainController
 
     public UserController(IUserService authenticationService,
         IUserRepository userRepository,
-        INotificationService notificationService) : base(notificationService)
+        IAppIdentityUser appIdentityUser,
+        INotificationService notificationService) : base(appIdentityUser, notificationService)
     {
         _authenticationService = authenticationService;
         _userRepository = userRepository;

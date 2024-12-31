@@ -20,7 +20,7 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
-            modelBuilder.Entity("FinPlanner360.Busines.Models.Budget", b =>
+            modelBuilder.Entity("FinPlanner360.Business.Models.Budget", b =>
                 {
                     b.Property<Guid>("BudgetId")
                         .ValueGeneratedOnAdd()
@@ -57,7 +57,7 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                     b.ToTable("TB_BUDGET", (string)null);
                 });
 
-            modelBuilder.Entity("FinPlanner360.Busines.Models.Category", b =>
+            modelBuilder.Entity("FinPlanner360.Business.Models.Category", b =>
                 {
                     b.Property<Guid>("CategoryId")
                         .ValueGeneratedOnAdd()
@@ -95,7 +95,7 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                     b.ToTable("TB_CATEGORY", (string)null);
                 });
 
-            modelBuilder.Entity("FinPlanner360.Busines.Models.GeneralBudget", b =>
+            modelBuilder.Entity("FinPlanner360.Business.Models.GeneralBudget", b =>
                 {
                     b.Property<Guid>("GeneralBudgetId")
                         .ValueGeneratedOnAdd()
@@ -125,7 +125,7 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                     b.ToTable("TB_GENERAL_BUDGET", (string)null);
                 });
 
-            modelBuilder.Entity("FinPlanner360.Busines.Models.Transaction", b =>
+            modelBuilder.Entity("FinPlanner360.Business.Models.Transaction", b =>
                 {
                     b.Property<Guid>("TransactionId")
                         .ValueGeneratedOnAdd()
@@ -178,7 +178,7 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                     b.ToTable("TB_TRANSACTION", (string)null);
                 });
 
-            modelBuilder.Entity("FinPlanner360.Busines.Models.User", b =>
+            modelBuilder.Entity("FinPlanner360.Business.Models.User", b =>
                 {
                     b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
@@ -207,9 +207,9 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                     b.ToTable("TB_USER", (string)null);
                 });
 
-            modelBuilder.Entity("FinPlanner360.Busines.Models.Budget", b =>
+            modelBuilder.Entity("FinPlanner360.Business.Models.Budget", b =>
                 {
-                    b.HasOne("FinPlanner360.Busines.Models.User", "User")
+                    b.HasOne("FinPlanner360.Business.Models.User", "User")
                         .WithMany("Budgets")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -219,9 +219,9 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinPlanner360.Busines.Models.Category", b =>
+            modelBuilder.Entity("FinPlanner360.Business.Models.Category", b =>
                 {
-                    b.HasOne("FinPlanner360.Busines.Models.User", "User")
+                    b.HasOne("FinPlanner360.Business.Models.User", "User")
                         .WithMany("Categories")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -230,9 +230,9 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinPlanner360.Busines.Models.GeneralBudget", b =>
+            modelBuilder.Entity("FinPlanner360.Business.Models.GeneralBudget", b =>
                 {
-                    b.HasOne("FinPlanner360.Busines.Models.User", "User")
+                    b.HasOne("FinPlanner360.Business.Models.User", "User")
                         .WithMany("GeneralBudgets")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -242,16 +242,16 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinPlanner360.Busines.Models.Transaction", b =>
+            modelBuilder.Entity("FinPlanner360.Business.Models.Transaction", b =>
                 {
-                    b.HasOne("FinPlanner360.Busines.Models.Category", "Category")
+                    b.HasOne("FinPlanner360.Business.Models.Category", "Category")
                         .WithMany("Transactions")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_TB_TRANSACTION_02");
 
-                    b.HasOne("FinPlanner360.Busines.Models.User", "User")
+                    b.HasOne("FinPlanner360.Business.Models.User", "User")
                         .WithMany("Transactions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -263,12 +263,12 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinPlanner360.Busines.Models.Category", b =>
+            modelBuilder.Entity("FinPlanner360.Business.Models.Category", b =>
                 {
                     b.Navigation("Transactions");
                 });
 
-            modelBuilder.Entity("FinPlanner360.Busines.Models.User", b =>
+            modelBuilder.Entity("FinPlanner360.Business.Models.User", b =>
                 {
                     b.Navigation("Budgets");
 

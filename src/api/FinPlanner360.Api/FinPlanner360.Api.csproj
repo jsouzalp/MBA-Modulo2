@@ -25,18 +25,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinPlanner360.Busines\FinPlanner360.Busines.csproj" />
+    <ProjectReference Include="..\FinPlanner360.Business\FinPlanner360.Business.csproj" />
     <ProjectReference Include="..\FinPlanner360.Repositories\FinPlanner360.Repositories.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="appsettings.development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="databaseSettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="jwtSettings.json">
+    <Content Update="appsettings.production.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

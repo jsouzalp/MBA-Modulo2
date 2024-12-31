@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinPlanner360.Busines\FinPlanner360.Busines.csproj" />
+    <ProjectReference Include="..\FinPlanner360.Business\FinPlanner360.Business.csproj" />
   </ItemGroup>
 
 </Project>

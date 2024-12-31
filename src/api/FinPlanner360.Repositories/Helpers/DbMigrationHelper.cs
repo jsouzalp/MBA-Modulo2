@@ -1,5 +1,5 @@
-﻿using FinPlanner360.Busines.Models;
-using FinPlanner360.Busines.Models.Enums;
+﻿using FinPlanner360.Business.Models;
+using FinPlanner360.Business.Models.Enums;
 using FinPlanner360.Repositories.Contexts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

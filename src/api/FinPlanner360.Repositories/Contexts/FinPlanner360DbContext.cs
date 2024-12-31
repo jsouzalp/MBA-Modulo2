@@ -1,4 +1,4 @@
-﻿using FinPlanner360.Busines.Models;
+﻿using FinPlanner360.Business.Models;
 using FinPlanner360.Repositories.Configurations;
 using Microsoft.EntityFrameworkCore;
 
