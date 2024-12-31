@@ -2,7 +2,7 @@
 using FinPlanner360.Business.Interfaces.Services;
 using FluentValidation.Results;
 
-namespace FinPlanner360.Business.Services;
+namespace FinPlanner360.Busines.Services;
 
 public class BaseService
 {
@@ -30,10 +30,10 @@ public class BaseService
     //{
     //    var validator = validacao.Validate(entidade);
 
-    //    if (validator.IsValid) return true;
+        if (validator.IsValid) return true;
 
     //    Notify(validator);
 
-    //    return false;
-    //}
+        return false;
+    }
 }

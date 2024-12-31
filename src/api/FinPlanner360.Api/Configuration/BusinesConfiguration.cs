@@ -14,7 +14,7 @@ namespace FinPlanner360.Api.Configuration;
 
 public static class BusinesConfiguration
 {
-    public static IServiceCollection AddBusinesConfiguration(this IServiceCollection services, DatabaseSettings databaseSettings, bool isProduction)
+    public static IServiceCollection AddBusinesConfiguration(this IServiceCollection services, DatabaseSettings databaseSettings)
     {
         services.AddIdentityRepositories(databaseSettings, isProduction);
         services.AddApplicationRepositories(databaseSettings, isProduction);
