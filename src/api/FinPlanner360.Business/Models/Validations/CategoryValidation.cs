@@ -8,8 +8,8 @@ public class CategoryValidation : AbstractValidator<Category>
     public CategoryValidation()
     {
         RuleFor(c => c.UserId)
-            .NotNull().WithMessage("O Id do usuário precisa ser informado.")
-            .NotEqual(Guid.Empty).WithMessage("O Id do usuário precisa ser informado.");
+            .NotNull().WithMessage("O código do usuário precisa ser informado.")
+            .NotEqual(Guid.Empty).WithMessage("O código do usuário precisa ser informado.");
 
         RuleFor(c => c.Description)
             .NotEmpty().WithMessage("A descrição precisa ser informada.")

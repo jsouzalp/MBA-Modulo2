@@ -30,23 +30,5 @@ namespace FinPlanner360.Busines.Models.Validations
 
             return resultValidation.IsValid;
         }
-
-        //public async Task<(bool Success, ICollection<string> Errors)> ValidateAsync(TI input)
-        //{
-        //    var resultValidation = await _validator.ValidateAsync(input);
-        //    (bool Success, ICollection<string> Errors) output = new();
-        //    output.Success = resultValidation.IsValid;
-
-        //    if (!output.Success)
-        //    {
-        //        output.Errors = new List<string>();
-        //        foreach (var item in resultValidation.Errors)
-        //        {
-        //            output.Errors.Add(item.ErrorMessage);
-        //        }
-        //    }
-
-        //    return output;
-        //}
     }
 }

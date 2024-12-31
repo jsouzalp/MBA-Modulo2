@@ -20,18 +20,7 @@ public class MainController : ControllerBase
     {
         _appIdentityUser = appIdentityUser;
         _notificationService = notificationService;
-
-        //if (appUser.IsAuthenticated())
-        //{
-        //    UsuarioId = appUser.GetUserId();
-        //    UsuarioAutenticado = true;
-        //}
     }
-
-    //protected bool OperacaoValida()
-    //{
-    //    return !_notificador.TemNotificacao();
-    //}
 
     protected ActionResult GenerateResponse(object result = null, HttpStatusCode statusCode = HttpStatusCode.OK)
     {

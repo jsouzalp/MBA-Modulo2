@@ -1,4 +1,5 @@
-﻿using FinPlanner360.Business.Interfaces.Services;
+﻿using FinPlanner360.Busines.Services;
+using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Settings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -11,14 +12,12 @@ namespace FinPlanner360.Business.Services;
 
 public class UserService : BaseService, IUserService
 {
-    //private readonly IUserDomain _userDomain;
     private readonly SignInManager<IdentityUser> _signInManager;
 
     private readonly UserManager<IdentityUser> _userManager;
     private readonly AppSettings _appSettings;
 
     public UserService(INotificationService notificationService,
-        //IUserDomain userDomain,
         SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager,
         IOptions<AppSettings> appSettings) : base(notificationService)

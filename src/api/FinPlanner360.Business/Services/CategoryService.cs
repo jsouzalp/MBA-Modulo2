@@ -2,6 +2,8 @@
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Models;
 using FinPlanner360.Busines.Interfaces.Validations;
+using FinPlanner360.Busines.Services;
+using FinPlanner360.Business.Extensions;
 
 namespace FinPlanner360.Business.Services;
 
@@ -36,7 +38,7 @@ public class CategoryService : BaseService, ICategoryService
 
         if (!CategoryExistsWithSameName(category.UserId, category.Description))
         {
-            await _categoryRepository.CreateAsync(category);
+            await _categoryRepository.CreateAsync(category.FillAttributes());
         }
     }
 

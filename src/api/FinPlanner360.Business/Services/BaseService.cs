@@ -29,11 +29,8 @@ public class BaseService
     //protected bool IsValid<TV, TE>(TV validacao, TE entidade) where TV : AbstractValidator<TE> where TE : Entity
     //{
     //    var validator = validacao.Validate(entidade);
-
-        if (validator.IsValid) return true;
-
+    //    if (validator.IsValid) return true;
     //    Notify(validator);
-
-        return false;
-    }
+    //    return false;
+    //}
 }
