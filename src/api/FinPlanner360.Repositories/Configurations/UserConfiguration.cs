@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using FinPlanner360.Busines.Models;
+using FinPlanner360.Business.Models;
 
 namespace FinPlanner360.Repositories.Configurations;
 

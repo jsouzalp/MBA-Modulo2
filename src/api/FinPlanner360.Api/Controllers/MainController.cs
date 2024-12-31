@@ -1,5 +1,5 @@
-﻿using FinPlanner360.Busines.Interfaces.Services;
-using FinPlanner360.Busines.Models;
+﻿using FinPlanner360.Business.Interfaces.Services;
+using FinPlanner360.Business.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Net;
@@ -9,12 +9,16 @@ namespace FinPlanner360.Api.Controllers;
 [ApiController]
 public class MainController : ControllerBase
 {
+    private readonly IAppIdentityUser _appIdentityUser;
     private readonly INotificationService _notificationService;
-    public Guid UserId { get; set; }
-    public bool IsAuthenticated { get; set; }
+    
+    public Guid UserId => _appIdentityUser.GetUserId();
+    public bool IsAuthenticated => _appIdentityUser.IsAuthenticated();
+    public string UserEmail => _appIdentityUser.GetUserEmail();
 
-    protected MainController(INotificationService notificationService)
+    protected MainController(IAppIdentityUser appIdentityUser, INotificationService notificationService)
     {
+        _appIdentityUser = appIdentityUser;
         _notificationService = notificationService;
 
         //if (appUser.IsAuthenticated())

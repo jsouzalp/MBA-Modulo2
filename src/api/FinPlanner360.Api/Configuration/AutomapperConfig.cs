@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FinPlanner360.Api.ViewModels.Category;
-using FinPlanner360.Busines.Models;
+using FinPlanner360.Business.Models;
 
 namespace FinPlanner360.Api.Configuration;
 

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using FinPlanner360.Api.ViewModels.Category;
-using FinPlanner360.Busines.Interfaces.Repositories;
-using FinPlanner360.Busines.Interfaces.Services;
-using FinPlanner360.Busines.Models;
+using FinPlanner360.Business.Models;
+using FinPlanner360.Business.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using FinPlanner360.Business.Interfaces.Repositories;
 
 namespace FinPlanner360.Api.Controllers.V1;
 
@@ -21,7 +21,8 @@ public class CategoryController : MainController
     public CategoryController(IMapper mapper,
         ICategoryService categoryService,
         ICategoryRepository categoryRepository,
-        INotificationService notificationService) : base(notificationService)
+        IAppIdentityUser appIdentityUser,
+        INotificationService notificationService) : base(appIdentityUser, notificationService)
     {
         _mapper = mapper;
         _categoryService = categoryService;

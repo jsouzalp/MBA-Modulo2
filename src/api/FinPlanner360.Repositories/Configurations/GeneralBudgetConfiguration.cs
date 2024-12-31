@@ -1,4 +1,4 @@
-﻿using FinPlanner360.Busines.Models;
+﻿using FinPlanner360.Business.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

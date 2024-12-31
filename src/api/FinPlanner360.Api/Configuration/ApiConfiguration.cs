@@ -10,7 +10,13 @@ public static class ApiConfiguration
         services.AddControllers(options =>
         {
             options.Filters.Add<ExceptionFilter>();
+        }).AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+            options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
         });
+        services.AddEndpointsApiExplorer();
 
         services.AddApiVersioning(options =>
         {
@@ -30,7 +36,6 @@ public static class ApiConfiguration
             options.SuppressModelStateInvalidFilter = true;
         });
 
-        services.AddSwaggerGen();
         return services;
     }
 }
