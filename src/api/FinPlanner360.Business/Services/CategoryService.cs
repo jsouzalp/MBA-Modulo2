@@ -21,7 +21,7 @@ public class CategoryService : BaseService, ICategoryService
         if (!IsValid(new CategoryValidation(), category))
             return;
 
-        if (_categoryRepository.FilterAsync(c => c.Description == category.Description).Result.Any())
+        if (_categoryRepository.FilterAsync(c => c.Description == category.Description && c.UserId == category.UserId).Result.Any())
         {
             Notify("Já existe uma categoria com essa descrição.");
             return;

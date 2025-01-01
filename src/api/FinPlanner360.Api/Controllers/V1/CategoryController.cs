@@ -41,6 +41,7 @@ public class CategoryController : MainController
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
 
+        categoryViewModel.UserId = UserId;
         await _categoryService.CreateAsync(_mapper.Map<Category>(categoryViewModel));
 
         return GenerateResponse(categoryViewModel, HttpStatusCode.Created);

@@ -64,9 +64,9 @@ export class CategoryListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         if (res.inserted) {
-          window.location.reload();
+          this.getCategories();
         }
-      })    
+      })
   }
 
   ngOnDestroy(): void {

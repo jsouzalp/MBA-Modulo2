@@ -7,13 +7,13 @@
           >Tipo</mat-label
         >
         <mat-form-field appearance="outline" class="w-100">
-          <mat-select formControlName="categoryType" name="categoryType">
+          <mat-select formControlName="type" name="type">
             <mat-option [value]="1">Receita </mat-option>
             <mat-option [value]="2">Despesa </mat-option>
           </mat-select>
         </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['categoryType']">
-          <p [innerHTML]="displayMessage['categoryType']"></p>
+        <small class="text-danger" *ngIf="displayMessage['type']">
+          <p [innerHTML]="displayMessage['type']"></p>
         </small>
       </div>
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
@@ -28,6 +28,8 @@
             type="text"
             autocomplete="off"
             (blur)="checkDescription($event)"
+            maxlength="100"
+            minlength="4"
           />
         </mat-form-field>
         <small class="text-danger" *ngIf="displayMessage['description']">

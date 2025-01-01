@@ -29,9 +29,9 @@ export class CategoryService extends BaseService {
     return response;
   }
 
-  register(user: UserRegisterModel): Observable<UserTokenModel> {
+  create(category: CategoryModel): Observable<CategoryModel> {
     let response = this.http
-      .post(this.UrlServiceV1 + 'v1/category/register', user, this.getAuthHeaderJson())
+      .post(this.UrlServiceV1 + 'v1/category/create', category, this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));
