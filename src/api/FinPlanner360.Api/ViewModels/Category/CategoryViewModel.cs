@@ -12,6 +12,10 @@ public class CategoryViewModel
     public Guid UserId { get; set; }
 
     [Required(ErrorMessage = "O campo descrição é obrigatório")]
+    public Guid UserId { get; set; }
+
+    [Required(ErrorMessage = "O campo descrição é obrigatório")]
+    [StringLength(100, ErrorMessage = "A descrição precisa ter entre 4 e 100 caracteres.", MinimumLength = 4)]
     public string Description { get; set; }
 
     public CategoryTypeEnum Type { get; set; }

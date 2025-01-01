@@ -2,6 +2,10 @@
 using FinPlanner360.Api.ViewModels.Category;
 using FinPlanner360.Business.Models;
 using FinPlanner360.Business.Interfaces.Services;
+using FinPlanner360.Busines.Interfaces.Repositories;
+using FinPlanner360.Busines.Interfaces.Services;
+using FinPlanner360.Business.Interfaces.Services;
+using FinPlanner360.Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -40,6 +44,7 @@ public class CategoryController : MainController
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
 
+        categoryViewModel.UserId = UserId;
         await _categoryService.CreateAsync(_mapper.Map<Category>(categoryViewModel));
 
         return GenerateResponse(categoryViewModel, HttpStatusCode.Created);

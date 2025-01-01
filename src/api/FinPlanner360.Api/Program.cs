@@ -24,6 +24,7 @@ internal class Program
         builder.Services.AddApiConfiguration();
         builder.Services.AddJwtConfiguration(appSettings.JwtSettings);
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        builder.Services.AddJwtConfiguration(appSettings.JwtSettings);
         builder.Services.AddCorsConfiguration();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerConfiguration();
