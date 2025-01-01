@@ -1,4 +1,4 @@
-﻿using FinPlanner360.Busines.Models.Enums;
+﻿using FinPlanner360.Business.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinPlanner360.Api.ViewModels.Category;

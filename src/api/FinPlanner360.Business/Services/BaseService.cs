@@ -1,5 +1,5 @@
-﻿using FinPlanner360.Busines.Interfaces.Services;
-using FinPlanner360.Busines.Models;
+﻿using FinPlanner360.Business.Interfaces.Services;
+using FinPlanner360.Business.Models;
 using FluentValidation;
 using FluentValidation.Results;
 

@@ -1,7 +1,6 @@
 <mat-card class="cardWithShadow">
   <mat-card-content>
-    <mat-card-title>Category list</mat-card-title>
-    <mat-card-subtitle class="mat-body-1">Under construction</mat-card-subtitle>
+    <mat-card-title>Categorias</mat-card-title>
 
     <div class="table-responsive">
       <table mat-table [dataSource]="categoryModel" class="w-100">
@@ -36,10 +35,49 @@
           </th>
           <td mat-cell *matCellDef="let element" class="mat-body-1">
             <h6 class="mat-body-1 f-s-16 m-b-4">
-              <span class="text-dark f-w-600"
+              <span
+                class="f-w-600"
+                [ngClass]="element.Type == 1 ? 'text-success' : 'text-error'"
                 >{{ getDescription(element.Type) }}
               </span>
             </h6>
+          </td>
+        </ng-container>
+
+        <!-- Menu Column -->
+        <ng-container matColumnDef="Menu">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="f-w-600 mat-subtitle-1 f-s-14"
+          >
+            <button mat-menu-item (click)="openAddDialog()">
+              <mat-icon>add</mat-icon>
+              <span>incluir categoria</span>
+            </button>
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1">
+            @if (element.UserId !=='00000000-0000-0000-0000-000000000000') {
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              aria-label="menu"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Editar categoria</span>
+              </button>
+
+              <button mat-menu-item>
+                <mat-icon>delete</mat-icon>
+                <span>Deletar categoria</span>
+              </button>
+            </mat-menu>
+            }
           </td>
         </ng-container>
 

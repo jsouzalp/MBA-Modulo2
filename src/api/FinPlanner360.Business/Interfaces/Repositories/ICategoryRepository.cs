@@ -1,4 +1,5 @@
-﻿using FinPlanner360.Busines.Models;
+﻿using FinPlanner360.Business.Interfaces.Repositories;
+using FinPlanner360.Business.Models;
 
 namespace FinPlanner360.Busines.Interfaces.Repositories;
 
