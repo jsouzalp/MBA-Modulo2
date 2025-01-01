@@ -25,7 +25,7 @@ import { CategoryAddComponent } from './category-add.component';
 
 export class CategoryListComponent implements OnInit, OnDestroy {
   categoryModel: CategoryModel[];
-  displayedColumns: string[] = ['Description', 'Type', 'Menu'];
+  displayedColumns: string[] = ['description', 'type', 'Menu'];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private categorySevice: CategoryService,

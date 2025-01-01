@@ -22,11 +22,9 @@ internal class Program
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddBusinesConfiguration(appSettings.DatabaseSettings, builder.Environment.IsProduction());
         builder.Services.AddApiConfiguration();
-        builder.Services.AddJwtConfiguration(appSettings.JwtSettings);
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddJwtConfiguration(appSettings.JwtSettings);
         builder.Services.AddCorsConfiguration();
-        builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerConfiguration();
         #endregion
 

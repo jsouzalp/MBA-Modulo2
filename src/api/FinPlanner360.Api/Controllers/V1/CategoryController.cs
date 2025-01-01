@@ -2,10 +2,6 @@
 using FinPlanner360.Api.ViewModels.Category;
 using FinPlanner360.Business.Models;
 using FinPlanner360.Business.Interfaces.Services;
-using FinPlanner360.Busines.Interfaces.Repositories;
-using FinPlanner360.Busines.Interfaces.Services;
-using FinPlanner360.Business.Interfaces.Services;
-using FinPlanner360.Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
