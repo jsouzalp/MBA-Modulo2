@@ -36,7 +36,7 @@ public abstract class BaseRepository<T> : IRepository<T> where T : Entity, new()
 
         if (userId != null)
         {
-            return await _dbSet.Where(x => x.UserId == userId.Value).ToListAsync();
+            return await _dbSet.Where(x => x.UserId == userId.Value && x.RemovedDate != null).ToListAsync();
         }
         else
         {

@@ -51,7 +51,7 @@
             *matHeaderCellDef
             class="f-w-600 mat-subtitle-1 f-s-14"
           >
-            <button mat-menu-item (click)="openAddDialog()">
+            <button mat-menu-item (click)="addDialog()">
               <mat-icon>add</mat-icon>
               <span>incluir categoria</span>
             </button>
@@ -67,12 +67,12 @@
             </button>
 
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>
+              <button mat-menu-item (click)="updateDialog(element)">
                 <mat-icon>edit</mat-icon>
                 <span>Editar categoria</span>
               </button>
 
-              <button mat-menu-item>
+              <button mat-menu-item (click)="deleteCategory(element.categoryId)">
                 <mat-icon>delete</mat-icon>
                 <span>Deletar categoria</span>
               </button>

@@ -1,21 +1,7 @@
-<h3 mat-dialog-title>Cadastro de categoria</h3>
+<h3 mat-dialog-title>Alteração de categoria</h3>
 <mat-dialog-content>
   <form class="m-t-30" [formGroup]="form">
     <div fxLayout="row wrap">
-      <div class="p-10">
-        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-          >Tipo</mat-label
-        >
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-select formControlName="type" name="type">
-            <mat-option [value]="1">Receita </mat-option>
-            <mat-option [value]="2">Despesa </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['type']">
-          <p [innerHTML]="displayMessage['type']"></p>
-        </small>
-      </div>
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
           >Categoria</mat-label

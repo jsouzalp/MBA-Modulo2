@@ -67,5 +67,8 @@ public class CategoryService : BaseService, ICategoryService
             Notify("A categoria possui transações cadastradas!");
             return;
         }
+
+        await _categoryRepository.RemoveAsync(categoryId);
+
     }
 }

@@ -13,31 +13,25 @@ public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
     }
 
-    public override async Task<ICollection<Category>> GetAllAsync()
+    public Guid? UserId
     {
-        Guid? userId = _appIdentityUser != null ? _appIdentityUser.GetUserId() : null;
-
-        if (userId != null)
+        get
         {
-            return await _dbSet.Where(x => x.UserId == null || x.UserId == userId.Value).ToListAsync();
-        }
-        else
-        {
-            return await _dbSet.ToListAsync();
+            return _appIdentityUser != null ? _appIdentityUser.GetUserId() : null;
         }
     }
 
+    public override async Task<ICollection<Category>> GetAllAsync() =>
+        await _dbSet.Where(x => (x.UserId == null || x.UserId == UserId.Value) && x.RemovedDate == null).OrderBy(x => x.Description).ToListAsync();
+
+
     public async Task<Category> GetCategoryById(Guid id)
     {
-        //return await _context.Categories
-        //    .AsNoTracking()
-        //    .Include(c => c.Transactions.Take(1)) // Include only one Transaction
-        //    .Where(c => c.CategoryId == id)
-        //    .FirstOrDefaultAsync();
+        Guid? userId = _appIdentityUser != null ? _appIdentityUser.GetUserId() : null;
 
         return await _context.Categories
             .AsNoTracking()
-            .Where(c => c.CategoryId == id)
+            .Where(c => c.CategoryId == id && (c.UserId == null || c.UserId == UserId.Value))
             .Select(c => new Category
             {
                 CategoryId = c.CategoryId,

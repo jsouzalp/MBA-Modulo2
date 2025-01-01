@@ -12,6 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryAddComponent } from './category-add.component';
+import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/components/confirm-dialog/confirm-dialog.component';
+import { CategoryUpdateComponent } from './category-update.component';
 
 
 @Component({
@@ -54,10 +56,11 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     return CategoryTypeDescriptions[type] || 'Unknown';
   }
 
-  openAddDialog() {
+  addDialog() {
     const dialogRef = this.dialog.open(CategoryAddComponent, {
       width: '500px',
       height: '400px',
+      data: this.categoryModel
     });
 
     dialogRef.afterClosed()
@@ -67,6 +70,59 @@ export class CategoryListComponent implements OnInit, OnDestroy {
           this.getCategories();
         }
       })
+  }
+
+  updateDialog(row:any) {
+
+    let category: CategoryModel = {
+      categoryId: row.categoryId,
+      description: row.description,
+      userId: row.userId,
+      type: row.type
+    };
+
+    const dialogRef = this.dialog.open(CategoryUpdateComponent, {
+      width: '500px',
+      height: '300px',
+      data: category
+    });
+
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(res => {
+        if (res.inserted) {
+          this.getCategories();
+        }
+      })
+  }
+
+
+  deleteCategory(id: string) {
+
+    const dialogData = new ConfirmDialogModel('Atenção', 'Confirma exclusão ?');
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(dialogResult => {
+        if (!dialogResult) return;
+
+        this.categorySevice.delete(id)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: () => {
+              this.toastr.success('Categoria excluída com sucesso.');
+              this.getCategories();
+            },
+            error: (fail) => {
+              this.toastr.error(fail.error.errors);
+            }
+          });
+      });
   }
 
   ngOnDestroy(): void {
