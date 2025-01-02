@@ -1,4 +1,4 @@
-﻿namespace FinPlanner360.Business.Settings;
+﻿namespace FinPlanner360.Api.Settings;
 
 public sealed class AppSettings
 {
