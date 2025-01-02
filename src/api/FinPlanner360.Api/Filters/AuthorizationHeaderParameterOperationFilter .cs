@@ -2,7 +2,7 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace FinPlanner360.Api.Configuration
+namespace FinPlanner360.Api.Filters
 {
     public class AuthorizationHeaderParameterOperationFilter : IOperationFilter
     {

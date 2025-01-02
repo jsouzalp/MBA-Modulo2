@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using FinPlanner360.Api.Filters;
+using Microsoft.OpenApi.Models;
 
 namespace FinPlanner360.Api.Configuration;
 
