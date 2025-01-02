@@ -15,7 +15,7 @@ export class CategoryService extends BaseService {
 
   getAll(): Observable<CategoryModel[]> {
     let response = this.http
-      .get(this.UrlServiceV1 + 'v1/category/get-all',  this.getAuthHeaderJson())
+      .get(this.UrlServiceV1 + 'v1/category',  this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));
@@ -25,7 +25,7 @@ export class CategoryService extends BaseService {
 
   create(category: CategoryModel): Observable<CategoryModel> {
     let response = this.http
-      .post(this.UrlServiceV1 + 'v1/category/create', category, this.getAuthHeaderJson())
+      .post(this.UrlServiceV1 + 'v1/category', category, this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));
@@ -35,7 +35,7 @@ export class CategoryService extends BaseService {
 
   update(category: CategoryModel): Observable<CategoryModel> {
     let response = this.http
-      .put(this.UrlServiceV1 + 'v1/category/update', category, this.getAuthHeaderJson())
+      .put(this.UrlServiceV1 + 'v1/category', category, this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));
@@ -45,7 +45,7 @@ export class CategoryService extends BaseService {
 
   delete(categoryId: string): Observable<void> {
     let response = this.http
-      .delete(this.UrlServiceV1 + `v1/category/delete/${categoryId}`, this.getAuthHeaderJson())
+      .delete(this.UrlServiceV1 + `v1/category/${categoryId}`, this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));

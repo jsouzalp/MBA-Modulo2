@@ -59,7 +59,7 @@ export class UserService extends BaseService {
 
   register(user: UserRegisterModel): Observable<UserTokenModel> {
     let response = this.http
-      .post(this.UrlServiceV1 + 'v1/user/register', user, this.getHeaderJson())
+      .post(this.UrlServiceV1 + 'v1/user', user, this.getHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));
