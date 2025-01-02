@@ -113,9 +113,6 @@ public class UserController : MainController
         return GenerateResponse();
     }
 
-    [HttpPost("logout")]
-    public async Task LogoutAsync() => await _signInManager.SignOutAsync();
-
     private async Task<string> GenerateJwt(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
