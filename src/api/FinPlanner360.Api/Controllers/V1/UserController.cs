@@ -37,7 +37,7 @@ public class UserController : MainController
         _appSettings = appSettings.Value;
     }
 
-    [HttpPost("register")]
+    [HttpPost]
     public async Task<ActionResult> RegisterAsync(RegisterViewModel registerViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
