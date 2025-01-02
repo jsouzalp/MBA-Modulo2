@@ -12,9 +12,9 @@ internal class Program
             .SetBasePath(AppContext.BaseDirectory)
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true);
-        var configuration = configBuilder.Build();
 
-        builder.Services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));        
+        var configuration = configBuilder.Build();
+        builder.Services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
         AppSettings appSettings = configuration.GetSection(nameof(AppSettings)).Get<AppSettings>();
         #endregion
 
@@ -22,6 +22,7 @@ internal class Program
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddBusinesConfiguration(appSettings.DatabaseSettings, builder.Environment.IsProduction());
         builder.Services.AddApiConfiguration();
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddJwtConfiguration(appSettings.JwtSettings);
         builder.Services.AddCorsConfiguration();
         builder.Services.AddSwaggerConfiguration();

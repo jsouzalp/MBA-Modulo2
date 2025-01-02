@@ -13,7 +13,6 @@ public static class ApiConfiguration
         }).AddJsonOptions(options =>
         {
             options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-            options.JsonSerializerOptions.PropertyNamingPolicy = null;
             options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
         });
         services.AddEndpointsApiExplorer();

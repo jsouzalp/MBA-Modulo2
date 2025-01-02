@@ -8,7 +8,7 @@ public class Category : Entity
     #region Attributes
 
     public Guid CategoryId { get; set; }
-    public Guid? UserId { get; set; }
+    public new Guid? UserId { get; set; }
     public string Description { get; set; }
     public CategoryTypeEnum Type { get; set; }
 

@@ -9,4 +9,6 @@ public interface INotificationService
     ICollection<Notification> GetNotifications();
 
     void Handle(Notification notification);
+
+    void Handle(string notification);
 }

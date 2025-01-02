@@ -18,7 +18,8 @@ public class ExceptionFilter : IExceptionFilter
         var outputResponse = new
         {
             success = false,
-            message = "Ops, aconteceu um erro inesperado"
+            message = "Ops, aconteceu um erro inesperado", 
+            internalMessage = context?.Exception?.Message ?? context.Exception?.ToString()
         };
 
         var output = new ObjectResult(outputResponse)

@@ -1,4 +1,5 @@
-﻿using FinPlanner360.Business.Interfaces.Services;
+﻿using FinPlanner360.Busines.Services;
+using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Settings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -11,14 +12,12 @@ namespace FinPlanner360.Business.Services;
 
 public class UserService : BaseService, IUserService
 {
-    //private readonly IUserDomain _userDomain;
     private readonly SignInManager<IdentityUser> _signInManager;
 
     private readonly UserManager<IdentityUser> _userManager;
     private readonly AppSettings _appSettings;
 
     public UserService(INotificationService notificationService,
-        //IUserDomain userDomain,
         SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager,
         IOptions<AppSettings> appSettings) : base(notificationService)
@@ -37,12 +36,14 @@ public class UserService : BaseService, IUserService
         {
             Id = Guid.NewGuid().ToString(),
             UserName = email,
-            Email = email
+            Email = email,
+            EmailConfirmed = true,
         };
         var registerResult = await _userManager.CreateAsync(user, password);
 
         if (registerResult.Succeeded)
         {
+            await _userManager.AddToRoleAsync(user, "USER");
             await _signInManager.SignInAsync(user, isPersistent: false);
             result.UserId = Guid.Parse(user.Id);
             result.AccessToken = await GenerateJwtAsync(user);
@@ -77,6 +78,11 @@ public class UserService : BaseService, IUserService
         }
 
         return accessToken;
+    }
+
+    public async Task LogoutAsync()
+    {
+        await _signInManager.SignOutAsync();
     }
 
     private async Task<string> GenerateJwtAsync(IdentityUser user)

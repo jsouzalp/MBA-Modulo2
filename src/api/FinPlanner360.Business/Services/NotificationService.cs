@@ -20,4 +20,9 @@ public class NotificationService : INotificationService
     {
         _notification.Add(notification);
     }
+
+    public void Handle(string notification)
+    {
+        Handle(new Notification(notification));
+    }
 }

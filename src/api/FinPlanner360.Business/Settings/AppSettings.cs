@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FinPlanner360.Business.Settings;
+﻿namespace FinPlanner360.Business.Settings;
 
 public sealed class AppSettings
 {

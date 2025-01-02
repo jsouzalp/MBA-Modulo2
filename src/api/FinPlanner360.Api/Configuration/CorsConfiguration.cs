@@ -12,8 +12,8 @@ public static class CorsConfiguration
                     .AllowAnyHeader());
 
             options.AddPolicy("Prod", builder =>
-                builder.WithOrigins("https://localhost:5001")
-                    .WithMethods("GET", "POST", "PUT", "DELETE")
+                builder.WithOrigins("https://localhost:4200")
+                    .WithMethods("OPTIONS", "GET", "POST", "PUT", "DELETE")
                     .AllowAnyHeader());
         });
 

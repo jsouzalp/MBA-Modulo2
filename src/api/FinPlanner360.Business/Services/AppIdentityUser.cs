@@ -1,12 +1,7 @@
 ﻿using FinPlanner360.Business.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinPlanner360.Business.Services
 {

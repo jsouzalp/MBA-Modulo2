@@ -30,7 +30,7 @@ export class UserRegisterComponent extends FormBaseComponent implements OnInit, 
   userRegisterModel: UserRegisterModel;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private router: Router, private fb: FormBuilder, private localStorageUtils: LocalStorageUtils, private userSevice: UserService, private toastr: ToastrService) {
+  constructor(private router: Router, private fb: FormBuilder, private localStorageUtils: LocalStorageUtils, private userService: UserService, private toastr: ToastrService) {
     super();
 
     this.validationMessages = {
@@ -85,7 +85,7 @@ export class UserRegisterComponent extends FormBaseComponent implements OnInit, 
 
     this.userRegisterModel = this.form.value;
 
-    this.userSevice.register(this.userRegisterModel)
+    this.userService.register(this.userRegisterModel)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {

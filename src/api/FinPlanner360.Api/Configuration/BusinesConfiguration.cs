@@ -1,9 +1,12 @@
-﻿using FinPlanner360.Business.Interfaces.Repositories;
+﻿using FinPlanner360.Busines.Interfaces.Validations;
+using FinPlanner360.Busines.Models.Validations;
+using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Services;
 using FinPlanner360.Business.Settings;
 using FinPlanner360.Repositories.Contexts;
 using FinPlanner360.Repositories.Repositories;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,12 +21,20 @@ public static class BusinesConfiguration
 
         #region Repositories injection
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
         #endregion
 
         #region Business injection        
+        // Services
         services.AddScoped<IAppIdentityUser, AppIdentityUser>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<ICategoryService, CategoryService>();
+        // others services
+
+        // Validations
+        services.AddValidatorsFromAssemblyContaining<UserValidation>();
+        services.AddScoped(typeof(IValidationFactory<>), typeof(ValidationFactory<>));
         #endregion
 
         return services;
