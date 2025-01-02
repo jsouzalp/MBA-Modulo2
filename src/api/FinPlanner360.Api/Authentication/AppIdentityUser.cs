@@ -1,9 +1,8 @@
 ﻿using FinPlanner360.Business.Interfaces.Services;
-using Microsoft.AspNetCore.Http;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace FinPlanner360.Business.Services
+namespace FinPlanner360.Api.Authentication
 {
     public class AppIdentityUser : IAppIdentityUser
     {
