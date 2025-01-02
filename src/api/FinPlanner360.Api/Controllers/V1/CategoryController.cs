@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using FinPlanner360.Api.ViewModels.Category;
-using FinPlanner360.Business.Models;
+using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
+using FinPlanner360.Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using FinPlanner360.Business.Interfaces.Repositories;
 
 namespace FinPlanner360.Api.Controllers.V1;
 
@@ -29,13 +29,14 @@ public class CategoryController : MainController
         _categoryRepository = categoryRepository;
     }
 
-    [HttpGet("get-all")]
-    public async Task<IEnumerable<CategoryViewModel>> GetAll()
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<CategoryViewModel>>> GetAll()
     {
-        return _mapper.Map<IEnumerable<CategoryViewModel>>(await _categoryRepository.GetAllAsync());
+        var category = _mapper.Map<IEnumerable<CategoryViewModel>>(await _categoryRepository.GetAllAsync());
+        return GenerateResponse(category, HttpStatusCode.OK);
     }
 
-    [HttpPost("create")]
+    [HttpPost]
     public async Task<ActionResult<CategoryViewModel>> Create(CategoryViewModel categoryViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
@@ -46,7 +47,7 @@ public class CategoryController : MainController
         return GenerateResponse(categoryViewModel, HttpStatusCode.Created);
     }
 
-    [HttpPut("update")]
+    [HttpPut]
     public async Task<ActionResult<CategoryViewModel>> Update(CategoryViewModel categoryViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
@@ -57,13 +58,13 @@ public class CategoryController : MainController
         return GenerateResponse(categoryViewModel, HttpStatusCode.OK);
     }
 
-    [HttpDelete("delete/{categoryId}")]
+    [HttpDelete("{categoryId}")]
     public async Task<ActionResult<CategoryViewModel>> Delete(Guid categoryId)
     {
         if (categoryId == Guid.Empty) return GenerateResponse(ModelState, HttpStatusCode.BadRequest);
 
         await _categoryService.DeleteAsync(categoryId);
 
-        return GenerateResponse(HttpStatusCode.OK);
+        return GenerateResponse(HttpStatusCode.NoContent);
     }
 }

@@ -23,7 +23,7 @@ public class UserController : MainController
         _userRepository = userRepository;
     }
 
-    [HttpPost("register")]
+    [HttpPost]
     public async Task<ActionResult> RegisterAsync(RegisterViewModel registerViewModel)
     {
         LoginOutputViewModel result = null;
