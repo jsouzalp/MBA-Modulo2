@@ -1,9 +1,10 @@
-﻿using FinPlanner360.Busines.Interfaces.Validations;
+﻿using FinPlanner360.Api.Authentication;
+using FinPlanner360.Api.Settings;
+using FinPlanner360.Busines.Interfaces.Validations;
 using FinPlanner360.Busines.Models.Validations;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Services;
-using FinPlanner360.Business.Settings;
 using FinPlanner360.Repositories.Contexts;
 using FinPlanner360.Repositories.Repositories;
 using FluentValidation;

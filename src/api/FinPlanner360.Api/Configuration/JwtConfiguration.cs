@@ -1,4 +1,4 @@
-﻿using FinPlanner360.Business.Settings;
+﻿using FinPlanner360.Api.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;

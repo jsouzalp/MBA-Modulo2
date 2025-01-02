@@ -8,6 +8,22 @@ public static class SwaggerConfiguration
     {
         services.AddSwaggerGen(c =>
         {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Version = "v1",
+                Title = "FinPlanner 360",
+                Description = "API do projeto FinPlanner do MBA DevXpert",
+                Contact = new OpenApiContact
+                {
+                    Name = "Grupo 1"
+                },
+                License = new OpenApiLicense
+                {
+                    Name = "CC BY-NC-ND",
+                    Url = new Uri("https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode")
+                }
+            });
+
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Description = "Token JWT: Bearer {seu token}",
@@ -18,20 +34,7 @@ public static class SwaggerConfiguration
                 Type = SecuritySchemeType.ApiKey
             });
 
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        Array.Empty<string>()
-                    }
-            });
+            c.OperationFilter<AuthorizationHeaderParameterOperationFilter>();
         });
 
         return services;

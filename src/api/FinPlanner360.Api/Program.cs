@@ -1,5 +1,5 @@
 using FinPlanner360.Api.Configuration;
-using FinPlanner360.Business.Settings;
+using FinPlanner360.Api.Settings;
 
 internal class Program
 {
