@@ -31,6 +31,7 @@ public static class EnvironmentConfiguration
 
         app.UseStaticFiles();
         app.UseHttpsRedirection();
+
         app.UseHsts();
 
         app.Use(async (context, next) =>
