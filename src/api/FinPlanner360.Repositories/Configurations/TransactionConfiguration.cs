@@ -28,6 +28,7 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
         builder.Property(x => x.Description)
             .HasColumnName("DESCRIPTION")
             .HasColumnType(DatabaseTypeConstant.Varchar)
+            .UseCollation(DatabaseTypeConstant.Collate)
             .HasMaxLength(50)
             .IsRequired();
 

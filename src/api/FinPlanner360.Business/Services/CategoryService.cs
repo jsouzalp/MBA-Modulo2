@@ -22,7 +22,7 @@ public class CategoryService : BaseService, ICategoryService
 
     private bool CategoryExistsWithSameName(Guid? userId, string description)
     {
-        if (_categoryRepository.FilterAsync(c => c.Description.ToUpper() == description.ToUpper() && (c.UserId == null || c.UserId == userId)).Result.Any())
+        if (_categoryRepository.FilterAsync(c => c.Description == description && c.RemovedDate == null && (c.UserId == null || c.UserId == userId)).Result.Any())
         {
             Notify("Já existe uma categoria com essa descrição.");
             return true;

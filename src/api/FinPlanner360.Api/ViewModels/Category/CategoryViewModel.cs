@@ -1,5 +1,6 @@
 ﻿using FinPlanner360.Business.Models.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace FinPlanner360.Api.ViewModels.Category;
 

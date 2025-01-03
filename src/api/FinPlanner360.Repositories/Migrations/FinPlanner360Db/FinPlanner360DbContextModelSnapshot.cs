@@ -15,7 +15,7 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
 
             modelBuilder.Entity("FinPlanner360.Business.Models.Budget", b =>
                 {
@@ -69,7 +69,8 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("Varchar")
-                        .HasColumnName("DESCRIPTION");
+                        .HasColumnName("DESCRIPTION")
+                        .UseCollation("Latin1_General_CI_AI");
 
                     b.Property<DateTime?>("RemovedDate")
                         .HasColumnType("DateTime")
@@ -146,7 +147,8 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("Varchar")
-                        .HasColumnName("DESCRIPTION");
+                        .HasColumnName("DESCRIPTION")
+                        .UseCollation("Latin1_General_CI_AI");
 
                     b.Property<DateTime?>("RemovedDate")
                         .HasColumnType("DateTime")
@@ -190,13 +192,15 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("Varchar")
-                        .HasColumnName("EMAIL");
+                        .HasColumnName("EMAIL")
+                        .UseCollation("Latin1_General_CI_AI");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("Varchar")
-                        .HasColumnName("NAME");
+                        .HasColumnName("NAME")
+                        .UseCollation("Latin1_General_CI_AI");
 
                     b.HasKey("UserId")
                         .HasName("PK_TB_USER");
