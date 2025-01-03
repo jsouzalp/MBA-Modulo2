@@ -9,7 +9,10 @@ using FinPlanner360.Repositories.Contexts;
 using FinPlanner360.Repositories.Repositories;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace FinPlanner360.Api.Configuration;
 
@@ -81,7 +84,18 @@ public static class BusinesConfiguration
             }
             else
             {
-                o.UseSqlite(databaseSettings.ConnectionStringFinPlanner360);
+                var connection = new SqliteConnection(databaseSettings.ConnectionStringFinPlanner360);
+                connection.CreateCollation("LATIN1_GENERAL_CI_AI", (x, y) =>
+                {
+                    if (x == null && y == null) return 0;
+                    if (x == null) return -1;
+                    if (y == null) return 1;
+
+                    // Comparação ignorando maiúsculas/minúsculas e acentos
+                    return string.Compare(x, y, CultureInfo.CurrentCulture, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace);
+                });
+
+                o.UseSqlite(connection);
             }
         });
 

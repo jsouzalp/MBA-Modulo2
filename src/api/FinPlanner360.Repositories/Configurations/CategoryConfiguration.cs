@@ -28,6 +28,7 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
             .HasColumnName("DESCRIPTION")
             .HasColumnType(DatabaseTypeConstant.Varchar)
             .HasMaxLength(25)
+            .UseCollation(DatabaseTypeConstant.Collate)
             .IsRequired();
 
         builder.Property(x => x.Type)

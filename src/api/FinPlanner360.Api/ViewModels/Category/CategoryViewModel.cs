@@ -9,7 +9,6 @@ public class CategoryViewModel
     [Required(ErrorMessage = "O código da categoria é obrigatório")]
     public Guid CategoryId { get; set; }
 
-    [JsonIgnore]
     [Required(ErrorMessage = "O código do usuário é obrigatório")]
     public Guid UserId { get; set; }
 

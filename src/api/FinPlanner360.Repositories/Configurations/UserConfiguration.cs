@@ -23,12 +23,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Name)
             .HasColumnName("NAME")
             .HasColumnType(DatabaseTypeConstant.Varchar)
+            .UseCollation(DatabaseTypeConstant.Collate)
             .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(x => x.Email)
             .HasColumnName("EMAIL")
             .HasColumnType(DatabaseTypeConstant.Varchar)
+            .UseCollation(DatabaseTypeConstant.Collate)
             .HasMaxLength(100)
             .IsRequired();
 

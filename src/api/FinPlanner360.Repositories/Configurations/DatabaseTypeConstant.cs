@@ -2,6 +2,7 @@
 
 public static class DatabaseTypeConstant
 {
+    public const string Collate = "Latin1_General_CI_AI";
     public const string UniqueIdentifier = "UniqueIdentifier";
     public const string Varchar = "Varchar";
     public const string SmallDateTime = "SmallDateTime";
