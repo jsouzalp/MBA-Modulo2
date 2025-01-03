@@ -113,11 +113,11 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
     {
         var info = new OpenApiInfo()
         {
-            Title = "FinPlanner360 Api",
+            Title = "FinPlanner 360",
             Version = description.ApiVersion.ToString(),
             Description = "API do projeto FinPlanner do MBA DevXpert",
-            Contact = new OpenApiContact() { Name = "Marco Aurelio Roque", Email = "marco@imperiumsolucoes.com.br" },
-            License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
+            Contact = new OpenApiContact() { Name = "Grupo 1"},
+            License = new OpenApiLicense() { Name = "CC BY-NC-ND", Url = new Uri("https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode") }
         };
 
         if (description.IsDeprecated)
