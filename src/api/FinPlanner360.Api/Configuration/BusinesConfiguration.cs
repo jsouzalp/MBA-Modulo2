@@ -11,6 +11,8 @@ using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Globalization;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -36,10 +38,14 @@ public static class BusinesConfiguration
         services.AddScoped<ICategoryService, CategoryService>();
         // others services
 
+
         // Validations
         services.AddValidatorsFromAssemblyContaining<UserValidation>();
         services.AddScoped(typeof(IValidationFactory<>), typeof(ValidationFactory<>));
         #endregion
+
+        //Swagger
+        services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
         return services;
     }
