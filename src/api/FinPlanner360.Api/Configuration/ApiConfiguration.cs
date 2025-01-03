@@ -35,6 +35,18 @@ public static class ApiConfiguration
             options.SuppressModelStateInvalidFilter = true;
         });
 
+        services.AddAntiforgery(options =>
+        {
+            options.HeaderName = "X-CSRF-TOKEN";
+        });
+
+        services.AddHsts(options =>
+        {
+            options.MaxAge = TimeSpan.FromDays(365);
+            options.IncludeSubDomains = true;
+            options.Preload = true;
+        });
+
         return services;
     }
 }
