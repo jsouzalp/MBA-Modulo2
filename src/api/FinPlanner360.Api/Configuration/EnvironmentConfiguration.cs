@@ -31,6 +31,16 @@ public static class EnvironmentConfiguration
 
         app.UseStaticFiles();
         app.UseHttpsRedirection();
+
+        app.UseHsts();
+        app.Use(async (context, next) =>
+        {
+            context.Response.Headers.Append("Content-Security-Policy", "default-src 'self'; script-src 'self'");
+            context.Response.Headers.Append("X-XSS-Protection", "1; mode=block"); // Proteção contra XSS
+            context.Response.Headers.Append("X-Content-Type-Options", "nosniff"); // Prevenir MIME-sniffing
+            await next();
+        });
+
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
