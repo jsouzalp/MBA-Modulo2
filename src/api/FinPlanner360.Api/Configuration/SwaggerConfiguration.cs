@@ -1,50 +1,14 @@
-﻿using FinPlanner360.Api.Filters;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Text.Json;
 
 namespace FinPlanner360.Api.Configuration;
 
 public static class SwaggerConfiguration
 {
-    //public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
-    //{
-    //    services.AddSwaggerGen(c =>
-    //    {
-    //        c.SwaggerDoc("v1", new OpenApiInfo
-    //        {
-    //            Version = "v1",
-    //            Title = "FinPlanner 360",
-    //            Description = "API do projeto FinPlanner do MBA DevXpert",
-    //            Contact = new OpenApiContact
-    //            {
-    //                Name = "Grupo 1"
-    //            },
-    //            License = new OpenApiLicense
-    //            {
-    //                Name = "CC BY-NC-ND",
-    //                Url = new Uri("https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode")
-    //            }
-    //        });
-
-    //        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    //        {
-    //            Description = "Token JWT: Bearer {seu token}",
-    //            Name = "Authorization",
-    //            Scheme = "Bearer",
-    //            BearerFormat = "JWT",
-    //            In = ParameterLocation.Header,
-    //            Type = SecuritySchemeType.ApiKey
-    //        });
-
-    //        c.OperationFilter<AuthorizationHeaderParameterOperationFilter>();
-    //    });
-
-    //    return services;
-    //}
-
     public static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
@@ -60,20 +24,7 @@ public static class SwaggerConfiguration
                 Type = SecuritySchemeType.ApiKey
             });
 
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        new string[] {}
-                    }
-                });
+            c.OperationFilter<SwaggerDefaultValues>();
         });
 
         return services;
@@ -133,59 +84,41 @@ public class SwaggerDefaultValues : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        var apiDescription = context.ApiDescription;
+        var declaringAttributes = context.MethodInfo.DeclaringType.GetCustomAttributes(true);
+        var methodAttributes = context.MethodInfo.GetCustomAttributes(true);
 
-        operation.Deprecated |= apiDescription.IsDeprecated();
+        var isAuthorized = declaringAttributes.OfType<AuthorizeAttribute>().Any() || methodAttributes.OfType<AuthorizeAttribute>().Any();
 
-        foreach (var responseType in context.ApiDescription.SupportedResponseTypes)
+        if (isAuthorized)
         {
-            var responseKey = responseType.IsDefaultResponse ? "default" : responseType.StatusCode.ToString();
-            var response = operation.Responses[responseKey];
-
-            foreach (var contentType in response.Content.Keys)
-                if (responseType.ApiResponseFormats.All(x => x.MediaType != contentType))
-                    response.Content.Remove(contentType);
-        }
-
-        if (operation.Parameters == null)
-            return;
-
-        foreach (var parameter in operation.Parameters)
-        {
-            var description = apiDescription.ParameterDescriptions.First(p => p.Name == parameter.Name);
-
-            parameter.Description ??= description.ModelMetadata.Description;
-
-            if (parameter.Schema.Default == null && description.DefaultValue != null)
+            operation.Security.Add(new OpenApiSecurityRequirement
             {
-                var json = JsonSerializer.Serialize(description.DefaultValue, description.ModelMetadata.ModelType);
-                parameter.Schema.Default = OpenApiAnyFactory.CreateFromJson(json);
-            }
-
-            parameter.Required |= description.IsRequired;
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
         }
-    }
-}
 
-public class SwaggerAuthorizedMiddleware
-{
-    private readonly RequestDelegate _next;
 
-    public SwaggerAuthorizedMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
+        var summaryAttribute = context.MethodInfo.GetCustomAttributes(true)
+            .OfType<SwaggerOperationAttribute>()
+            .FirstOrDefault();
 
-    public async Task Invoke(HttpContext context)
-    {
-        if (context.Request.Path.StartsWithSegments("/swagger")
-            && !context.User.Identity.IsAuthenticated)
+        if (summaryAttribute != null)
         {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            return;
+            operation.Summary = summaryAttribute.Summary;
+            operation.Description = summaryAttribute.Description;
         }
-
-        await _next.Invoke(context);
     }
 }
+
+
 

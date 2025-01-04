@@ -1,6 +1,7 @@
 ﻿using FinPlanner360.Business.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinPlanner360.Api.Controllers.V1;
 
@@ -15,8 +16,21 @@ public class TestsController : MainController
     }
 
     [HttpGet("Hello")]
+    [Authorize(Roles = "USER")]
     public async Task<string> GetAsync()
     {
         return $"Hi user id {UserId} with email {UserEmail}. Welcome";
+    }
+
+    [HttpGet("Hello2")]
+    [Authorize(Roles = "USER")]
+    [Obsolete("Este endpoint está obsoleto e será removido em versões futuras. Use '/api/v1/new-endpoint' em seu lugar.")]
+    [SwaggerOperation(Summary = "Este endpoint está obsoleto.",Description = "Este endpoint está obsoleto e será removido em versões futuras.")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<string>> GetID()
+    {
+        var responseMessage = $"Hi user id {UserId} with email {UserEmail}. Welcome 2";
+        return Ok(responseMessage);
     }
 }
