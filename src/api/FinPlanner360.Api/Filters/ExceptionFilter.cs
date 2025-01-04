@@ -7,14 +7,20 @@ namespace FinPlanner360.Api.Filters;
 public class ExceptionFilter : IExceptionFilter
 {
     private readonly IActionResultExecutor<ObjectResult> _executor;
-    public ExceptionFilter(IActionResultExecutor<ObjectResult> executor)
+    private readonly ILogger _logger;
+
+    public ExceptionFilter(IActionResultExecutor<ObjectResult> executor, ILogger<ExceptionFilter> logger)
     {
         _executor = executor;
+        _logger = logger;
     }
 
     public void OnException(ExceptionContext context)
     {
         context.ExceptionHandled = true;
+
+        _logger.LogError(context?.Exception ?? context.Exception, $"Ocorreu um erro inesperado: {context?.Exception?.Message ?? context.Exception?.ToString()}");
+
         var outputResponse = new
         {
             success = false,
