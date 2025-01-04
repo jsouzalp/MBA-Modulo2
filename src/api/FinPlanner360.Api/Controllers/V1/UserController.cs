@@ -22,8 +22,10 @@ public class UserController : MainController
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IUserRepository _userRepository;
     private readonly AppSettings _appSettings;
+    private readonly ILogger _logger;
 
     public UserController(
+        ILogger<UserController> logger,
         SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager,
         IOptions<AppSettings> appSettings,
@@ -31,6 +33,7 @@ public class UserController : MainController
         IAppIdentityUser appIdentityUser,
         INotificationService notificationService) : base(appIdentityUser, notificationService)
     {
+        _logger = logger;
         _signInManager = signInManager;
         _userManager = userManager;
         _userRepository = userRepository;
@@ -61,17 +64,27 @@ public class UserController : MainController
                 AuthenticationId = Guid.Parse(identitiyUser.Id)
             };
 
-            await _userRepository.CreateAsync(user); // TODO: usar service ou repository direto ??
-
-            var loginOutput = new LoginOutputViewModel
+            try
             {
-                Id = user.UserId,
-                Name = user.Name,
-                Email = user.Email,
-                AccessToken = await GenerateJwt(user.Email)
-            };
+                await _userRepository.CreateAsync(user);
 
-            return GenerateResponse(loginOutput);
+                var loginOutput = new LoginOutputViewModel
+                {
+                    Id = user.UserId,
+                    Name = user.Name,
+                    Email = user.Email,
+                    AccessToken = await GenerateJwt(user.Email)
+                };
+
+                return GenerateResponse(loginOutput);
+            }
+            catch (Exception ex)
+            {
+                await _userManager.DeleteAsync(identitiyUser);
+
+                _logger.LogError(ex, $"Erro ao tentar criar o usuário na base de dados: {ex.Message}");
+                Notify("Não foi possível criar o usuário, tente novamente mais tarde.");
+            }
         }
         else
         {
