@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace FinPlanner360.Repositories.Migrations
+namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
 {
     /// <inheritdoc />
     public partial class InitialMigration : Migration
@@ -85,11 +85,10 @@ namespace FinPlanner360.Repositories.Migrations
                         principalTable: "TB_USER",
                         principalColumn: "USER_ID");
                     table.ForeignKey(
-                        name: "FK_TB_BUDGET_TB_CATEGORY_CATEGORY_ID",
+                        name: "FK_TB_BUDGET_02",
                         column: x => x.CATEGORY_ID,
                         principalTable: "TB_CATEGORY",
-                        principalColumn: "CATEGORY_ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CATEGORY_ID");
                 });
 
             migrationBuilder.CreateTable(

@@ -67,7 +67,16 @@ public abstract class BaseRepository<T> : IRepository<T> where T : Entity, new()
         if (entity != null)
         {
             entity.RemovedDate = DateTime.Now;
-            await UpdateAsync(entity);
+            await SaveChangesAsync();
+        }
+    }
+    public async Task RemoveAsync(T entity)
+    {
+
+        if (entity != null)
+        {
+            _dbSet.Remove(entity);
+             await SaveChangesAsync();
         }
     }
 

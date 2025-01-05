@@ -5,28 +5,25 @@ import { MaterialModule } from 'src/app/material.module';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/components/confirm-dialog/confirm-dialog.component';
-import { BudgetModel } from '../models/budget.model';
-import { BudgetService } from 'src/app/services/budget.service';
-import { CategoryTypeEnum } from '../../category/enums/category-type.enum';
-import { BudgetByCategoryAddComponent } from './budget-by-category-add.component';
-import { BudgetUpdateComponent } from './budget-by-category-update.component';
-
-
+import { GeneralBudgetAddComponent } from './general-budget-add.component';
+import { GeneralBudgetUpdateComponent } from './general-budget-update.component';
+import { GeneralBudgetService } from 'src/app/services/general-budget.service';
+import { GeneralBudgetModel } from '../models/general-budget.model';
 
 @Component({
-  selector: 'app-budget-list',
+  selector: 'app-general-budget-list',
   standalone: true,
   imports: [CommonModule, MaterialModule],
-  templateUrl: './budget-by-category-list.component.html',
+  templateUrl: './general-budget-list.component.html',
 })
 
 
-export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
-  budgetModel: BudgetModel[] = [];
-  displayedColumns: string[] = ['description', 'amount', 'Menu'];
+export class GeneralBudgetListComponent implements OnInit, OnDestroy {
+  budgetModel: GeneralBudgetModel[] = [];
+  displayedColumns: string[] = ['amount', 'percentage', 'Menu'];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private budgetSevice: BudgetService,
+  constructor(private budgetSevice: GeneralBudgetService,
     private toastr: ToastrService,
     public dialog: MatDialog) { }
 
@@ -48,13 +45,8 @@ export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
       });
   }
 
-  getDescription(type: CategoryTypeEnum): string {
-    // return CategoryTypeDescriptions[type] || 'Unknown';
-    return '';
-  }
-
   addDialog() {
-    const dialogRef = this.dialog.open(BudgetByCategoryAddComponent, {
+    const dialogRef = this.dialog.open(GeneralBudgetAddComponent, {
       width: '500px',
       height: '400px',
       data: this.budgetModel
@@ -69,17 +61,15 @@ export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
       })
   }
 
-  updateDialog(row:any) {
+  updateDialog(row: any) {
 
-    let category: BudgetModel = {
-      categoryId: row.categoryId,
-      description: row.description,
-      budgetId: row.budgetId,
-      userId: row.userId,
-      amount: row.amount
+    let category: GeneralBudgetModel = {
+      generalBudgetId: row.generalBudgetId,
+      amount: row.amount,
+      percentage: row.percentage
     };
 
-    const dialogRef = this.dialog.open(BudgetUpdateComponent, {
+    const dialogRef = this.dialog.open(GeneralBudgetUpdateComponent, {
       width: '500px',
       height: '400px',
       data: category

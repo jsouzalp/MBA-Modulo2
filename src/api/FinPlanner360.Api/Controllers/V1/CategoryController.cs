@@ -48,11 +48,10 @@ public class CategoryController : MainController
     }
 
     [HttpPut]
-    public async Task<ActionResult<CategoryViewModel>> Update(CategoryViewModel categoryViewModel)
+    public async Task<ActionResult<CategoryUpdateViewModel>> Update(CategoryUpdateViewModel categoryViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
 
-        categoryViewModel.UserId = UserId;
         await _categoryService.UpdateAsync(_mapper.Map<Category>(categoryViewModel));
 
         return GenerateResponse(categoryViewModel, HttpStatusCode.OK);

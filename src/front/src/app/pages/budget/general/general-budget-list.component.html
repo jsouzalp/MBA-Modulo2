@@ -4,21 +4,6 @@
 
     <div class="table-responsive">
       <table mat-table [dataSource]="budgetModel" class="w-100">
-        <!-- description Column -->
-        <ng-container matColumnDef="description">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="f-w-600 mat-subtitle-1 f-s-14"
-          >
-            Categoria
-          </th>
-          <td mat-cell *matCellDef="let element" class="mat-body-1">
-            <h6 class="mat-body-1 f-s-16 m-b-4">
-              <span class="f-w-600">{{ element.description }} </span>
-            </h6>
-          </td>
-        </ng-container>
 
         <!-- Amount Column -->
         <ng-container matColumnDef="amount">
@@ -30,15 +15,31 @@
             Valor
           </th>
           <td mat-cell *matCellDef="let element" class="p-l-0">
-            <div class="d-flex align-items-center">
+            <div class="d-flex text-left">
               <div class="m-l-16">
-                <h6 class="mat-subtitle-1 f-s-14 f-w-600">
+                <h6 class="mat-subtitle-1 f-s-14 f-w-600 text-left">
                   {{ element.amount | currency : "" : "" }}
                 </h6>
               </div>
             </div>
           </td>
         </ng-container>
+
+        <!-- percentage Column -->
+        <ng-container matColumnDef="percentage">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="f-w-600 mat-subtitle-1 f-s-14"
+          >
+            Porcentual
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1">
+            <h6 class="mat-body-1 f-s-16 m-b-4">
+              <span class="f-w-600">{{ element.percentage | currency : "" : "" }}  </span>
+            </h6>
+          </td>
+        </ng-container>        
 
         <!-- Menu Column -->
         <ng-container matColumnDef="Menu">
@@ -47,7 +48,7 @@
             *matHeaderCellDef
             class="f-w-600 mat-subtitle-1 f-s-14"
           >
-            <button mat-menu-item (click)="addDialog()">
+            <button mat-menu-item  *ngIf="budgetModel.length == 0" (click)="addDialog()">
               <mat-icon>add</mat-icon>
               <span>incluir orçamento</span>
             </button>
@@ -67,7 +68,7 @@
                 <span>Editar orçamento</span>
               </button>
 
-              <button mat-menu-item (click)="deleteCategory(element.budgetId)">
+              <button mat-menu-item (click)="deleteCategory(element.generalBudgetId)">
                 <mat-icon>delete</mat-icon>
                 <span>Deletar orçamento</span>
               </button>

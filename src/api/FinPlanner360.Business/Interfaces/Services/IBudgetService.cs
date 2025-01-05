@@ -6,9 +6,9 @@ public interface IBudgetService
 {
     Task<ICollection<Budget>> GetAllAsync();
 
-    Task CreateAsync(Budget category);
+    Task CreateAsync(Budget budget);
 
-    Task UpdateAsync(Budget category);
+    Task UpdateAsync(Budget budget);
 
-    Task DeleteAsync(Guid categoryId);
+    Task DeleteAsync(Guid budgetId);
 }

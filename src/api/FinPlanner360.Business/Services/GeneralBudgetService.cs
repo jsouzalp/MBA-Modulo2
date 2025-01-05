@@ -4,26 +4,28 @@ using FinPlanner360.Business.Extensions;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
+using FinPlanner360.Repositories.Extensions;
 
 namespace FinPlanner360.Business.Services;
 
-public class BudgetService : BaseService, IBudgetService
+public class GeneralBudgetService : BaseService, IGeneralBudgetService
 {
-    private readonly IBudgetRepository _budgetRepository;
-    private readonly IValidationFactory<Budget> _validationFactory;
+    private readonly IGeneralBudgetRepository _budgetRepository;
+    private readonly IValidationFactory<GeneralBudget> _validationFactory;
 
-    public BudgetService(IValidationFactory<Budget> validationFactory,
+    public GeneralBudgetService(IValidationFactory<GeneralBudget> validationFactory,
         INotificationService notificationService,
-        IBudgetRepository budgetRepository) : base(notificationService)
+        IGeneralBudgetRepository budgetRepository) : base(notificationService)
     {
         _validationFactory = validationFactory;
         _budgetRepository = budgetRepository;
     }
-    public Task<ICollection<Budget>> GetAllAsync() => _budgetRepository.GetAllAsync();
+    public Task<ICollection<GeneralBudget>> GetAllAsync() => _budgetRepository.GetAllAsync();
 
-    private async Task<bool> BudgetExists(Guid categoryId)
+    private async Task<bool> BudgetExists()
     {
-        var budget = await _budgetRepository.FilterAsync(c => c.CategoryId == categoryId && c.RemovedDate == null);
+
+        var budget = await _budgetRepository.GetAllAsync();
 
         if (budget.Count != 0)
         {
@@ -34,22 +36,22 @@ public class BudgetService : BaseService, IBudgetService
         return false;
     }
 
-    public async Task CreateAsync(Budget budget)
+    public async Task CreateAsync(GeneralBudget budget)
     {
         if (!await _validationFactory.ValidateAsync(budget))
             return;
 
-        if (!await BudgetExists(budget.CategoryId))
+        if (!await BudgetExists())
         {
             await _budgetRepository.CreateAsync(budget.FillAttributes());
         }
     }
 
-    public async Task UpdateAsync(Budget budgetUpdate)
+    public async Task UpdateAsync(GeneralBudget budgetUpdate)
     {
-        var budget = await _budgetRepository.GetByIdAsync(budgetUpdate.BudgetId);
+        var budget = await _budgetRepository.GetByIdAsync(budgetUpdate.GeneralBudgetId);
         budget.Amount = budgetUpdate.Amount;
-        budget.CategoryId = budgetUpdate.CategoryId;
+        budget.Percentage = budgetUpdate.Percentage;
 
         if (!await _validationFactory.ValidateAsync(budget))
             return;
@@ -67,7 +69,7 @@ public class BudgetService : BaseService, IBudgetService
             return;
         }
 
-        await _budgetRepository.RemoveAsync(budgetId);
+        await _budgetRepository.RemoveAsync(budget);
     }
 
 

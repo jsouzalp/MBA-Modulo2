@@ -16,6 +16,7 @@ public interface IRepository<TEntity> : IDisposable where TEntity : Entity
     Task UpdateAsync(TEntity entity);
 
     Task RemoveAsync(Guid id);
+    Task RemoveAsync(TEntity entity);
 
     Task<int> SaveChangesAsync();
 }

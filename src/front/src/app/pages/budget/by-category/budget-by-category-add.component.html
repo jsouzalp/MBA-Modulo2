@@ -23,6 +23,13 @@
         >
         <mat-form-field appearance="outline" class="w-100">
           <input
+          [currencyMask]="{
+            prefix: '',
+            thousands: '.',
+            decimal: ',',
+            allowNegative: false,
+            nullable :true
+          }"
             matInput
             name="amount"
             formControlName="amount"

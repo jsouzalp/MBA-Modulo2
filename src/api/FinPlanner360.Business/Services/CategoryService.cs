@@ -45,8 +45,12 @@ public class CategoryService : BaseService, ICategoryService
         }
     }
 
-    public async Task UpdateAsync(Category category)
+    public async Task UpdateAsync(Category categoryUpdate)
     {
+        var category = await _categoryRepository.GetByIdAsync(categoryUpdate.CategoryId);
+        category.Description = categoryUpdate.Description;
+        category.Type = categoryUpdate.Type;
+
         if (!await _validationFactory.ValidateAsync(category))
             return;
 
@@ -68,6 +72,12 @@ public class CategoryService : BaseService, ICategoryService
         if (category.Transactions.Any())
         {
             Notify("A categoria possui transações cadastradas!");
+            return;
+        }
+
+        if (category.Budgeties.Any())
+        {
+            Notify("A categoria possui previsão orçamentária cadastrada!");
             return;
         }
 

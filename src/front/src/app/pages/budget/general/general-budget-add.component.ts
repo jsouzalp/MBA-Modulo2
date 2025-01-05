@@ -2,78 +2,90 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChildren } from '@angular
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
-import { CategoryService } from 'src/app/services/category.service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { FormBaseComponent } from 'src/app/components/base-components/form-base.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FormControl, FormControlName, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BudgetModel } from '../models/budget.model';
-import { BudgetService } from 'src/app/services/budget.service';
-import { CategoryModel } from '../../category/models/category.model';
+import { AbstractControl, FormControl, FormControlName, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { GeneralBudgetService } from 'src/app/services/general-budget.service';
+import { GeneralBudgetModel } from '../models/general-budget.model';
 import { NgxCurrencyDirective } from 'ngx-currency';
 
 
 @Component({
-  selector: 'app-budget-add',
+  selector: 'app-general-budget-add',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule, MatButtonModule, NgxCurrencyDirective],
-  templateUrl: './budget-by-category-add.component.html',
+  templateUrl: './general-budget-add.component.html',
 })
 
-export class BudgetByCategoryAddComponent extends FormBaseComponent implements OnInit, OnDestroy {
+export class GeneralBudgetAddComponent extends FormBaseComponent implements OnInit, OnDestroy {
+
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements!: ElementRef[];
 
   form: FormGroup = new FormGroup({});
-  budgetModel!: BudgetModel;
-  categoryModel!: CategoryModel[];
+  budgetModel!: GeneralBudgetModel;
   submitted = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public dialog: MatDialog,
-    private budgetSevice: BudgetService,
-    private categorySevice: CategoryService,
+    private budgetSevice: GeneralBudgetService,
     private toastr: ToastrService,
-    private dialogRef: MatDialogRef<BudgetByCategoryAddComponent>) {
+    private dialogRef: MatDialogRef<GeneralBudgetAddComponent>) {
 
     super();
 
     this.validationMessages = {
-      amount: {
-        required: 'O valor deve ser maior que zero.',
-        min: 'O valor deve ser maior que zero.',
-      },
-      categoryId: {
-        required: 'A categoria é obrigatória.',
-      },
+      amount: {},
+      percentage: {},
     };
 
     super.configureMessagesValidation(this.validationMessages);
   }
 
   ngOnInit(): void {
-    this.getCategories();
-    this.form = new FormGroup({
-      amount: new FormControl<number | null>(null, [Validators.required, Validators.min(0.01)]),
-      categoryId: new FormControl('', [Validators.required]),
-    });
+    this.form = new FormGroup(
+      {
+        amount: new FormControl<number | null>(null),
+        percentage: new FormControl<number | null>(null),
+      },
+      { validators: this.amountOrPercentageValidator }
+    );
   }
 
   ngAfterViewInit(): void {
     super.configureValidationFormBase(this.formInputElements, this.form);
   }
 
-  getCategories() {
-    this.categorySevice.getAll()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response) => {
-          this.categoryModel = response;
-        },
-        error: (fail) => {
-          this.toastr.error(fail.error.errors);
-        }
-      });
+  amountOrPercentageValidator(group: AbstractControl): ValidationErrors | null {
+    const amount = group.get('amount')?.value;
+    const percentage = group.get('percentage')?.value;
+
+    if ((!amount && !percentage) || (amount == 0 && percentage == 0)) {
+      return { requiredOne: 'Informe o valou ou o porcentual.' };
+    }
+
+    if (amount && percentage) {
+      return { onlyOneAllowed: 'Informe o valou ou o porcentual.' };
+    }
+
+    if (percentage && (percentage < 1 || percentage > 100)) {
+      return { percentageRange: 'O porcentual deve estar entre 1 e 100.' };
+    }
+
+    if (amount && amount <= 0) {
+      return { amountRange: 'O valor deve ser maior que zero.' };
+    }
+
+    return null; // Valid
+  }
+
+  onAmountChange(): void {
+    this.form.get('percentage')?.setValue(null);
+  }
+
+  onPercentageChange(): void {
+    this.form.get('amount')?.setValue(null);
   }
 
   submit() {

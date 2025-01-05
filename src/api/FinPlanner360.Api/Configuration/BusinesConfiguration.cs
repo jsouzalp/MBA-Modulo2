@@ -27,6 +27,8 @@ public static class BusinesConfiguration
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IBudgetRepository, BudgetRepository>();
+        services.AddScoped<IGeneralBudgetRepository, GeneralBudgetRepository>();
+        
 
         #endregion Repositories injection
 
@@ -38,6 +40,7 @@ public static class BusinesConfiguration
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IBudgetService, BudgetService>();
+        services.AddScoped<IGeneralBudgetService, GeneralBudgetService>();
         // others services
 
         // Validations

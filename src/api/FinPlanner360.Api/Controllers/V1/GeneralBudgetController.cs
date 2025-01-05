@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using FinPlanner360.Api.ViewModels.Budget;
-using FinPlanner360.Api.ViewModels.Category;
+using FinPlanner360.Api.ViewModels.GeneralBudget;
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -12,13 +11,13 @@ namespace FinPlanner360.Api.Controllers.V1;
 [Authorize(Roles = "USER")]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[Controller]")]
-public class BudgetController : MainController
+public class GeneralBudgetController : MainController
 {
     private readonly IMapper _mapper;
-    private readonly IBudgetService _budgetService;
+    private readonly IGeneralBudgetService _budgetService;
 
-    public BudgetController(IMapper mapper,
-        IBudgetService budgetService,
+    public GeneralBudgetController(IMapper mapper,
+        IGeneralBudgetService budgetService,
         IAppIdentityUser appIdentityUser,
         INotificationService notificationService) : base(appIdentityUser, notificationService)
     {
@@ -27,31 +26,32 @@ public class BudgetController : MainController
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<BudgetViewModel>>> GetAll()
+    public async Task<ActionResult<IEnumerable<GeneralBudgetViewModel>>> GetAll()
     {
-        var category = _mapper.Map<IEnumerable<BudgetViewModel>>(await _budgetService.GetAllAsync());
-        return GenerateResponse(category, HttpStatusCode.OK);
+        var budget = _mapper.Map<IEnumerable<GeneralBudgetViewModel>>(await _budgetService.GetAllAsync());
+        return GenerateResponse(budget, HttpStatusCode.OK);
     }
 
     [HttpPost]
-    public async Task<ActionResult<BudgetViewModel>> Create(BudgetViewModel categoryViewModel)
+    public async Task<ActionResult<GeneralBudgetViewModel>> Create(GeneralBudgetViewModel generalBudgetViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
 
-        categoryViewModel.UserId = UserId;
-        await _budgetService.CreateAsync(_mapper.Map<Budget>(categoryViewModel));
+        var budget = _mapper.Map<GeneralBudget>(generalBudgetViewModel);
+        budget.UserId = UserId;
+        await _budgetService.CreateAsync(budget);
 
-        return GenerateResponse(categoryViewModel, HttpStatusCode.Created);
+        return GenerateResponse(generalBudgetViewModel, HttpStatusCode.Created);
     }
 
     [HttpPut]
-    public async Task<ActionResult<BudgetUpdateViewModel>> Update(BudgetUpdateViewModel categoryViewModel)
+    public async Task<ActionResult<GeneralBudgetViewModel>> Update(GeneralBudgetViewModel generalBudgetViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
 
-        await _budgetService.UpdateAsync(_mapper.Map<Budget>(categoryViewModel));
+        await _budgetService.UpdateAsync(_mapper.Map<GeneralBudget>(generalBudgetViewModel));
 
-        return GenerateResponse(categoryViewModel, HttpStatusCode.OK);
+        return GenerateResponse(generalBudgetViewModel, HttpStatusCode.OK);
     }
 
     [HttpDelete("{budgetId}")]

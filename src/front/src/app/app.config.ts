@@ -2,6 +2,8 @@ import {
   ApplicationConfig,
   provideZoneChangeDetection,
   importProvidersFrom,
+  LOCALE_ID,
+  DEFAULT_CURRENCY_CODE,
 } from '@angular/core';
 import {
   HttpClient,
@@ -30,7 +32,10 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { AuthGuard } from './auth.guard';
 import { LocalStorageUtils } from './utils/localstorage';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
 
+registerLocaleData(localePt, 'pt-BR');
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -62,6 +67,8 @@ export const appConfig: ApplicationConfig = {
       closeButton: true,
     }),
     LocalStorageUtils,
-    AuthGuard
+    AuthGuard,
+    { provide: LOCALE_ID, useValue: 'pt-BR' }, // Set the locale globally
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' } // Set the default currency to BRL
   ],
 };

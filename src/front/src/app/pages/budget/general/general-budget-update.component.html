@@ -1,0 +1,78 @@
+<h3 mat-dialog-title>Alteração de categoria</h3>
+<mat-dialog-content>
+  <form class="m-t-30" [formGroup]="form">
+    <div fxLayout="row wrap">
+      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
+          >Valor limite da receita</mat-label
+        >
+        <mat-form-field appearance="outline" class="w-100">
+          <input
+          [currencyMask]="{
+            prefix: '',
+            thousands: '.',
+            decimal: ',',
+            allowNegative: false,
+            nullable :true
+          }"
+            matInput
+            name="amount"
+            formControlName="amount"
+            type="text"
+            autocomplete="off"
+            (input)="onAmountChange()"
+          />
+        </mat-form-field>
+        <small class="text-danger" *ngIf="displayMessage['amount']">
+          <p [innerHTML]="displayMessage['amount']"></p>
+        </small>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
+          >Porcentual limite da receita</mat-label
+        >
+        <mat-form-field appearance="outline" class="w-100">
+          <input
+            [currencyMask]="{
+              prefix: '',
+              thousands: '.',
+              decimal: ',',
+              allowNegative: false,
+              nullable :true
+            }"
+            matInput
+            name="percentage"
+            formControlName="percentage"
+            type="text"
+            autocomplete="off"
+            maxlength="5"
+            (input)="onPercentageChange()"
+          />
+        </mat-form-field>
+        <small class="text-danger" *ngIf="displayMessage['percentage']">
+          <p [innerHTML]="displayMessage['percentage']"></p>
+        </small>
+      </div>
+    </div>
+  </form>
+  <div *ngIf="form.touched && form.errors">
+    <span *ngIf="form.hasError('requiredOne')">{{ form.errors['requiredOne'] }}</span>
+    <span *ngIf="form.hasError('onlyOneAllowed')">{{ form.errors['onlyOneAllowed'] }}</span>
+    <span *ngIf="form.hasError('percentageRange')">{{ form.errors['percentageRange'] }}</span>
+    <span *ngIf="form.hasError('amountRange')">{{ form.errors['amountRange'] }}</span>
+  </div>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button (click)="cancel()" color="secondary" cdkFocusInitial>
+      Cancelar
+    </button>
+
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!form.valid || submitted"
+      (click)="submit(); submitted = true"
+    >
+      Cadastrar
+    </button>
+  </mat-dialog-actions>
+</mat-dialog-content>

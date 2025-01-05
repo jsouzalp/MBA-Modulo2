@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FinPlanner360.Repositories.Migrations
+namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
 {
     [DbContext(typeof(FinPlanner360DbContext))]
     partial class FinPlanner360DbContextModelSnapshot : ModelSnapshot
@@ -215,8 +215,9 @@ namespace FinPlanner360.Repositories.Migrations
                     b.HasOne("FinPlanner360.Business.Models.Category", "Category")
                         .WithMany("Budgeties")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("FK_TB_BUDGET_02");
 
                     b.HasOne("FinPlanner360.Business.Models.User", "User")
                         .WithMany("Budgets")
