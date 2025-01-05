@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
+namespace FinPlanner360.Repositories.Migrations
 {
     [DbContext(typeof(FinPlanner360DbContext))]
-    [Migration("20250103100003_InitialMigration")]
+    [Migration("20250104231620_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -50,6 +50,8 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
 
                     b.HasKey("BudgetId")
                         .HasName("PK_TB_BUDGET");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("UserId")
                         .HasDatabaseName("IDX_TB_BUDGET_01");
@@ -213,12 +215,20 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
 
             modelBuilder.Entity("FinPlanner360.Business.Models.Budget", b =>
                 {
+                    b.HasOne("FinPlanner360.Business.Models.Category", "Category")
+                        .WithMany("Budgeties")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FinPlanner360.Business.Models.User", "User")
                         .WithMany("Budgets")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_TB_BUDGET_01");
+
+                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });
@@ -269,6 +279,8 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
 
             modelBuilder.Entity("FinPlanner360.Business.Models.Category", b =>
                 {
+                    b.Navigation("Budgeties");
+
                     b.Navigation("Transactions");
                 });
 

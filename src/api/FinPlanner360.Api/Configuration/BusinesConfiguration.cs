@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace FinPlanner360.Api.Configuration;
 
@@ -24,22 +23,28 @@ public static class BusinesConfiguration
         services.AddApplicationRepositories(databaseSettings, isProduction);
 
         #region Repositories injection
+
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
-        #endregion
+        services.AddScoped<IBudgetRepository, BudgetRepository>();
 
-        #region Business injection        
+        #endregion Repositories injection
+
+        #region Business injection
+
         // Services
         services.AddScoped<IAppIdentityUser, AppIdentityUser>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IBudgetService, BudgetService>();
         // others services
 
         // Validations
         services.AddValidatorsFromAssemblyContaining<UserValidation>();
         services.AddScoped(typeof(IValidationFactory<>), typeof(ValidationFactory<>));
-        #endregion
+
+        #endregion Business injection
 
         return services;
     }
@@ -98,7 +103,6 @@ public static class BusinesConfiguration
                 o.UseSqlite(connection);
             }
         });
-
 
         return services;
     }

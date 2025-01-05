@@ -5,11 +5,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { CategoryService } from 'src/app/services/category.service';
 import { CategoryModel } from './models/category.model';
 import { CommonModule } from '@angular/common';
-import { MatTableModule } from '@angular/material/table';
 import { CategoryTypeDescriptions, CategoryTypeEnum } from './enums/category-type.enum';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryAddComponent } from './category-add.component';
 import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/components/confirm-dialog/confirm-dialog.component';
@@ -19,7 +15,7 @@ import { CategoryUpdateComponent } from './category-update.component';
 @Component({
   selector: 'app-category-list',
   standalone: true,
-  imports: [CommonModule, MaterialModule, MatTableModule, MatIconModule, MatMenuModule, MatButtonModule],
+  imports: [CommonModule, MaterialModule],
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.conponent.scss'],
 })

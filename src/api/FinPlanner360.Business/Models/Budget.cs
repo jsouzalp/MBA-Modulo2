@@ -16,6 +16,9 @@ public class Budget : Entity
 
     [JsonIgnore]
     public User User { get; set; }
+    
+    [JsonIgnore]
+    public Category Category { get; set; }
 
     #endregion Helper only for EF Mapping
 }

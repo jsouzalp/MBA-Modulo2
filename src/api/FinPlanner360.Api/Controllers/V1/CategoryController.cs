@@ -59,7 +59,7 @@ public class CategoryController : MainController
     }
 
     [HttpDelete("{categoryId}")]
-    public async Task<ActionResult<CategoryViewModel>> Delete(Guid categoryId)
+    public async Task<ActionResult> Delete(Guid categoryId)
     {
         if (categoryId == Guid.Empty) return GenerateResponse(ModelState, HttpStatusCode.BadRequest);
 
