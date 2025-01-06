@@ -25,22 +25,31 @@ public static class BusinesConfiguration
         services.AddApplicationRepositories(databaseSettings, isProduction);
 
         #region Repositories injection
+
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
-        #endregion
+        services.AddScoped<IBudgetRepository, BudgetRepository>();
+        services.AddScoped<IGeneralBudgetRepository, GeneralBudgetRepository>();
+        
 
-        #region Business injection        
+        #endregion Repositories injection
+
+        #region Business injection
+
         // Services
         services.AddScoped<IAppIdentityUser, AppIdentityUser>();
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IBudgetService, BudgetService>();
+        services.AddScoped<IGeneralBudgetService, GeneralBudgetService>();
         // others services
 
 
         // Validations
         services.AddValidatorsFromAssemblyContaining<UserValidation>();
         services.AddScoped(typeof(IValidationFactory<>), typeof(ValidationFactory<>));
-        #endregion
+
+        #endregion Business injection
 
         //Swagger
         services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
@@ -102,7 +111,6 @@ public static class BusinesConfiguration
                 o.UseSqlite(connection);
             }
         });
-
 
         return services;
     }

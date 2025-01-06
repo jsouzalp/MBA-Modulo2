@@ -26,27 +26,6 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                 });
 
             migrationBuilder.CreateTable(
-                name: "TB_BUDGET",
-                columns: table => new
-                {
-                    BUDGET_ID = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
-                    CATEGORY_ID = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
-                    AMOUNT = table.Column<decimal>(type: "Money", precision: 2, nullable: false),
-                    USER_ID = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
-                    CREATED_DATE = table.Column<DateTime>(type: "DateTime", nullable: false),
-                    REMOVED_DATE = table.Column<DateTime>(type: "DateTime", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TB_BUDGET", x => x.BUDGET_ID);
-                    table.ForeignKey(
-                        name: "FK_TB_BUDGET_01",
-                        column: x => x.USER_ID,
-                        principalTable: "TB_USER",
-                        principalColumn: "USER_ID");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TB_CATEGORY",
                 columns: table => new
                 {
@@ -87,6 +66,32 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                 });
 
             migrationBuilder.CreateTable(
+                name: "TB_BUDGET",
+                columns: table => new
+                {
+                    BUDGET_ID = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
+                    CATEGORY_ID = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
+                    AMOUNT = table.Column<decimal>(type: "Money", precision: 2, nullable: false),
+                    USER_ID = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
+                    CREATED_DATE = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    REMOVED_DATE = table.Column<DateTime>(type: "DateTime", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TB_BUDGET", x => x.BUDGET_ID);
+                    table.ForeignKey(
+                        name: "FK_TB_BUDGET_01",
+                        column: x => x.USER_ID,
+                        principalTable: "TB_USER",
+                        principalColumn: "USER_ID");
+                    table.ForeignKey(
+                        name: "FK_TB_BUDGET_02",
+                        column: x => x.CATEGORY_ID,
+                        principalTable: "TB_CATEGORY",
+                        principalColumn: "CATEGORY_ID");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TB_TRANSACTION",
                 columns: table => new
                 {
@@ -120,6 +125,11 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                 name: "IDX_TB_BUDGET_01",
                 table: "TB_BUDGET",
                 column: "USER_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TB_BUDGET_CATEGORY_ID",
+                table: "TB_BUDGET",
+                column: "CATEGORY_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IDX_TB_CATEGORY_01",

@@ -22,5 +22,8 @@ public class Category : Entity
     [JsonIgnore]
     public ICollection<Transaction> Transactions { get; set; }
 
+    [JsonIgnore]
+    public ICollection<Budget> Budgeties { get; set; }
+
     #endregion Helper only for EF Mapping
 }

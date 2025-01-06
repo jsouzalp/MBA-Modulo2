@@ -48,18 +48,17 @@ public class CategoryController : MainController
     }
 
     [HttpPut]
-    public async Task<ActionResult<CategoryViewModel>> Update(CategoryViewModel categoryViewModel)
+    public async Task<ActionResult<CategoryUpdateViewModel>> Update(CategoryUpdateViewModel categoryViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
 
-        categoryViewModel.UserId = UserId;
         await _categoryService.UpdateAsync(_mapper.Map<Category>(categoryViewModel));
 
         return GenerateResponse(categoryViewModel, HttpStatusCode.OK);
     }
 
     [HttpDelete("{categoryId}")]
-    public async Task<ActionResult<CategoryViewModel>> Delete(Guid categoryId)
+    public async Task<ActionResult> Delete(Guid categoryId)
     {
         if (categoryId == Guid.Empty) return GenerateResponse(ModelState, HttpStatusCode.BadRequest);
 

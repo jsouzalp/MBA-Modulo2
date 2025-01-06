@@ -45,6 +45,7 @@ public class BudgetConfiguration : IEntityTypeConfiguration<Budget>
             .HasColumnName("REMOVED_DATE")
             .HasColumnType(DatabaseTypeConstant.DateTime);
 
+
         #endregion Mapping columns
 
         #region Indexes
@@ -59,6 +60,12 @@ public class BudgetConfiguration : IEntityTypeConfiguration<Budget>
             .WithMany(x => x.Budgets)
             .HasForeignKey(x => x.UserId)
             .HasConstraintName("FK_TB_BUDGET_01")
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne(x => x.Category)
+            .WithMany(x => x.Budgeties)
+            .HasForeignKey(x => x.CategoryId)
+            .HasConstraintName("FK_TB_BUDGET_02")
             .OnDelete(DeleteBehavior.NoAction);
 
         #endregion Relationships

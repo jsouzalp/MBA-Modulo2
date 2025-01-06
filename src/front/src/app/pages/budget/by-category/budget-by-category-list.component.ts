@@ -2,45 +2,45 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
-import { CategoryService } from 'src/app/services/category.service';
-import { CategoryModel } from './models/category.model';
 import { CommonModule } from '@angular/common';
-import { CategoryTypeDescriptions, CategoryTypeEnum } from './enums/category-type.enum';
 import { MatDialog } from '@angular/material/dialog';
-import { CategoryAddComponent } from './category-add.component';
 import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/components/confirm-dialog/confirm-dialog.component';
-import { CategoryUpdateComponent } from './category-update.component';
+import { BudgetModel } from '../models/budget.model';
+import { BudgetService } from 'src/app/services/budget.service';
+import { CategoryTypeEnum } from '../../category/enums/category-type.enum';
+import { BudgetByCategoryAddComponent } from './budget-by-category-add.component';
+import { BudgetUpdateComponent } from './budget-by-category-update.component';
+
 
 
 @Component({
-  selector: 'app-category-list',
+  selector: 'app-budget-list',
   standalone: true,
   imports: [CommonModule, MaterialModule],
-  templateUrl: './category-list.component.html',
-  styleUrls: ['./category-list.conponent.scss'],
+  templateUrl: './budget-by-category-list.component.html',
 })
 
 
-export class CategoryListComponent implements OnInit, OnDestroy {
-  categoryModel: CategoryModel[];
-  displayedColumns: string[] = ['description', 'type', 'Menu'];
+export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
+  budgetModel: BudgetModel[] = [];
+  displayedColumns: string[] = ['description', 'amount', 'Menu'];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private categorySevice: CategoryService,
+  constructor(private budgetSevice: BudgetService,
     private toastr: ToastrService,
     public dialog: MatDialog) { }
 
 
   ngOnInit(): void {
-    this.getCategories();
+    this.getBudgeties();
   }
 
-  getCategories() {
-    this.categorySevice.getAll()
+  getBudgeties() {
+    this.budgetSevice.getAll()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          this.categoryModel = response;
+          this.budgetModel = response;
         },
         error: (fail) => {
           this.toastr.error(fail.error.errors);
@@ -49,45 +49,47 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   }
 
   getDescription(type: CategoryTypeEnum): string {
-    return CategoryTypeDescriptions[type] || 'Unknown';
+    // return CategoryTypeDescriptions[type] || 'Unknown';
+    return '';
   }
 
   addDialog() {
-    const dialogRef = this.dialog.open(CategoryAddComponent, {
+    const dialogRef = this.dialog.open(BudgetByCategoryAddComponent, {
       width: '500px',
       height: '400px',
-      data: this.categoryModel
+      data: this.budgetModel
     });
 
     dialogRef.afterClosed()
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         if (res.inserted) {
-          this.getCategories();
+          this.getBudgeties();
         }
       })
   }
 
   updateDialog(row:any) {
 
-    let category: CategoryModel = {
+    let category: BudgetModel = {
       categoryId: row.categoryId,
       description: row.description,
+      budgetId: row.budgetId,
       userId: row.userId,
-      type: row.type
+      amount: row.amount
     };
 
-    const dialogRef = this.dialog.open(CategoryUpdateComponent, {
+    const dialogRef = this.dialog.open(BudgetUpdateComponent, {
       width: '500px',
-      height: '300px',
+      height: '400px',
       data: category
     });
 
     dialogRef.afterClosed()
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
-        if (res.inserted) {
-          this.getCategories();
+        if (res.updated) {
+          this.getBudgeties();
         }
       })
   }
@@ -107,12 +109,12 @@ export class CategoryListComponent implements OnInit, OnDestroy {
       .subscribe(dialogResult => {
         if (!dialogResult) return;
 
-        this.categorySevice.delete(id)
+        this.budgetSevice.delete(id)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: () => {
-              this.toastr.success('Categoria excluída com sucesso.');
-              this.getCategories();
+              this.toastr.success('Excluída com sucesso.');
+              this.getBudgeties();
             },
             error: (fail) => {
               this.toastr.error(fail.error.errors);

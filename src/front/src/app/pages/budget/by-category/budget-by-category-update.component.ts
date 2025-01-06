@@ -2,52 +2,61 @@ import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChildren } from '
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
-import { CategoryService } from 'src/app/services/category.service';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
 import { FormBaseComponent } from 'src/app/components/base-components/form-base.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormControlName, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CategoryModel } from './models/category.model';
+import { BudgetModel } from '../models/budget.model';
+import { BudgetService } from 'src/app/services/budget.service';
+import { CategoryService } from 'src/app/services/category.service';
+import { CategoryModel } from '../../category/models/category.model';
+import { NgxCurrencyDirective } from 'ngx-currency';
+
 
 @Component({
-  selector: 'app-category-update',
+  selector: 'app-budget-update',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule],
-  templateUrl: './category-update.component.html',
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule, NgxCurrencyDirective],
+  templateUrl: './budget-by-category-update.component.html',
 })
 
-export class CategoryUpdateComponent extends FormBaseComponent implements OnInit, OnDestroy {
+export class BudgetUpdateComponent extends FormBaseComponent implements OnInit, OnDestroy {
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements!: ElementRef[];
 
   form: FormGroup = new FormGroup({});
-  categoryModel!: CategoryModel;
+  budgetModel!: BudgetModel;
+  categoryModel!: CategoryModel[];
   submitted = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: CategoryModel,
+  constructor(@Inject(MAT_DIALOG_DATA) private data: BudgetModel,
     public dialog: MatDialog,
+    private budgetSevice: BudgetService,
     private categorySevice: CategoryService,
     private toastr: ToastrService,
-    private dialogRef: MatDialogRef<CategoryUpdateComponent>) {
+    private dialogRef: MatDialogRef<BudgetUpdateComponent>) {
 
     super();
-    this.categoryModel = data;
+    this.budgetModel = data;
 
     this.validationMessages = {
-      description: {
-        required: 'Informe a descrição da categoria.',
-        minlength: 'A descrição precisa ter entre 4 e 100 caracteres.',
-        maxlength: 'A descrição precisa ter entre 4 e 100 caracteres.',
-      }
+      amount: {
+        required: 'O valor deve ser maior que zero.',
+        min: 'O valor deve ser maior que zero.',
+      },
+      categoryId: {
+        required: 'A categoria é obrigatória.',
+      },
     };
 
     super.configureMessagesValidation(this.validationMessages);
   }
 
   ngOnInit(): void {
+    this.getCategories();
     this.form = new FormGroup({
-      description: new FormControl(this.categoryModel.description, [Validators.required, Validators.minLength(4), Validators.maxLength(100)]),
+      amount: new FormControl<number|null>(this.budgetModel.amount, [Validators.required, Validators.min(0.01)]),
+      categoryId: new FormControl(this.budgetModel.categoryId, [Validators.required]),
     });
   }
 
@@ -55,12 +64,24 @@ export class CategoryUpdateComponent extends FormBaseComponent implements OnInit
     super.configureValidationFormBase(this.formInputElements, this.form);
   }
 
+  getCategories() {
+    this.categorySevice.getAll()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.categoryModel = response;
+        },
+        error: (fail) => {
+          this.toastr.error(fail.error.errors);
+        }
+      });
+  }  
+
   submit() {
-    this.categoryModel = this.form.value;
-    this.categoryModel.categoryId = this.data.categoryId;
-    this.categoryModel.type = this.data.type;
+    this.budgetModel = this.form.value;
+    this.budgetModel.budgetId = this.data.budgetId;
     
-    this.categorySevice.update(this.categoryModel)
+    this.budgetSevice.update(this.budgetModel)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result) => {
@@ -73,7 +94,7 @@ export class CategoryUpdateComponent extends FormBaseComponent implements OnInit
           let toast = this.toastr.success('Categoria alterada com sucesso.');
           if (toast) {
             toast.onHidden.pipe(takeUntil(this.destroy$)).subscribe(() => {
-              this.dialogRef.close({ inserted: true })
+              this.dialogRef.close({ updated: true })
             });
           }
 
@@ -86,7 +107,7 @@ export class CategoryUpdateComponent extends FormBaseComponent implements OnInit
   }
 
   cancel() {
-    this.dialogRef.close({ inserted: false });
+    this.dialogRef.close({ updated: false });
   }
 
   ngOnDestroy(): void {

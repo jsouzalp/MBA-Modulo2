@@ -1,9 +1,9 @@
-﻿using FinPlanner360.Business.Interfaces.Services;
-using FinPlanner360.Business.Models;
-using FinPlanner360.Business.Interfaces.Repositories;
-using FinPlanner360.Busines.Interfaces.Validations;
+﻿using FinPlanner360.Busines.Interfaces.Validations;
 using FinPlanner360.Busines.Services;
 using FinPlanner360.Business.Extensions;
+using FinPlanner360.Business.Interfaces.Repositories;
+using FinPlanner360.Business.Interfaces.Services;
+using FinPlanner360.Business.Models;
 
 namespace FinPlanner360.Business.Services;
 
@@ -12,7 +12,7 @@ public class CategoryService : BaseService, ICategoryService
     private readonly ICategoryRepository _categoryRepository;
     private readonly IValidationFactory<Category> _validationFactory;
 
-    public CategoryService(IValidationFactory<Category> validationFactory, 
+    public CategoryService(IValidationFactory<Category> validationFactory,
         INotificationService notificationService,
         ICategoryRepository categoryRepository) : base(notificationService)
     {
@@ -20,9 +20,12 @@ public class CategoryService : BaseService, ICategoryService
         _categoryRepository = categoryRepository;
     }
 
-    private bool CategoryExistsWithSameName(Guid? userId, string description)
+    private async Task<bool> CategoryExistsWithSameNameAsync(Guid? userId, string description)
     {
-        if (_categoryRepository.FilterAsync(c => c.Description == description && c.RemovedDate == null && (c.UserId == null || c.UserId == userId)).Result.Any())
+        var categories = await _categoryRepository
+            .FilterAsync(c => c.Description == description && c.RemovedDate == null && (c.UserId == null || c.UserId == userId));
+
+        if (categories.Count != 0)
         {
             Notify("Já existe uma categoria com essa descrição.");
             return true;
@@ -36,18 +39,22 @@ public class CategoryService : BaseService, ICategoryService
         if (!await _validationFactory.ValidateAsync(category))
             return;
 
-        if (!CategoryExistsWithSameName(category.UserId, category.Description))
+        if (!await CategoryExistsWithSameNameAsync(category.UserId, category.Description))
         {
             await _categoryRepository.CreateAsync(category.FillAttributes());
         }
     }
 
-    public async Task UpdateAsync(Category category)
+    public async Task UpdateAsync(Category categoryUpdate)
     {
+        var category = await _categoryRepository.GetByIdAsync(categoryUpdate.CategoryId);
+        category.Description = categoryUpdate.Description;
+        category.Type = categoryUpdate.Type;
+
         if (!await _validationFactory.ValidateAsync(category))
             return;
 
-        if (!CategoryExistsWithSameName(category.UserId, category.Description))
+        if (!await CategoryExistsWithSameNameAsync(category.UserId, category.Description))
         {
             await _categoryRepository.UpdateAsync(category);
         }
@@ -68,7 +75,12 @@ public class CategoryService : BaseService, ICategoryService
             return;
         }
 
-        await _categoryRepository.RemoveAsync(categoryId);
+        if (category.Budgeties.Any())
+        {
+            Notify("A categoria possui previsão orçamentária cadastrada!");
+            return;
+        }
 
+        await _categoryRepository.RemoveAsync(categoryId);
     }
 }

@@ -2,33 +2,32 @@
 using FinPlanner360.Business.Interfaces.Services;
 using FluentValidation;
 
-namespace FinPlanner360.Busines.Models.Validations
+namespace FinPlanner360.Busines.Models.Validations;
+
+public class ValidationFactory<TI> : IValidationFactory<TI> where TI : class
 {
-    public class ValidationFactory<TI> : IValidationFactory<TI> where TI : class
+    private readonly IValidator<TI> _validator;
+    private readonly INotificationService _notificationService;
+
+    public ValidationFactory(INotificationService notificationService,
+        IValidator<TI> validator)
     {
-        private readonly IValidator<TI> _validator;
-        private readonly INotificationService _notificationService;
+        _notificationService = notificationService;
+        _validator = validator;
+    }
 
-        public ValidationFactory(INotificationService notificationService,
-            IValidator<TI> validator)
+    public async Task<bool> ValidateAsync(TI input)
+    {
+        var resultValidation = await _validator.ValidateAsync(input);
+
+        if (!resultValidation.IsValid)
         {
-            _notificationService = notificationService;
-            _validator = validator;
-        }
-
-        public async Task<bool> ValidateAsync(TI input)
-        {
-            var resultValidation = await _validator.ValidateAsync(input);
-
-            if (!resultValidation.IsValid)
+            foreach (var item in resultValidation.Errors)
             {
-                foreach (var item in resultValidation.Errors)
-                {
-                    _notificationService.Handle(item.ErrorMessage);
-                }
+                _notificationService.Handle(item.ErrorMessage);
             }
-
-            return resultValidation.IsValid;
         }
+
+        return resultValidation.IsValid;
     }
 }

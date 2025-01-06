@@ -38,7 +38,12 @@ public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
                 Description = c.Description,
                 Type = c.Type,
                 UserId = c.UserId,
-                Transactions = c.Transactions.Take(1).ToList() // Include only one Transaction
+                Transactions = c.Transactions
+                    .Where(t => t.RemovedDate == null )
+                    .Take(1).ToList(), // Include only one Transaction
+                Budgeties = c.Budgeties
+                    .Where(t => t.RemovedDate == null)
+                    .Take(1).ToList() // Include only one Budget
             })
             .FirstOrDefaultAsync();
     }
