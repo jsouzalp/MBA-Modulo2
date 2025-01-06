@@ -8,12 +8,7 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         #region Settings configuration
-        var configBuilder = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true);
-
-        var configuration = configBuilder.Build();
+        var configuration = builder.Configuration;
         builder.Services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
         AppSettings appSettings = configuration.GetSection(nameof(AppSettings)).Get<AppSettings>();
         #endregion

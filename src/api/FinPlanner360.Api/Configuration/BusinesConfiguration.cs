@@ -14,7 +14,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Globalization;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace FinPlanner360.Api.Configuration;
 
@@ -33,7 +32,6 @@ public static class BusinesConfiguration
         #region Business injection        
         // Services
         services.AddScoped<IAppIdentityUser, AppIdentityUser>();
-        services.AddScoped<IUserService, UserService>();
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<ICategoryService, CategoryService>();
         // others services
