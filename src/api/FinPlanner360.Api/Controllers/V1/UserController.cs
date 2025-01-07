@@ -1,4 +1,5 @@
 ﻿using FinPlanner360.Api.Settings;
+using FinPlanner360.Api.ViewModels.Category;
 using FinPlanner360.Api.ViewModels.User;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Annotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -24,14 +26,13 @@ public class UserController : MainController
     private readonly AppSettings _appSettings;
     private readonly ILogger _logger;
 
-    public UserController(
-        ILogger<UserController> logger,
-        SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager,
-        IOptions<AppSettings> appSettings,
-        IUserRepository userRepository,
-        IAppIdentityUser appIdentityUser,
-        INotificationService notificationService) : base(appIdentityUser, notificationService)
+    public UserController(ILogger<UserController> logger,
+                          SignInManager<IdentityUser> signInManager,
+                          UserManager<IdentityUser> userManager,
+                          IOptions<AppSettings> appSettings,
+                          IUserRepository userRepository,
+                          IAppIdentityUser appIdentityUser,
+                          INotificationService notificationService) : base(appIdentityUser, notificationService)
     {
         _logger = logger;
         _signInManager = signInManager;
@@ -40,7 +41,12 @@ public class UserController : MainController
         _appSettings = appSettings.Value;
     }
 
+
+
     [HttpPost]
+    [SwaggerOperation(Summary = "Registra um novo usuário", Description = "Cria um novo usuário com os dados fornecidos e retorna um token JWT.")]
+    [ProducesResponseType(typeof(LoginOutputViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> RegisterAsync(RegisterViewModel registerViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
@@ -97,7 +103,12 @@ public class UserController : MainController
         return GenerateResponse();
     }
 
+
+
     [HttpPost("login")]
+    [SwaggerOperation(Summary = "Realiza o login do usuário", Description = "Autentica o usuário e retorna um token JWT.")]
+    [ProducesResponseType(typeof(LoginOutputViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> LoginAsync(LoginViewModel loginViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
@@ -125,9 +136,6 @@ public class UserController : MainController
 
         return GenerateResponse();
     }
-
-    [HttpPost("logout")]
-    public async Task LogoutAsync() => await _signInManager.SignOutAsync();
 
     private async Task<string> GenerateJwt(string email)
     {

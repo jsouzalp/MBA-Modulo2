@@ -15,6 +15,7 @@ public static class ApiConfiguration
             options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
             options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
         });
+        
         services.AddEndpointsApiExplorer();
 
         services.AddApiVersioning(options =>

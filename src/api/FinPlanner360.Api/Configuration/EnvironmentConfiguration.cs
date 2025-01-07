@@ -9,17 +9,6 @@ public static class EnvironmentConfiguration
     {
         if (app.Environment.IsDevelopment())
         {
-            //app.UseSwagger();
-            //app.UseSwaggerUI(
-            //options =>
-            //{
-            //    var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
-            //    foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
-            //    {
-            //        options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
-            //    }
-            //});
-
             var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
             app.UseSwaggerConfig(apiVersionDescriptionProvider);
 

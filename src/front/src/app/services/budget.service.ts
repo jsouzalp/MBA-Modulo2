@@ -23,9 +23,9 @@ export class BudgetService extends BaseService {
     return response;
   }
 
-  create(category: BudgetModel): Observable<BudgetModel> {
+  create(budget: BudgetModel): Observable<BudgetModel> {
     let response = this.http
-      .post(this.UrlServiceV1 + 'v1/budget', category, this.getAuthHeaderJson())
+      .post(this.UrlServiceV1 + 'v1/budget', budget, this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));
@@ -33,9 +33,9 @@ export class BudgetService extends BaseService {
     return response;
   }
 
-  update(category: BudgetModel): Observable<BudgetModel> {
+  update(budget: BudgetModel): Observable<BudgetModel> {
     let response = this.http
-      .put(this.UrlServiceV1 + 'v1/budget', category, this.getAuthHeaderJson())
+      .put(this.UrlServiceV1 + 'v1/budget/' + budget.budgetId, budget, this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));
@@ -43,9 +43,9 @@ export class BudgetService extends BaseService {
     return response;
   }  
 
-  delete(categoryId: string): Observable<void> {
+  delete(budgetId: string): Observable<void> {
     let response = this.http
-      .delete(this.UrlServiceV1 + `v1/budget/${categoryId}`, this.getAuthHeaderJson())
+      .delete(this.UrlServiceV1 + `v1/budget/${budgetId}`, this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));

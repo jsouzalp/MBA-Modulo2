@@ -35,7 +35,7 @@ export class CategoryService extends BaseService {
 
   update(category: CategoryModel): Observable<CategoryModel> {
     let response = this.http
-      .put(this.UrlServiceV1 + 'v1/category', category, this.getAuthHeaderJson())
+      .put(this.UrlServiceV1 + 'v1/category/' + category.categoryId, category, this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));
