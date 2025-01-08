@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FinPlanner360.Api.ViewModels.Category;
-using FinPlanner360.Api.ViewModels.GeneralBudget;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
@@ -41,8 +40,6 @@ public class CategoryController : MainController
     {
         var categories = _mapper.Map<IEnumerable<CategoryViewModel>>(await _categoryRepository.GetAllAsync());
 
-        if (!categories.Any()) return NotFound();
-
         return GenerateResponse(categories, HttpStatusCode.OK);
     }
 
@@ -71,10 +68,9 @@ public class CategoryController : MainController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CategoryUpdateViewModel>> Update(Guid id, [FromBody] CategoryUpdateViewModel categoryViewModel)
     {
-        if (!ModelState.IsValid || id != categoryViewModel.CategoryId) return GenerateResponse(ModelState);
-
-        var category = await _categoryRepository.GetByIdAsync(categoryViewModel.CategoryId);
-        if (category == null) return NotFound();
+        if (!ModelState.IsValid) return GenerateResponse(ModelState);
+        if (id != categoryViewModel.CategoryId) return BadRequest();
+        if (await GetCategoryByIdAsync(categoryViewModel.CategoryId) == null) return NotFound();
 
         await _categoryService.UpdateAsync(_mapper.Map<Category>(categoryViewModel));
 
@@ -91,12 +87,12 @@ public class CategoryController : MainController
     public async Task<ActionResult> Delete(Guid id)
     {
         if (id == Guid.Empty) return GenerateResponse(ModelState, HttpStatusCode.BadRequest);
-
-        var category = await _categoryRepository.GetByIdAsync(id);
-        if (category == null) return NotFound();
+        if (await GetCategoryByIdAsync(id) == null) return NotFound();
 
         await _categoryService.DeleteAsync(id);
 
         return GenerateResponse(HttpStatusCode.NoContent);
     }
+
+    private async Task<Category> GetCategoryByIdAsync(Guid id) => await _categoryRepository.GetByIdAsync(id);
 }

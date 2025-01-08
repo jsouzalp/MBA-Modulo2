@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using FinPlanner360.Api.ViewModels.Budget;
-using FinPlanner360.Api.ViewModels.Category;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
-using FinPlanner360.Repositories.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -40,11 +38,10 @@ public class BudgetController : MainController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<IEnumerable<BudgetViewModel>>> GetAll()
     {
-        var category = _mapper.Map<IEnumerable<BudgetViewModel>>(await _budgetService.GetAllAsync());
-        return GenerateResponse(category, HttpStatusCode.OK);
+        var budgets = _mapper.Map<IEnumerable<BudgetViewModel>>(await _budgetRepository.GetAllAsync());
+
+        return GenerateResponse(budgets, HttpStatusCode.OK);
     }
-
-
 
     [HttpPost]
     [SwaggerOperation(Summary = "", Description = "")]
@@ -61,8 +58,6 @@ public class BudgetController : MainController
         return GenerateResponse(budgetViewModel, HttpStatusCode.Created);
     }
 
-
-
     [HttpPut("{id:guid}")]
     [SwaggerOperation(Summary = "", Description = "")]
     [ProducesResponseType(typeof(BudgetUpdateViewModel), StatusCodes.Status200OK)]
@@ -71,14 +66,14 @@ public class BudgetController : MainController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<BudgetUpdateViewModel>> Update(Guid id, [FromBody] BudgetUpdateViewModel budgetViewModel)
     {
-        if (!ModelState.IsValid || id != budgetViewModel.BudgetId) return GenerateResponse(ModelState);
-
+        if (!ModelState.IsValid) return GenerateResponse(ModelState);
+        if (id != budgetViewModel.BudgetId) return BadRequest();
+        if (await GetBudgetByIdAsync(budgetViewModel.BudgetId) == null) return NotFound();
+        
         await _budgetService.UpdateAsync(_mapper.Map<Budget>(budgetViewModel));
 
         return GenerateResponse(budgetViewModel, HttpStatusCode.OK);
     }
-
-
 
     [HttpDelete("{id:guid}")]
     [SwaggerOperation(Summary = "", Description = "")]
@@ -89,12 +84,12 @@ public class BudgetController : MainController
     public async Task<ActionResult> Delete(Guid id)
     {
         if (id == Guid.Empty) return GenerateResponse(ModelState, HttpStatusCode.BadRequest);
-
-        var budget = await _budgetRepository.GetByIdAsync(id);
-        if (budget == null) return NotFound();
+        if (await GetBudgetByIdAsync(id) == null) return NotFound();
 
         await _budgetService.DeleteAsync(id);
 
         return GenerateResponse(HttpStatusCode.NoContent);
     }
+
+    private async Task<Budget> GetBudgetByIdAsync(Guid id) => await _budgetRepository.GetByIdAsync(id);
 }

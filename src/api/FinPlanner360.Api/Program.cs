@@ -1,4 +1,5 @@
 using FinPlanner360.Api.Configuration;
+using FinPlanner360.Api.Configuration.Swagger;
 using FinPlanner360.Api.Settings;
 
 internal class Program

@@ -20,7 +20,6 @@ public class GeneralBudgetService : BaseService, IGeneralBudgetService
         _validationFactory = validationFactory;
         _budgetRepository = budgetRepository;
     }
-    public Task<ICollection<GeneralBudget>> GetAllAsync() => _budgetRepository.GetAllAsync();
 
     private async Task<bool> BudgetExists()
     {

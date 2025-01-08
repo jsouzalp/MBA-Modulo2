@@ -38,8 +38,7 @@ public class GeneralBudgetController : MainController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<IEnumerable<GeneralBudgetViewModel>>> GetAll()
     {
-        var budgets = _mapper.Map<IEnumerable<GeneralBudgetViewModel>>(await _budgetService.GetAllAsync());
-        if (!budgets.Any()) return NotFound();
+        var budgets = _mapper.Map<IEnumerable<GeneralBudgetViewModel>>(await _budgetRepository.GetAllAsync());
 
         return GenerateResponse(budgets, HttpStatusCode.OK);
     }
@@ -70,10 +69,9 @@ public class GeneralBudgetController : MainController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<GeneralBudgetViewModel>> Update(Guid id, [FromBody] GeneralBudgetViewModel generalBudgetViewModel)
     {
-        if (!ModelState.IsValid || id != generalBudgetViewModel.GeneralBudgetId) return GenerateResponse(ModelState);
-
-        var generalBudget = await _budgetRepository.GetByIdAsync(generalBudgetViewModel.GeneralBudgetId);
-        if (generalBudget == null) return NotFound();
+        if (!ModelState.IsValid) return GenerateResponse(ModelState);
+        if (id != generalBudgetViewModel.GeneralBudgetId) return BadRequest();
+        if (await GetGeneralBudgetByIdAsync(generalBudgetViewModel.GeneralBudgetId) == null) return NotFound();
 
         await _budgetService.UpdateAsync(_mapper.Map<GeneralBudget>(generalBudgetViewModel));
 
@@ -90,13 +88,12 @@ public class GeneralBudgetController : MainController
     public async Task<ActionResult> Delete(Guid id)
     {
         if (id == Guid.Empty) return GenerateResponse(ModelState, HttpStatusCode.BadRequest);
-
-        var generalBudget = await _budgetRepository.GetByIdAsync(id);
-        if (generalBudget == null) return NotFound();
-
+        if (await GetGeneralBudgetByIdAsync(id) == null) return NotFound();
 
         await _budgetService.DeleteAsync(id);
 
         return GenerateResponse(HttpStatusCode.NoContent);
     }
+
+    private async Task<GeneralBudget> GetGeneralBudgetByIdAsync(Guid id) => await _budgetRepository.GetByIdAsync(id);
 }
