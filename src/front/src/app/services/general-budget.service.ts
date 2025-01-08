@@ -35,7 +35,7 @@ export class GeneralBudgetService extends BaseService {
 
   update(budget: GeneralBudgetModel): Observable<GeneralBudgetModel> {
     let response = this.http
-      .put(this.UrlServiceV1 + 'v1/generalbudget', budget, this.getAuthHeaderJson())
+      .put(this.UrlServiceV1 + 'v1/generalbudget/' + budget.generalBudgetId , budget, this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));

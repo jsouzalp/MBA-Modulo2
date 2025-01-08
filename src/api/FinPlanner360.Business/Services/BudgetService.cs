@@ -19,7 +19,6 @@ public class BudgetService : BaseService, IBudgetService
         _validationFactory = validationFactory;
         _budgetRepository = budgetRepository;
     }
-    public Task<ICollection<Budget>> GetAllAsync() => _budgetRepository.GetAllAsync();
 
     private async Task<bool> BudgetExists(Guid categoryId)
     {

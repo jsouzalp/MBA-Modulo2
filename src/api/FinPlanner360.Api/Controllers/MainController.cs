@@ -36,12 +36,26 @@ public class MainController : ControllerBase
                 }
             };
         }
-
-        return BadRequest(new
+        else
         {
-            success = false,
-            errors = _notificationService.GetNotifications().Select(n => n.Message)
-        });
+            if ((int)statusCode >= 200 && (int)statusCode <= 299)
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    errors = _notificationService.GetNotifications().Select(n => n.Message)
+                });
+            }
+
+            return new JsonResult(new
+            {
+                success = false,
+                errors = _notificationService.GetNotifications().Select(n => n.Message)
+            })
+            {
+                StatusCode = Convert.ToInt32(statusCode)
+            };
+        }
     }
 
     protected ActionResult GenerateResponse(ModelStateDictionary modelState)

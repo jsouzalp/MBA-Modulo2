@@ -52,7 +52,7 @@ public static class BusinesConfiguration
         #endregion Business injection
 
         //Swagger
-        services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+        services.AddTransient<IConfigureOptions<SwaggerGenOptions>, Swagger.ConfigureSwaggerOptions>();
 
         return services;
     }

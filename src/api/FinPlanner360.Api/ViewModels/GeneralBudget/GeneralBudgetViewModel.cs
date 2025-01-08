@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FinPlanner360.Api.ViewModels.GeneralBudget;
+﻿namespace FinPlanner360.Api.ViewModels.GeneralBudget;
 
 public class GeneralBudgetViewModel
 {
