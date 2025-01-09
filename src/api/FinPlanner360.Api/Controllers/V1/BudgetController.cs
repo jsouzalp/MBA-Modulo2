@@ -32,7 +32,7 @@ public class BudgetController : MainController
 
 
     [HttpGet]
-    [SwaggerOperation(Summary = "", Description = "")]
+    [SwaggerOperation(Summary = "Obtém todas as entradas de orçamento.", Description = "Busca todos os orçamentos cadastrados no banco de dados.")]
     [ProducesResponseType(typeof(List<BudgetViewModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -44,7 +44,7 @@ public class BudgetController : MainController
     }
 
     [HttpPost]
-    [SwaggerOperation(Summary = "", Description = "")]
+    [SwaggerOperation(Summary = "Cria uma nova entrada de orçamento.",Description = "Registra um novo orçamento no banco de dados.")]
     [ProducesResponseType(typeof(BudgetViewModel), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -59,7 +59,7 @@ public class BudgetController : MainController
     }
 
     [HttpPut("{id:guid}")]
-    [SwaggerOperation(Summary = "", Description = "")]
+    [SwaggerOperation(Summary = "Atualiza uma entrada de orçamento.", Description = "Atualiza os dados de um orçamento já existente.")]
     [ProducesResponseType(typeof(BudgetUpdateViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -76,7 +76,7 @@ public class BudgetController : MainController
     }
 
     [HttpDelete("{id:guid}")]
-    [SwaggerOperation(Summary = "", Description = "")]
+    [SwaggerOperation(Summary = "Exclui uma entrada de orçamento.", Description = "Remove um orçamento do banco de dados pelo seu ID.")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
