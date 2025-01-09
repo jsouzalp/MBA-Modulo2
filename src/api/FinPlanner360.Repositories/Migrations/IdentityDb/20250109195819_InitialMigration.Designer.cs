@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FinPlanner360.Repositories.Migrations
+namespace FinPlanner360.Repositories.Migrations.IdentityDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250105133440_InitialMigration")]
+    [Migration("20250109195819_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

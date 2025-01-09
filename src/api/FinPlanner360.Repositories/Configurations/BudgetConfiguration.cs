@@ -40,12 +40,6 @@ public class BudgetConfiguration : IEntityTypeConfiguration<Budget>
             .HasColumnName("CREATED_DATE")
             .HasColumnType(DatabaseTypeConstant.DateTime)
             .IsRequired();
-
-        builder.Property(x => x.RemovedDate)
-            .HasColumnName("REMOVED_DATE")
-            .HasColumnType(DatabaseTypeConstant.DateTime);
-
-
         #endregion Mapping columns
 
         #region Indexes

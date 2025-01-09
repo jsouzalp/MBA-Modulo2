@@ -36,7 +36,7 @@ public abstract class BaseRepository<T> : IRepository<T> where T : Entity, new()
 
         if (userId != null)
         {
-            return await _dbSet.Where(x => x.UserId == userId.Value && x.RemovedDate != null).ToListAsync();
+            return await _dbSet.Where(x => x.UserId == userId.Value).ToListAsync();
         }
         else
         {
@@ -66,17 +66,18 @@ public abstract class BaseRepository<T> : IRepository<T> where T : Entity, new()
         T entity = await GetByIdAsync(id);
         if (entity != null)
         {
-            entity.RemovedDate = DateTime.Now;
+            _dbSet.Remove(entity);
             await SaveChangesAsync();
         }
+
     }
+
     public async Task RemoveAsync(T entity)
     {
-
         if (entity != null)
         {
             _dbSet.Remove(entity);
-             await SaveChangesAsync();
+            await SaveChangesAsync();
         }
     }
 

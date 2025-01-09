@@ -23,7 +23,7 @@ public class CategoryService : BaseService, ICategoryService
     private async Task<bool> CategoryExistsWithSameNameAsync(Guid? userId, string description)
     {
         var categories = await _categoryRepository
-            .FilterAsync(c => c.Description == description && c.RemovedDate == null && (c.UserId == null || c.UserId == userId));
+            .FilterAsync(c => c.Description == description && (c.UserId == null || c.UserId == userId));
 
         if (categories.Count != 0)
         {

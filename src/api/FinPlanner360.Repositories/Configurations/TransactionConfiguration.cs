@@ -57,11 +57,6 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
             .HasColumnName("CREATED_DATE")
             .HasColumnType(DatabaseTypeConstant.DateTime)
             .IsRequired();
-
-        builder.Property(x => x.RemovedDate)
-            .HasColumnName("REMOVED_DATE")
-            .HasColumnType(DatabaseTypeConstant.DateTime);
-
         #endregion Mapping columns
 
         #region Indexes

@@ -24,7 +24,6 @@ public class BudgetRepository : BaseRepository<Budget>, IBudgetRepository
     public override async Task<ICollection<Budget>> GetAllAsync()
     {
         return await _dbSet
-            .Where(x => x.RemovedDate == null)
             .Include(x => x.Category)
             .ToListAsync();
     }
