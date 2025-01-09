@@ -41,14 +41,21 @@ public static class DbMigrationHelper
     {
         if (!applicationContext.Users.Any())
         {
-            var categories = await CallDefaultCategoriesAsync(applicationContext);
-            string roleId = await CallIdentityRolesAsync(identityContext);
-            await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "André Cesconetto", "abcesconetto@gmail.com", roleId);
-            await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Hugo Domynique Ribeiro Nunes", "hgdmaf@gmail.com", roleId);
-            await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Jairo Azevedo", "jsouza.lp@gmail.com", roleId);
-            await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Jason Santos do Amaral", "jason.amaral@gmail.com", roleId);
-            await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Marco Aurelio Roque Pinto", "marco@imperiumsolucoes.com.br", roleId);
-            await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Pedro Otávio Gutierres", "pedro@imperiumsolucoes.com.br", roleId);
+            try
+            {
+                var categories = await CallDefaultCategoriesAsync(applicationContext);
+                string roleId = await CallIdentityRolesAsync(identityContext);
+                await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "André Cesconetto", "abcesconetto@gmail.com", roleId);
+                await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Hugo Domynique Ribeiro Nunes", "hgdmaf@gmail.com", roleId);
+                await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Jairo Azevedo", "jsouza.lp@gmail.com", roleId);
+                await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Jason Santos do Amaral", "jason.amaral@gmail.com", roleId);
+                await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Marco Aurelio Roque Pinto", "marco@imperiumsolucoes.com.br", roleId);
+                await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Pedro Otávio Gutierres", "pedro@imperiumsolucoes.com.br", roleId);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 
@@ -160,9 +167,57 @@ public static class DbMigrationHelper
 
             #endregion Roles
 
-            #region User
-
+            #region Data
             Guid userId = Guid.Parse(identityUser.Id);
+
+            #region Orçamento Geral
+            GeneralBudget generalBudget = new()
+            {
+                GeneralBudgetId = Guid.NewGuid(),
+                UserId = userId,
+                Amount = 10000.00m,
+                CreatedDate = DateTime.Now
+            };
+            applicationContext.GeneralBudgets.Add(generalBudget);
+            #endregion
+
+            #region Orçamento
+            Guid transportBudgetId = Guid.NewGuid();
+            Budget transportBudget = new()
+            {
+                BudgetId = transportBudgetId,
+                UserId = userId,
+                Amount = 1000.00m,
+                CategoryId = categories.TransportId,
+                CreatedDate = DateTime.Now
+            };
+
+            Guid leisureBudgetId = Guid.NewGuid();
+            Budget leisureBudget = new()
+            {
+                BudgetId = leisureBudgetId,
+                UserId = userId,
+                Amount = 2000.00m,
+                CategoryId = categories.LeisureId,
+                CreatedDate = DateTime.Now
+            };
+
+            Guid foodBudgetId = Guid.NewGuid();
+            Budget foodBudget = new()
+            {
+                BudgetId = foodBudgetId,
+                UserId = userId,
+                Amount = 500.00m,
+                CategoryId = categories.FoodId,
+                CreatedDate = DateTime.Now
+            };
+
+            applicationContext.Budgets.Add(transportBudget);
+            applicationContext.Budgets.Add(leisureBudget);
+            applicationContext.Budgets.Add(foodBudget);
+            #endregion
+
+            #region User
             User user = new()
             {
                 UserId = userId,
@@ -252,8 +307,9 @@ public static class DbMigrationHelper
             };
 
             applicationContext.Users.Add(user);
+            #endregion
 
-            #endregion User
+            #endregion Data
 
             await applicationContext.SaveChangesAsync();
         }
