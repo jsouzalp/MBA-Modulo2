@@ -22,7 +22,7 @@ public class BudgetService : BaseService, IBudgetService
 
     private async Task<bool> BudgetExists(Guid categoryId)
     {
-        var budget = await _budgetRepository.FilterAsync(c => c.CategoryId == categoryId && c.RemovedDate == null);
+        var budget = await _budgetRepository.FilterAsync(c => c.CategoryId == categoryId);
 
         if (budget.Count != 0)
         {

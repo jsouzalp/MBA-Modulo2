@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -32,8 +33,7 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                     USER_ID = table.Column<Guid>(type: "UniqueIdentifier", nullable: true),
                     DESCRIPTION = table.Column<string>(type: "Varchar", maxLength: 25, nullable: false, collation: "Latin1_General_CI_AI"),
                     TYPE = table.Column<int>(type: "TinyInt", nullable: false),
-                    CREATED_DATE = table.Column<DateTime>(type: "DateTime", nullable: false),
-                    REMOVED_DATE = table.Column<DateTime>(type: "DateTime", nullable: true)
+                    CREATED_DATE = table.Column<DateTime>(type: "DateTime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,8 +72,7 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                     CATEGORY_ID = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
                     AMOUNT = table.Column<decimal>(type: "Money", precision: 2, nullable: false),
                     USER_ID = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
-                    CREATED_DATE = table.Column<DateTime>(type: "DateTime", nullable: false),
-                    REMOVED_DATE = table.Column<DateTime>(type: "DateTime", nullable: true)
+                    CREATED_DATE = table.Column<DateTime>(type: "DateTime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -101,8 +100,7 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                     CATEGORY_ID = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
                     TRANSACTION_DATE = table.Column<DateTime>(type: "SmallDateTime", nullable: false),
                     USER_ID = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
-                    CREATED_DATE = table.Column<DateTime>(type: "DateTime", nullable: false),
-                    REMOVED_DATE = table.Column<DateTime>(type: "DateTime", nullable: true)
+                    CREATED_DATE = table.Column<DateTime>(type: "DateTime", nullable: false)
                 },
                 constraints: table =>
                 {

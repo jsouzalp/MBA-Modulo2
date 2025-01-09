@@ -53,7 +53,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         #region Ignores
 
         builder.Ignore(x => x.CreatedDate);
-        builder.Ignore(x => x.RemovedDate);
 
         #endregion Ignores
 

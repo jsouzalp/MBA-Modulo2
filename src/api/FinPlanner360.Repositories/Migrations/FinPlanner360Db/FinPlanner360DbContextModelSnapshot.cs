@@ -37,10 +37,6 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                         .HasColumnType("DateTime")
                         .HasColumnName("CREATED_DATE");
 
-                    b.Property<DateTime?>("RemovedDate")
-                        .HasColumnType("DateTime")
-                        .HasColumnName("REMOVED_DATE");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("UniqueIdentifier")
                         .HasColumnName("USER_ID");
@@ -73,10 +69,6 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                         .HasColumnType("Varchar")
                         .HasColumnName("DESCRIPTION")
                         .UseCollation("Latin1_General_CI_AI");
-
-                    b.Property<DateTime?>("RemovedDate")
-                        .HasColumnType("DateTime")
-                        .HasColumnName("REMOVED_DATE");
 
                     b.Property<int>("Type")
                         .HasColumnType("TinyInt")
@@ -151,10 +143,6 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                         .HasColumnType("Varchar")
                         .HasColumnName("DESCRIPTION")
                         .UseCollation("Latin1_General_CI_AI");
-
-                    b.Property<DateTime?>("RemovedDate")
-                        .HasColumnType("DateTime")
-                        .HasColumnName("REMOVED_DATE");
 
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("SmallDateTime")

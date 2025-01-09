@@ -22,7 +22,7 @@ public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     }
 
     public override async Task<ICollection<Category>> GetAllAsync() =>
-        await _dbSet.Where(x => (x.UserId == null || x.UserId == UserId.Value) && x.RemovedDate == null).OrderBy(x => x.Description).ToListAsync();
+        await _dbSet.Where(x => (x.UserId == null || x.UserId == UserId.Value)).OrderBy(x => x.Description).ToListAsync();
 
 
     public async Task<Category> GetCategoryById(Guid id)
@@ -39,10 +39,8 @@ public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
                 Type = c.Type,
                 UserId = c.UserId,
                 Transactions = c.Transactions
-                    .Where(t => t.RemovedDate == null )
                     .Take(1).ToList(), // Include only one Transaction
                 Budgeties = c.Budgeties
-                    .Where(t => t.RemovedDate == null)
                     .Take(1).ToList() // Include only one Budget
             })
             .FirstOrDefaultAsync();
