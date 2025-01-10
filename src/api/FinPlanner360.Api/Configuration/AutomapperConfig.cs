@@ -2,6 +2,7 @@
 using FinPlanner360.Api.ViewModels.Budget;
 using FinPlanner360.Api.ViewModels.Category;
 using FinPlanner360.Api.ViewModels.GeneralBudget;
+using FinPlanner360.Api.ViewModels.Transaction;
 using FinPlanner360.Business.Models;
 
 namespace FinPlanner360.Api.Configuration;
@@ -19,5 +20,8 @@ public class AutomapperConfig : Profile
             .ForMember(dest => dest.Description, opt => opt.MapFrom(source => source.Category.Description));
 
         CreateMap<GeneralBudget, GeneralBudgetViewModel>().ReverseMap();
+
+        CreateMap<Transaction, TransactionViewModel>().ReverseMap();
+        CreateMap<Transaction, TransactionUpdateViewModel>().ReverseMap();
     }
 }

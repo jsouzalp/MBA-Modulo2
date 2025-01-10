@@ -1,0 +1,62 @@
+<h3 mat-dialog-title>Alteração de categoria</h3>
+<mat-dialog-content>
+  <form class="m-t-30" [formGroup]="form">
+    <div fxLayout="row wrap">
+      <div class="p-10">
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
+          >Tipo</mat-label
+        >
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="categoryId" name="categoryId">
+            <mat-option *ngFor="let category of categoryModel" [value]="category.categoryId">
+              {{ category.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small class="text-danger" *ngIf="displayMessage['categoryId']">
+          <p [innerHTML]="displayMessage['categoryId']"></p>
+        </small>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
+          >Orçamento</mat-label
+        >
+        <mat-form-field appearance="outline" class="w-100">
+          <input
+          [currencyMask]="{
+            prefix: '',
+            thousands: '.',
+            decimal: ',',
+            allowNegative: false,
+            nullable :true
+          }"
+            matInput
+            name="amount"
+            formControlName="amount"
+            type="text"
+            autocomplete="off"
+            maxlength="50"
+            minlength="3"
+          />
+        </mat-form-field>
+        <small class="text-danger" *ngIf="displayMessage['amount']">
+          <p [innerHTML]="displayMessage['amount']"></p>
+        </small>
+      </div>
+    </div>
+  </form>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button (click)="cancel()" color="secondary" cdkFocusInitial>
+      Cancelar
+    </button>
+
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!form.valid || submitted"
+      (click)="submit(); submitted = true"
+    >
+      Cadastrar
+    </button>
+  </mat-dialog-actions>
+</mat-dialog-content>

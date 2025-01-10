@@ -39,7 +39,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Registro',
     iconName: 'tabler:transaction-dollar',
-    route: 'pages/transaction/create',
+    route: 'pages/transaction/list',
   },
   {
     displayName: 'Consulta',
