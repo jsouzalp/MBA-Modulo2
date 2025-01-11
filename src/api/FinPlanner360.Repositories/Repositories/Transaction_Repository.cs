@@ -30,4 +30,17 @@ public class Transaction_Repository : BaseRepository<Transaction>, ITransaction_
             .Where(x => x.UserId == UserId.Value && x.TransactionDate >= startDate && x.TransactionDate <= endDate)
             .ToListAsync();
     }
+
+    public async Task<ICollection<Transaction>> GetTransactionsWithCategoryByRangeAsync(DateTime startDate, DateTime endDate)
+    {
+        if (!UserId.HasValue)
+        {
+            return null;
+        }
+
+        return await _dbSet.AsNoTracking()
+            .Include(x => x.Category)
+            .Where(x => x.UserId == UserId.Value && x.TransactionDate >= startDate && x.TransactionDate <= endDate)
+            .ToListAsync();
+    }
 }

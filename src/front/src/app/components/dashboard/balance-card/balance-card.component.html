@@ -4,7 +4,7 @@
             <mat-form-field class="theme-select col-10" appearance="outline">
                 <mat-label>Selecione o mês</mat-label>
                 <mat-select [(value)]="selectedMonth" (selectionChange)="getResumeSumary($event)">
-                    <mat-option *ngFor="let month of cardSumaryMonthModel" [value]="month.referenceDate">
+                    <mat-option *ngFor="let month of monthModel" [value]="month.referenceDate">
                         {{ month.month }}
                     </mat-option>
                 </mat-select>

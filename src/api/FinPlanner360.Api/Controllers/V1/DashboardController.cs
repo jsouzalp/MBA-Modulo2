@@ -1,12 +1,15 @@
-﻿using FinPlanner360.Api.ViewModels.Dashboard;
+﻿using FinPlanner360.Api.ViewModels.Category;
+using FinPlanner360.Api.ViewModels.Dashboard;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
 using FinPlanner360.Business.Models.Enums;
+using FinPlanner360.Repositories.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FinPlanner360.Api.Controllers.V1
 {
@@ -16,6 +19,7 @@ namespace FinPlanner360.Api.Controllers.V1
     public class DashboardController : MainController
     {
         private readonly ITransaction_Repository _transactionRepository;
+
         public DashboardController(ITransaction_Repository transactionRepository,
             IAppIdentityUser appIdentityUser,
             INotificationService notificationService) : base(appIdentityUser, notificationService)
@@ -51,6 +55,33 @@ namespace FinPlanner360.Api.Controllers.V1
             };
 
             return GenerateResponse(cardSumary, HttpStatusCode.OK);
+        }
+
+        [HttpGet("Transactions/{date:datetime?}")]
+        [SwaggerOperation(Summary = "Dashboard Transação por categoria", Description = "Responsável por devolver uma lista das transações por categoria")]
+        [ProducesResponseType(typeof(IEnumerable<TransactionDashboardViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<IEnumerable<TransactionDashboardViewModel>>> GetCategoryTransactionGraphAsync(DateTime? date)
+        {
+            date = date.HasValue && date.Value != DateTime.MinValue && date.Value != DateTime.MaxValue
+                ? date.Value
+                    : DateTime.Now;
+            DateTime startDate = new DateTime(date.Value.Year, date.Value.Month, 1);
+            DateTime endDate = startDate.AddMonths(1).AddSeconds(-1);
+
+            var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
+
+            var transactionsDashboard = (from x in transactionsList
+                                         group x by new { x.CategoryDescription, x.Type } into g
+                                         select new TransactionDashboardViewModel
+                                         {
+                                             CategoryDescription = g.Key.CategoryDescription,
+                                             Type = g.Key.Type,
+                                             TotalAmount = g.Sum(x => x.Amount)
+                                         });
+
+            return GenerateResponse(transactionsDashboard, HttpStatusCode.OK);
         }
     }
 }

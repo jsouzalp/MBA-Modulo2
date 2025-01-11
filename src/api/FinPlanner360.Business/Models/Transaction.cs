@@ -14,6 +14,8 @@ public class Transaction : Entity
     public Guid CategoryId { get; set; }
     public DateTime TransactionDate { get; set; }
 
+    public string CategoryDescription => Category?.Description ?? string.Empty;
+
     #endregion Attributes
 
     #region Helper only for EF Mapping

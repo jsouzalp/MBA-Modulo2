@@ -3,7 +3,7 @@ import { CardSumaryModel } from './models/card-sumary.model';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { CardSumaryMonthModel } from './models/card-sumary-month.model';
+import { MonthModel } from '../models/month-model';
 import { MaterialModule } from 'src/app/material.module';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -18,7 +18,7 @@ import { MatSelectChange } from '@angular/material/select';
 })
 export class BalanceCardComponent implements OnInit, OnDestroy {
   cardSumaryModel: CardSumaryModel;
-  cardSumaryMonthModel: CardSumaryMonthModel[];
+  monthModel: MonthModel[];
   cardSummaryItems: any;
   selectedMonth: any;
   showValues = false;
@@ -41,19 +41,20 @@ export class BalanceCardComponent implements OnInit, OnDestroy {
     this.showValues = !this.showValues;
   }
 
+  // Isso aqui poderia ficar na service???
   fillMonthsToFilter(nowDate: Date) {
-    this.cardSumaryMonthModel = [];
+    this.monthModel = [];
 
     for (let i = -2; i < 12; i++) {
       const date = new Date(nowDate);
       date.setMonth(nowDate.getMonth() - i);
 
-      this.cardSumaryMonthModel.push({
+      this.monthModel.push({
         month: date.toLocaleString('pt-BR', { month: 'long', year: 'numeric' }).replace(/^\w/, c => c.toUpperCase()),
         referenceDate: date,
       });
     }
-    this.selectedMonth = this.cardSumaryMonthModel[2]?.referenceDate;
+    this.selectedMonth = this.monthModel[2]?.referenceDate;
   }
 
   getResumeSumary(event: MatSelectChange | null) {
