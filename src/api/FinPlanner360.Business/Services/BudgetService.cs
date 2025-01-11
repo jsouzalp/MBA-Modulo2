@@ -69,5 +69,5 @@ public class BudgetService : BaseService, IBudgetService
         await _budgetRepository.RemoveAsync(budgetId);
     }
 
-
+    public async Task<Budget> GetBudgetByIdAsync(Guid id) => await _budgetRepository.GetByIdAsync(id);
 }

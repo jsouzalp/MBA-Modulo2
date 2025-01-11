@@ -9,4 +9,6 @@ public interface IBudgetService
     Task UpdateAsync(Budget budget);
 
     Task DeleteAsync(Guid budgetId);
+
+    Task<Budget> GetBudgetByIdAsync(Guid id);
 }
