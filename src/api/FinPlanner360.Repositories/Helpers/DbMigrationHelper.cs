@@ -218,6 +218,8 @@ public static class DbMigrationHelper
             #endregion
 
             #region User
+
+            DateTime baseDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             User user = new()
             {
                 UserId = userId,
@@ -226,83 +228,13 @@ public static class DbMigrationHelper
                 AuthenticationId = userId,
                 Transactions = new List<Transaction>()
                 {
-                    new()
-                    {
-                        TransactionId = Guid.NewGuid(),
-                        UserId = userId,
-                        Description = "Recebimento de Salário Mensal",
-                        Amount = 10000.00m,
-                        Type = TransactionTypeEnum.Income,
-                        CategoryId = categories.SalaryId,
-                        TransactionDate = DateTime.Now.AddDays(10).Date,
-                        CreatedDate = DateTime.Now
-                    },
-                    new()
-                    {
-                        TransactionId = Guid.NewGuid(),
-                        UserId = userId,
-                        Description = "Pagamento de Aluguel",
-                        Amount = 1000.00m,
-                        Type = TransactionTypeEnum.Expense,
-                        CategoryId = categories.HabitationId,
-                        TransactionDate = DateTime.Now.AddDays(15).Date,
-                        CreatedDate = DateTime.Now
-                    },
-                    new()
-                    {
-                        TransactionId = Guid.NewGuid(),
-                        UserId = userId,
-                        Description = "Uber",
-                        Amount = 100.00m,
-                        Type = TransactionTypeEnum.Expense,
-                        CategoryId = categories.TransportId,
-                        TransactionDate = DateTime.Now.Date,
-                        CreatedDate = DateTime.Now
-                    },
-                    new()
-                    {
-                        TransactionId = Guid.NewGuid(),
-                        UserId = userId,
-                        Description = "Metro",
-                        Amount = 100.00m,
-                        Type = TransactionTypeEnum.Expense,
-                        CategoryId = categories.TransportId,
-                        TransactionDate = DateTime.Now.Date,
-                        CreatedDate = DateTime.Now
-                    },
-                    new()
-                    {
-                        TransactionId = Guid.NewGuid(),
-                        UserId = userId,
-                        Description = "MBA Desenvolvedor.io",
-                        Amount = 1000.00m,
-                        Type = TransactionTypeEnum.Expense,
-                        CategoryId = categories.EducationId,
-                        TransactionDate = DateTime.Now.AddDays(15).Date,
-                        CreatedDate = DateTime.Now
-                    },
-                    new()
-                    {
-                        TransactionId = Guid.NewGuid(),
-                        UserId = userId,
-                        Description = "IFood",
-                        Amount = 300.00m,
-                        Type = TransactionTypeEnum.Expense,
-                        CategoryId = categories.FoodId,
-                        TransactionDate = DateTime.Now.AddDays(15).Date,
-                        CreatedDate = DateTime.Now
-                    },
-                    new()
-                    {
-                        TransactionId = Guid.NewGuid(),
-                        UserId = userId,
-                        Description = "Cinema",
-                        Amount = 500.00m,
-                        Type = TransactionTypeEnum.Expense,
-                        CategoryId = categories.LeisureId,
-                        TransactionDate = DateTime.Now.AddDays(20).Date,
-                        CreatedDate = DateTime.Now
-                    },
+                    CreateTransaction(userId, "Recebimento de Salário Mensal", 10000.00m, TransactionTypeEnum.Income, categories.SalaryId, baseDate.AddDays(10).Date),
+                    CreateTransaction(userId, "Pagamento de Aluguel", 1000.00m, TransactionTypeEnum.Expense, categories.HabitationId, baseDate.AddDays(15).Date),
+                    CreateTransaction(userId, "Uber", 100.00m, TransactionTypeEnum.Expense, categories.TransportId, baseDate.Date),
+                    CreateTransaction(userId, "Metro", 100.00m, TransactionTypeEnum.Expense, categories.TransportId, baseDate.Date),
+                    CreateTransaction(userId, "MBA Desenvolvedor.io", 1200.00m, TransactionTypeEnum.Expense, categories.EducationId, baseDate.AddDays(15).Date),
+                    CreateTransaction(userId, "IFood", 300.00m, TransactionTypeEnum.Expense, categories.FoodId, baseDate.AddDays(20).Date),
+                    CreateTransaction(userId, "Cinema", 500.00m, TransactionTypeEnum.Expense, categories.LeisureId, baseDate.AddDays(7).Date)
                 }
             };
 
@@ -314,4 +246,17 @@ public static class DbMigrationHelper
             await applicationContext.SaveChangesAsync();
         }
     }
+
+    private static Transaction CreateTransaction(Guid userId, string description, decimal amount, TransactionTypeEnum type, Guid categoryId, DateTime transactionDate) 
+        => new Transaction()
+        {
+            TransactionId = Guid.NewGuid(),
+            UserId = userId,
+            Description = description,
+            Amount = amount,
+            Type = type,
+            CategoryId = categoryId,
+            TransactionDate = transactionDate,
+            CreatedDate = DateTime.Now
+        };
 }

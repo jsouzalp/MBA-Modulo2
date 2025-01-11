@@ -5,6 +5,7 @@ import { AppTotalFollowersComponent } from 'src/app/components/total-followers/t
 import { AppTotalIncomeComponent } from 'src/app/components/total-income/total-income.component';
 import { AppPopularProductsComponent } from 'src/app/components/popular-products/popular-products.component';
 import { AppEarningReportsComponent } from 'src/app/components/earning-reports/earning-reports.component';
+import { BalanceCardComponent } from 'src/app/components/dashboad/balance-card/balance-card.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +16,9 @@ import { AppEarningReportsComponent } from 'src/app/components/earning-reports/e
     AppTotalFollowersComponent,
     AppTotalIncomeComponent,
     AppPopularProductsComponent,
-    AppEarningReportsComponent
+    AppEarningReportsComponent, 
+
+    BalanceCardComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],

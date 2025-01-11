@@ -20,6 +20,14 @@ public abstract class BaseRepository<T> : IRepository<T> where T : Entity, new()
         _dbSet = _context.Set<T>();
     }
 
+    public Guid? UserId
+    {
+        get
+        {
+            return _appIdentityUser != null ? _appIdentityUser.GetUserId() : null;
+        }
+    }
+
     public void Dispose()
     {
         _context?.Dispose();
