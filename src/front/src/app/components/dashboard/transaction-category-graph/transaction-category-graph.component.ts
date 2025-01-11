@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
@@ -7,18 +7,39 @@ import { MonthModel } from '../models/month-model';
 import { MatSelectChange } from '@angular/material/select';
 import { CategoryTransactionGraphModel } from './models/transaction-category-graph';
 
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ChartComponent,
+  ApexDataLabels,
+  ApexXAxis,
+  ApexPlotOptions,
+  NgApexchartsModule
+} from "ng-apexcharts";
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  xaxis: ApexXAxis;
+};
+
 @Component({
   selector: 'app-transaction-category-graph',
   standalone: true,
-  imports: [MaterialModule],
+  imports: [MaterialModule, NgApexchartsModule],
   templateUrl: './transaction-category-graph.component.html',
   styleUrl: './transaction-category-graph.component.scss'
 })
 
 export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
+  @ViewChild("chart") chart: ChartComponent;
+  public chartOptions: Partial<ChartOptions>;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
   monthModel: MonthModel[];
-  categoryTransactionModel : CategoryTransactionGraphModel[];
+  categoryTransactionModel: CategoryTransactionGraphModel[];
   selectedMonth: any;
 
   constructor(private dashboardSevice: DashboardService,
@@ -63,21 +84,23 @@ export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.categoryTransactionModel = response;
 
-
-          console.log(this.categoryTransactionModel);
-          // this.cardSummaryItems = [
-          //   { title: 'Saldo da Carteira', value: this.cardSumaryModel.totalBalance, icon: 'account_balance_wallet' },
-          //   { title: 'Receitas Realizadas', value: this.cardSumaryModel.totalIncome, icon: 'trending_up' },
-          //   { title: 'Despesas Realizadas', value: this.cardSumaryModel.totalExpense, icon: 'trending_down' },
-          //   { title: 'Receitas Hoje', value: this.cardSumaryModel.totalIncomeToday, icon: 'today' },
-          //   { title: 'Despesas Hoje', value: this.cardSumaryModel.totalExpenseToday, icon: 'today' },
-          //   { title: 'Receitas Futuras', value: this.cardSumaryModel.futureTotalIncome, icon: 'forward' },
-          //   { title: 'Despesas Futuras', value: this.cardSumaryModel.futureTotalExpense, icon: 'forward' },
-          // ];      
+          this.chartOptions = {
+            series: [{
+              name: 'Total',
+              data: this.categoryTransactionModel.map(item => item.totalAmount),
+              
+            }],            
+            chart: { type: "bar", height: 350 },
+            plotOptions: { bar: { horizontal: true } },
+            dataLabels: { enabled: false, formatter: (val:number) => `R$ ${val.toFixed(2)}` },
+            xaxis: {
+              categories: this.categoryTransactionModel.map(item => item.categoryDescription)
+            }
+          };
         },
         error: (fail) => {
           this.toastr.error(fail.error.errors);
         }
       });
-  }  
+  }
 }
