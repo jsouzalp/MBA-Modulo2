@@ -1,0 +1,65 @@
+.summary-container {
+    padding: 16px;
+    background: #fef7f7; /* Fundo claro */
+    border-radius: 8px;
+  }
+  
+  .header {
+    margin-bottom: 0px;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0px;
+  }
+  
+  .card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .card-icon {
+    background: #e3f2fd; /* Fundo do avatar */
+    border-radius: 50%;
+    padding: 0px;
+  }
+  
+  .value {
+    color: #4caf50; /* Cor positiva */
+    font-weight: bold;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  
+  .card {
+    transition: background-color 0.3s ease;
+  }
+  
+  .card.negative {
+    background-color: #ffe6e6; /* Vermelho claro */
+    color: #b71c1c; /* Vermelho escuro */
+  }
+  
+  .card.positive {
+    background-color: #e8f5e9; /* Verde claro */
+    color: #1b5e20; /* Verde escuro */
+  }
+
+  .align-right {
+    text-align: right;
+    margin-right: 8px; /* Ajuste para espaçamento */
+  }
+  
+  .negative {
+    color: #d32f2f; /* Vermelho para valores negativos */
+  }
+  
+  .positive {
+    color: #388e3c; /* Verde para valores positivos */
+  }

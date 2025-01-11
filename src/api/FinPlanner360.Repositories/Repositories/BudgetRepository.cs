@@ -13,14 +13,6 @@ public class BudgetRepository : BaseRepository<Budget>, IBudgetRepository
     {
     }
 
-    public Guid? UserId
-    {
-        get
-        {
-            return _appIdentityUser != null ? _appIdentityUser.GetUserId() : null;
-        }
-    }
-
     public override async Task<ICollection<Budget>> GetAllAsync()
     {
         return await _dbSet
