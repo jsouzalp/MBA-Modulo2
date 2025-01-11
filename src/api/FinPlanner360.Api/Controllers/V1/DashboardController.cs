@@ -23,7 +23,6 @@ namespace FinPlanner360.Api.Controllers.V1
             _transactionRepository = transactionRepository;
         }
 
-        [AllowAnonymous]
         [HttpGet("Cards/{date:datetime?}")]
         [SwaggerOperation(Summary = "Cards de dashboard", Description = "Retorna informações financeiras resumidas do usuário")]
         [ProducesResponseType(typeof(List<CardSumaryViewModel>), StatusCodes.Status200OK)]
