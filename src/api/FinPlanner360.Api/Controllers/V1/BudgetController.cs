@@ -30,7 +30,6 @@ public class BudgetController : MainController
         _budgetRepository = budgetRepository;
     }
 
-
     [HttpGet]
     [SwaggerOperation(Summary = "", Description = "")]
     [ProducesResponseType(typeof(List<BudgetViewModel>), StatusCodes.Status200OK)]
@@ -68,8 +67,8 @@ public class BudgetController : MainController
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
         if (id != budgetViewModel.BudgetId) return BadRequest();
-        if (await GetBudgetByIdAsync(budgetViewModel.BudgetId) == null) return NotFound();
-        
+        if (await _budgetService.GetBudgetByIdAsync(budgetViewModel.BudgetId) == null) return NotFound();
+
         await _budgetService.UpdateAsync(_mapper.Map<Budget>(budgetViewModel));
 
         return GenerateResponse(budgetViewModel, HttpStatusCode.OK);
@@ -84,12 +83,10 @@ public class BudgetController : MainController
     public async Task<ActionResult> Delete(Guid id)
     {
         if (id == Guid.Empty) return GenerateResponse(ModelState, HttpStatusCode.BadRequest);
-        if (await GetBudgetByIdAsync(id) == null) return NotFound();
+        if (await _budgetService.GetBudgetByIdAsync(id) == null) return NotFound();
 
         await _budgetService.DeleteAsync(id);
 
         return GenerateResponse(HttpStatusCode.NoContent);
     }
-
-    private async Task<Budget> GetBudgetByIdAsync(Guid id) => await _budgetRepository.GetByIdAsync(id);
 }
