@@ -13,14 +13,6 @@ public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
     }
 
-    public Guid? UserId
-    {
-        get
-        {
-            return _appIdentityUser != null ? _appIdentityUser.GetUserId() : null;
-        }
-    }
-
     public override async Task<ICollection<Category>> GetAllAsync() =>
         await _dbSet.Where(x => (x.UserId == null || x.UserId == UserId.Value)).OrderBy(x => x.Description).ToListAsync();
 

@@ -1,0 +1,1337 @@
+{
+	"info": {
+		"_postman_id": "8626b4eb-9726-4207-b2b0-d8437b2f7a59",
+		"name": "MBA - Project 2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3078282",
+		"_collection_link": "https://project-2-controle-financeiro.postman.co/workspace/Project-2---Controle-Financeiro~95dfb6ab-8474-4bed-b611-7922d2664564/collection/3078282-8626b4eb-9726-4207-b2b0-d8437b2f7a59?action=share&source=collection_link&creator=3078282"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"var accessToken = responseData.result.accessToken;\r",
+									"pm.collectionVariables.set(\"apiAccessToken\", accessToken);\r",
+									"\r",
+									"var userId = responseData.result.id;\r",
+									"pm.collectionVariables.set(\"userId\", userId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Email\": \"jsouza.lp@gmail.com\",\r\n  \"Password\": \"Password@2024\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/User/login",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"User",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"var accessToken = responseData.result.accessToken;\r",
+									"pm.collectionVariables.set(\"apiAccessToken\", accessToken);\r",
+									"\r",
+									"var userId = responseData.result.id;\r",
+									"pm.collectionVariables.set(\"userId\", userId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Name\": \"Jairo Souza 9\",\r\n  \"Email\": \"jsouza.lp9@gmail.com\",\r\n  \"Password\": \"Password@2024\",\r\n  \"ConfirmPassword\": \"Password@2024\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/User/register",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"User",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Category",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Income",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"var id = responseData.result.categoryId;\r",
+									"pm.collectionVariables.set(\"IncomeCategory\", id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateGUID() {\r",
+									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+									"        const r = Math.random() * 16 | 0;\r",
+									"        const v = c === 'x' ? r : (r & 0x3 | 0x8);\r",
+									"        return v.toString(16);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"IncomeCategory\", generateGUID());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoryId\": \"{{IncomeCategory}}\",\r\n    \"userId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"description\": \"Receita de ID {{IncomeCategory}}\",\r\n    \"type\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Category",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Income",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"categoryId\": \"{{IncomeCategory}}\",\r\n  \"description\": \"UPD2 Despesa de ID {{IncomeCategory}}\",\r\n  \"type\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Category/{{IncomeCategory}}",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Category",
+								"{{IncomeCategory}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Income",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Category/{{IncomeCategory}}",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Category",
+								"{{IncomeCategory}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Expense",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateGUID() {\r",
+									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+									"        const r = Math.random() * 16 | 0;\r",
+									"        const v = c === 'x' ? r : (r & 0x3 | 0x8);\r",
+									"        return v.toString(16);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"ExpenseCategory\", generateGUID());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"var id = responseData.result.categoryId;\r",
+									"pm.collectionVariables.set(\"ExpenseCategory\", id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"categoryId\": \"{{ExpenseCategory}}\",\r\n  \"userId\": \"00000000-0000-0000-0000-000000000000\",\r\n  \"description\": \"Despesa de ID {{ExpenseCategory}}\",\r\n  \"type\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Category",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Expense",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"categoryId\": \"{{ExpenseCategory}}\",\r\n  \"description\": \"UPD2 Receita de ID {{ExpenseCategory}}\",\r\n  \"type\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Category/{{ExpenseCategory}}",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Category",
+								"{{ExpenseCategory}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Expense",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Category/{{ExpenseCategory}}",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Category",
+								"{{ExpenseCategory}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Budget",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Budget",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Budget"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Income",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateGUID() {\r",
+									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+									"        const r = Math.random() * 16 | 0;\r",
+									"        const v = c === 'x' ? r : (r & 0x3 | 0x8);\r",
+									"        return v.toString(16);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"IncomeBudget\", generateGUID());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"var id = responseData.result.budgetId;\r",
+									"pm.collectionVariables.set(\"IncomeBudget\", id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"budgetId\": \"{{IncomeBudget}}\",\r\n    \"categoryId\": \"{{IncomeCategory}}\",\r\n    \"description\": \"Orçamento {{IncomeBudget}}\",\r\n    \"userId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"amount\": 1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Budget",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Budget"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Income",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"budgetId\": \"{{IncomeBudget}}\",\r\n    \"categoryId\": \"{{IncomeCategory}}\",\r\n    \"amount\": 1100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Budget/{{IncomeBudget}}",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Budget",
+								"{{IncomeBudget}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Income",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Budget/{{IncomeBudget}}",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Budget",
+								"{{IncomeBudget}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Expense",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateGUID() {\r",
+									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+									"        const r = Math.random() * 16 | 0;\r",
+									"        const v = c === 'x' ? r : (r & 0x3 | 0x8);\r",
+									"        return v.toString(16);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"ExpenseBudget\", generateGUID());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"var id = responseData.result.budgetId;\r",
+									"pm.collectionVariables.set(\"ExpenseBudget\", id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"budgetId\": \"{{ExpenseBudget}}\",\r\n    \"categoryId\": \"{{ExpenseCategory}}\",\r\n    \"description\": \"Orçamento {{ExpenseBudget}}\",\r\n    \"userId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"amount\": 1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Budget",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Budget"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Expense",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"budgetId\": \"{{ExpenseBudget}}\",\r\n    \"categoryId\": \"{{ExpenseCategory}}\",\r\n    \"amount\": 1100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Budget/{{ExpenseBudget}}",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Budget",
+								"{{ExpenseBudget}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Expense",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Budget/{{ExpenseBudget}}",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Budget",
+								"{{ExpenseBudget}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "General Budget",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/GeneralBudget",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"GeneralBudget"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateGUID() {\r",
+									"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+									"        const r = Math.random() * 16 | 0;\r",
+									"        const v = c === 'x' ? r : (r & 0x3 | 0x8);\r",
+									"        return v.toString(16);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"pm.variables.set(\"generalBudgetId\", generateGUID());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"var id = responseData.result.generalBudgetId;\r",
+									"pm.collectionVariables.set(\"generalBudgetId\", id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"generalBudgetId\": \"{{generalBudgetId}}\",\r\n  \"amount\": 5000,\r\n  \"percentage\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/GeneralBudget",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"GeneralBudget"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Amount",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"generalBudgetId\": \"{{generalBudgetId}}\",\r\n  \"amount\": 6000,\r\n  \"percentage\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/GeneralBudget/{{generalBudgetId}}",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"GeneralBudget",
+								"{{generalBudgetId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Percentage",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"generalBudgetId\": \"{{generalBudgetId}}\",\r\n  \"amount\": null,\r\n  \"percentage\": 90\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/GeneralBudget/{{generalBudgetId}}",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"GeneralBudget",
+								"{{generalBudgetId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/GeneralBudget/{{generalBudgetId}}",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"GeneralBudget",
+								"{{generalBudgetId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "Cards",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Dashboard/Cards",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Dashboard",
+								"Cards"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tests",
+			"item": [
+				{
+					"name": "Hello",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{apiAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseEndpoint}}/api/v1/Tests/Hello",
+							"host": [
+								"{{baseEndpoint}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Tests",
+								"Hello"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseEndpoint",
+			"value": "https://localhost:5001",
+			"type": "string"
+		},
+		{
+			"key": "apiAccessToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "incomeCategory",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "incomeBudget",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "expenseCategory",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "expenseBudget",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "generalBudgetId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "currentDate",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

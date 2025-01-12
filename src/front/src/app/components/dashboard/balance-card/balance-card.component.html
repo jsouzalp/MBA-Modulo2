@@ -1,0 +1,40 @@
+<mat-card class="bg-light-error shadow-none summary-container">
+    <mat-card-content>
+        <div class="header d-flex justify-content-between align-items-center">
+            <mat-form-field class="theme-select col-10" appearance="outline">
+                <mat-label>Selecione o mês</mat-label>
+                <mat-select [(value)]="selectedMonth" (selectionChange)="getResumeSumary($event)">
+                    <mat-option *ngFor="let month of monthModel" [value]="month.referenceDate">
+                        {{ month.month }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <button mat-icon-button (click)="toggleVisibility()">
+                <mat-icon>{{ showValues ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+        </div>
+
+        <div class="grid-container">
+            <mat-card class="card" *ngFor="let item of cardSummaryItems">
+                <mat-card-header>
+                    <div mat-card-avatar class="card-icon">
+                        <mat-icon color="primary">{{ item.icon }}</mat-icon>
+                    </div>
+                    <mat-card-subtitle>{{ item.title }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <h2 class="align-right" [ngClass]="{ 'negative': item.value < 0, 'positive': item.value >= 0 }">
+                        <span *ngIf="showValues; else maskedValue">
+                            {{ item.value | currency: 'BRL' }}
+                        </span>
+                        <ng-template #maskedValue>
+                            <span>••••••••</span>
+                        </ng-template>
+                    </h2>
+                </mat-card-content>
+            </mat-card>
+        </div>
+                    
+    </mat-card-content>
+</mat-card>
