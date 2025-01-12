@@ -28,7 +28,7 @@ public class AutomapperConfig : Profile
         CreateMap<BalanceDTO, Transaction>().ReverseMap();
         CreateMap<Transaction, BalanceDTO>()
             .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.Description))
-            .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type.ToString()));
+            .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Category.Type));
 
     }
 }

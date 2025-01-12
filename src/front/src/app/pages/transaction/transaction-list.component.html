@@ -52,7 +52,7 @@
             *matCellDef="let element"
             class="mat-body-1"
             [matTooltip]="getCategoryBalance(element)"
-            matTooltipPosition="right"
+            matTooltipPosition="above"
           >
             <h6 class="mat-body-1 f-s-16 m-b-4">
               <span class="f-w-600">{{ element.description }} </span>
@@ -140,7 +140,7 @@
                 <span>Editar lançamento</span>
               </button>
 
-              <button mat-menu-item (click)="deleteCategory(element.budgetId)">
+              <button mat-menu-item (click)="deleteTransaction(element.transactionId)">
                 <mat-icon>delete</mat-icon>
                 <span>Deletar lançamento</span>
               </button>

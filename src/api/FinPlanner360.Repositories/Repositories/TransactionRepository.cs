@@ -21,7 +21,7 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
         }
     }
 
-    public async Task<ICollection<Transaction>> GetBalanceByMonthAsync(DateTime date)
+    public async Task<ICollection<Transaction>> GetBalanceByMonthYearAsync(DateTime date)
     {
         return await _dbSet
             .Include(x => x.Category)
@@ -30,5 +30,16 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
                     x.TransactionDate.Month == date.Month)
             .OrderBy(x => x.TransactionDate)
             .ToListAsync();
+    }
+
+    public async Task<decimal> GetBalanceByMonthYearAndCatregoryAsync(DateTime date, Guid categoryId)
+    {
+        return await _dbSet
+            .Include(x => x.Category)
+            .Where(x => x.UserId == UserId &&
+                    x.CategoryId == categoryId &&
+                    x.TransactionDate.Year == date.Year &&
+                    x.TransactionDate.Month == date.Month)
+            .SumAsync(x => x.Amount);
     }
 }

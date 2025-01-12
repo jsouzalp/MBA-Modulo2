@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using FinPlanner360.Api.ViewModels.Transaction;
-using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FinPlanner360.Api.Controllers.V1;
 
@@ -28,14 +26,14 @@ public class TransactionController : MainController
         _transactionService = transactionService;
     }
 
-    [HttpGet("get-balance-by-month")]
+    [HttpGet("get-balance-by-month-year")]
     [SwaggerOperation(Summary = "", Description = "")]
     [ProducesResponseType(typeof(List<BalanceViewModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<IEnumerable<BalanceViewModel>>> GetBalanceByMonth([FromQuery] DateTime date)
+    public async Task<ActionResult<IEnumerable<BalanceViewModel>>> GetBalanceByMonthYear([FromQuery] DateTime date)
     {
-        var transactions = _mapper.Map<IEnumerable<BalanceViewModel>>(await _transactionService.GetBalanceByMonthAsync(date));
+        var transactions = _mapper.Map<IEnumerable<BalanceViewModel>>(await _transactionService.GetBalanceByMonthYearAsync(date));
 
         return GenerateResponse(transactions, HttpStatusCode.OK);
     }

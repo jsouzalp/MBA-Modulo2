@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, map, Observable } from 'rxjs';
 import { BaseService } from './BaseService';
+import { TransactionListModel } from '../pages/transaction/models/transaction-list.model';
 import { TransactionModel } from '../pages/transaction/models/transaction.model';
 
 @Injectable({ providedIn: 'root' })
@@ -13,10 +14,10 @@ export class TransactionService extends BaseService {
     super();
   }
 
-  getBalanceByMonth(date: Date): Observable<TransactionModel[]> {
+  getBalanceByMonth(date: Date): Observable<TransactionListModel[]> {
     const formattedDate = date.toISOString();
     let response = this.http
-      .get(`${this.UrlServiceV1}v1/transaction/get-balance-by-month?date=${formattedDate}`,  this.getAuthHeaderJson())
+      .get(`${this.UrlServiceV1}v1/transaction/get-balance-by-month-year?date=${formattedDate}`,  this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));

@@ -37,15 +37,15 @@ export const navItems: NavItem[] = [
     divider: true
   },
   {
-    displayName: 'Registro',
+    displayName: 'Lançamentos',
     iconName: 'tabler:transaction-dollar',
     route: 'pages/transaction/list',
   },
-  {
-    displayName: 'Consulta',
-    iconName: 'icon-park-outline:transaction-order',
-    route: '/dashboard-',
-  },
+  // {
+  //   displayName: 'Consulta',
+  //   iconName: 'icon-park-outline:transaction-order',
+  //   route: '/dashboard-',
+  // },
   {
     navCap: 'Relatórios:',
     divider: true

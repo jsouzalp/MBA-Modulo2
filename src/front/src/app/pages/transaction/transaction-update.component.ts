@@ -10,8 +10,8 @@ import { BudgetService } from 'src/app/services/budget.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { NgxCurrencyDirective } from 'ngx-currency';
 import { CategoryModel } from '../category/models/category.model';
-import { TransactionModel } from './models/transaction.model';
 import { TransactionService } from 'src/app/services/transaction.service';
+import { TransactionModel } from './models/transaction.model';
 
 
 @Component({

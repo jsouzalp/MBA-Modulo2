@@ -5,7 +5,7 @@ namespace FinPlanner360.Business.Interfaces.Services;
 
 public interface ITransactionService
 {
-    Task<ICollection<BalanceDTO>> GetBalanceByMonthAsync(DateTime date);
+    Task<ICollection<BalanceDTO>> GetBalanceByMonthYearAsync(DateTime date);
 
     Task<Transaction> GetTransactionByIdAsync(Guid id);
 

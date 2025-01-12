@@ -8,11 +8,11 @@ import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/components/c
 import { CategoryTypeDescriptions, CategoryTypeEnum } from '../category/enums/category-type.enum';
 import { TransactionAddComponent } from './transaction-add.component';
 import { TransactionUpdateComponent } from './transaction-update.component';
-import { TransactionModel } from './models/transaction.model';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { GeneralBudgetService } from 'src/app/services/general-budget.service';
 import { GeneralBudgetModel } from '../budget/models/general-budget.model';
-
+import { TransactionListModel } from './models/transaction-list.model';
+import { TransactionModel } from './models/transaction.model';
 
 @Component({
   selector: 'app-transaction-list',
@@ -25,7 +25,7 @@ import { GeneralBudgetModel } from '../budget/models/general-budget.model';
 
 
 export class TransactionListComponent implements OnInit, OnDestroy {
-  transactionsModel: TransactionModel[] = [];
+  transactionsModel: TransactionListModel[] = [];
   budgetModel: GeneralBudgetModel;
   displayedColumns: string[] = ['transactionDate', 'description', 'type', 'amount', 'Menu'];
   monthYears: string[] = [];
@@ -81,8 +81,9 @@ export class TransactionListComponent implements OnInit, OnDestroy {
 
   addDialog() {
     const dialogRef = this.dialog.open(TransactionAddComponent, {
-      width: '500px',
-      height: '400px',
+      width: '800px',
+      height: '440px',
+      disableClose: true,
       data: this.transactionsModel
     });
 
@@ -103,15 +104,14 @@ export class TransactionListComponent implements OnInit, OnDestroy {
       transactionId: row.transactionId,
       userId: row.userId,
       amount: row.amount,
-      transactionDate: new Date(),
-      categoryBalance: 0,
-      type: 0,
-      category: ''
+      transactionDate: row.transactionDate,
+      type: row.type,
     };
 
     const dialogRef = this.dialog.open(TransactionUpdateComponent, {
       width: '500px',
       height: '400px',
+      disableClose: true,
       data: transaction
     });
 
@@ -124,7 +124,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
       })
   }
 
-  deleteCategory(id: string) {
+  deleteTransaction(id: string) {
 
     const dialogData = new ConfirmDialogModel('Atenção', 'Confirma exclusão ?');
 
@@ -169,7 +169,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
 
   }
 
-  getCategoryBalance(transaction: TransactionModel): string {
+  getCategoryBalance(transaction: TransactionListModel): string {
     if (transaction.type === CategoryTypeEnum.Income || transaction.categoryBalance === 0) return "";
 
     if (transaction.categoryBalance < 0) return "Previsão orçamentária não configurada para essa categoria";
