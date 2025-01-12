@@ -13,9 +13,10 @@ export class TransactionService extends BaseService {
     super();
   }
 
-  getAll(): Observable<TransactionModel[]> {
+  getBalanceByMonth(date: Date): Observable<TransactionModel[]> {
+    const formattedDate = date.toISOString();
     let response = this.http
-      .get(this.UrlServiceV1 + 'v1/transaction',  this.getAuthHeaderJson())
+      .get(`${this.UrlServiceV1}v1/transaction/get-balance-by-month?date=${formattedDate}`,  this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));

@@ -21,11 +21,14 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
         }
     }
 
-    public override async Task<ICollection<Transaction>> GetAllAsync()
+    public async Task<ICollection<Transaction>> GetBalanceByMonthAsync(DateTime date)
     {
         return await _dbSet
             .Include(x => x.Category)
-            .Where(x => x.UserId == UserId)
+            .Where(x => x.UserId == UserId &&
+                    x.TransactionDate.Year == date.Year &&
+                    x.TransactionDate.Month == date.Month)
+            .OrderBy(x => x.TransactionDate)
             .ToListAsync();
     }
 }

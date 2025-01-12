@@ -1,10 +1,11 @@
-﻿using FinPlanner360.Business.Models;
+﻿using FinPlanner360.Business.DTO.Transacton;
+using FinPlanner360.Business.Models;
 
 namespace FinPlanner360.Business.Interfaces.Services;
 
 public interface ITransactionService
 {
-    Task<ICollection<Transaction>> GetAllAsync();
+    Task<ICollection<BalanceDTO>> GetBalanceByMonthAsync(DateTime date);
 
     Task<Transaction> GetTransactionByIdAsync(Guid id);
 

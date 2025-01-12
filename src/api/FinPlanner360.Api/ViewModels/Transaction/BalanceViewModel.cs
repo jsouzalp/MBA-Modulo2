@@ -2,7 +2,7 @@
 
 namespace FinPlanner360.Api.ViewModels.Transaction;
 
-public class TransactionListViewModel
+public class BalanceViewModel
 {
     public Guid TransactionId { get; set; }
 
@@ -13,8 +13,9 @@ public class TransactionListViewModel
 
     public Guid CategoryId { get; set; }
 
+    public string Category { get; set; }
+
     public DateTime TransactionDate { get; set; }
 
-    public Guid UserId { get; set; }
     public decimal CategoryBalance { get; set; }
 }

@@ -1,9 +1,43 @@
 <mat-card class="cardWithShadow">
-  <mat-card-content>
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>Transações</mat-card-title>
+    <mat-card-subtitle>
+      <mat-form-field appearance="outline">
+        <mat-select
+          [(value)]="selectedMonthYear"
+          (selectionChange)="onMonthYearSelect($event.value)"
+        >
+          <mat-option *ngFor="let monthYear of monthYears" [value]="monthYear">
+            {{ monthYear }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card-subtitle>
+  </mat-card-header>
 
+  <mat-card-content>
     <div class="table-responsive">
-      <table mat-table [dataSource]="transactionModels" class="w-100">
+      <table mat-table [dataSource]="transactionsModel">
+        <!-- transactionDate Column -->
+        <ng-container matColumnDef="transactionDate">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="f-w-600 mat-subtitle-1 f-s-14"
+          >
+            Data
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <h6 class="mat-body-1 f-s-16 m-b-4">
+              <span class="f-w-600"
+                >{{ element.transactionDate | date : "dd/MM/yyyy" }}
+              </span>
+            </h6>
+          </td>
+          <td mat-footer-cell *matFooterCellDef>Saldo no mês</td>
+        </ng-container>
+
         <!-- description Column -->
         <ng-container matColumnDef="description">
           <th
@@ -11,14 +45,20 @@
             *matHeaderCellDef
             class="f-w-600 mat-subtitle-1 f-s-14"
           >
-            Categoria
+            Descrição
           </th>
-          <td mat-cell *matCellDef="let element" class="mat-body-1">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="mat-body-1"
+            [matTooltip]="getCategoryBalance(element)"
+            matTooltipPosition="right"
+          >
             <h6 class="mat-body-1 f-s-16 m-b-4">
               <span class="f-w-600">{{ element.description }} </span>
             </h6>
           </td>
-          <td mat-footer-cell *matFooterCellDef>Saldo no mês</td>
+          <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
         <!-- Type Column -->
@@ -63,8 +103,13 @@
               </div>
             </div>
           </td>
-          <td mat-footer-cell *matFooterCellDef>
-            {{ getbalance() | currency }}
+          <td
+            mat-footer-cell
+            *matFooterCellDef
+            [matTooltip]="getGeneralBudgetBalance()"
+            matTooltipPosition="right"
+          >
+            {{ getBalance() | currency }}
           </td>
         </ng-container>
 
@@ -109,7 +154,7 @@
         <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
       </table>
     </div>
-    <ng-container *ngIf="transactionModels.length == 0">
+    <ng-container *ngIf="transactionsModel.length == 0">
       <p>Nenhuma transação encontrada.</p>
     </ng-container>
   </mat-card-content>

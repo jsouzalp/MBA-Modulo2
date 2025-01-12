@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MatButtonModule } from '@angular/material/button';
 import { LocalStorageUtils } from 'src/app/utils/localstorage';
-import { UserService } from 'src/app/services/user.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -31,24 +30,15 @@ export class HeaderComponent implements OnInit {
   email: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private router: Router, private localStorageUtils: LocalStorageUtils,private loginSevice: UserService) { }
+  constructor(private router: Router, private localStorageUtils: LocalStorageUtils) { }
   ngOnInit(): void {
     this.email = this.localStorageUtils.getEmail();
   }
 
   logout() {
 
+    this.localStorageUtils.clear();
+    this.router.navigate(['/login']);
 
-        this.loginSevice.logout()
-          .pipe(takeUntil(this.destroy$))
-          .subscribe({
-            next: () => {
-              this.localStorageUtils.clear();
-              this.router.navigate(['/login']);
-            },
-            error: (fail) => {
-              console.log('fail', fail);
-            }
-          });
   }
 }

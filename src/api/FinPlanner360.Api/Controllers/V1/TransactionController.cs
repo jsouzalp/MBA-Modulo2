@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FinPlanner360.Api.Controllers.V1;
 
@@ -27,14 +28,14 @@ public class TransactionController : MainController
         _transactionService = transactionService;
     }
 
-    [HttpGet]
+    [HttpGet("get-balance-by-month")]
     [SwaggerOperation(Summary = "", Description = "")]
-    [ProducesResponseType(typeof(List<TransactionViewModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<BalanceViewModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<IEnumerable<TransactionViewModel>>> GetAll()
+    public async Task<ActionResult<IEnumerable<BalanceViewModel>>> GetBalanceByMonth([FromQuery] DateTime date)
     {
-        var transactions = _mapper.Map<IEnumerable<TransactionViewModel>>(await _transactionService.GetAllAsync());
+        var transactions = _mapper.Map<IEnumerable<BalanceViewModel>>(await _transactionService.GetBalanceByMonthAsync(date));
 
         return GenerateResponse(transactions, HttpStatusCode.OK);
     }
