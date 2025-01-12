@@ -58,7 +58,7 @@ namespace FinPlanner360.Api.Controllers.V1
         }
 
         [HttpGet("Transactions/{date:datetime?}")]
-        [SwaggerOperation(Summary = "Dashboard Transação por categoria", Description = "Responsável por devolver uma lista das transações por categoria")]
+        [SwaggerOperation(Summary = "Resumo de transação por categoria", Description = "Responsável por devolver uma lista das transações por categoria")]
         [ProducesResponseType(typeof(IEnumerable<TransactionDashboardViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -73,10 +73,10 @@ namespace FinPlanner360.Api.Controllers.V1
             var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
 
             var transactionsDashboard = (from x in transactionsList
-                                         group x by new { x.CategoryDescription, x.Type } into g
+                                         group x by new { x.Category.Description, x.Type } into g
                                          select new TransactionDashboardViewModel
                                          {
-                                             CategoryDescription = g.Key.CategoryDescription,
+                                             CategoryDescription = g.Key.Description,
                                              Type = g.Key.Type,
                                              TotalAmount = g.Sum(x => x.Amount)
                                          });
