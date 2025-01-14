@@ -58,7 +58,7 @@ namespace FinPlanner360.Api.Controllers.V1
 
 
         [HttpGet("Transactions/AnalyticsByCategory")]
-        [SwaggerOperation(Summary = "Sintético de transação por categoria", Description = "Responsável por devolver uma lista das transações analíticas por categoria em um intervalo de datas")]
+        [SwaggerOperation(Summary = "Analítico de transação por categoria", Description = "Responsável por devolver uma lista das transações analíticas por categoria em um intervalo de datas")]
         [ProducesResponseType(typeof(TransactionAnalyticsViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
