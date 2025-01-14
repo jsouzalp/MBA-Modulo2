@@ -3,11 +3,12 @@ import { CardSumaryModel } from './models/card-sumary.model';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { MonthModel } from '../models/month-model';
+import { MonthModel } from '../../../models/month-model';
 import { MaterialModule } from 'src/app/material.module';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectChange } from '@angular/material/select';
+import { GenerateMontsToFilter } from 'src/app/utils/generate-monts-to-filter';
 
 @Component({
   selector: 'app-balance-card',
@@ -23,12 +24,18 @@ export class BalanceCardComponent implements OnInit, OnDestroy {
   selectedMonth: any;
   showValues = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
+  fillMonths: GenerateMontsToFilter;
+  
   constructor(private dashboardSevice: DashboardService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService) { 
+      this.fillMonths = new GenerateMontsToFilter();
+      this.monthModel = this.fillMonths.fillMonthsToFilter(new Date());
+      this.selectedMonth = this.monthModel[2]?.referenceDate;
+    }
 
   ngOnInit(): void {
-    this.fillMonthsToFilter(new Date());
+    this.monthModel = this.fillMonths.fillMonthsToFilter(new Date());
+    this.selectedMonth = this.monthModel[2]?.referenceDate;
     this.getResumeSumary(null);
   }
 
@@ -41,21 +48,6 @@ export class BalanceCardComponent implements OnInit, OnDestroy {
     this.showValues = !this.showValues;
   }
 
-  // Isso aqui poderia ficar na service???
-  fillMonthsToFilter(nowDate: Date) {
-    this.monthModel = [];
-
-    for (let i = -2; i < 12; i++) {
-      const date = new Date(nowDate);
-      date.setMonth(nowDate.getMonth() - i);
-
-      this.monthModel.push({
-        month: date.toLocaleString('pt-BR', { month: 'long', year: 'numeric' }).replace(/^\w/, c => c.toUpperCase()),
-        referenceDate: date,
-      });
-    }
-    this.selectedMonth = this.monthModel[2]?.referenceDate;
-  }
 
   getResumeSumary(event: MatSelectChange | null) {
     let selectedDate: Date = new Date();

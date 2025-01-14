@@ -78,7 +78,8 @@ namespace FinPlanner360.Api.Controllers.V1
                                          {
                                              CategoryDescription = g.Key.Description,
                                              Type = g.Key.Type,
-                                             TotalAmount = g.Sum(x => x.Amount)
+                                             TotalAmount = g.Sum(x => x.Amount),
+                                             Quantity = g.Count()
                                          });
 
             return GenerateResponse(transactionsDashboard, HttpStatusCode.OK);

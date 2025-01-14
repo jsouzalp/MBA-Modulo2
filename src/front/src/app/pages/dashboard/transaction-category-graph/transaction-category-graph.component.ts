@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
 import { DashboardService } from 'src/app/services/dashboard.service';
-import { MonthModel } from '../models/month-model';
+import { MonthModel } from '../../../models/month-model';
 import { MatSelectChange } from '@angular/material/select';
 import { CategoryTransactionGraphModel } from './models/transaction-category-graph';
 
@@ -16,6 +16,9 @@ import {
   ApexPlotOptions,
   NgApexchartsModule
 } from "ng-apexcharts";
+import { GenerateMontsToFilter } from 'src/app/utils/generate-monts-to-filter';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -28,47 +31,37 @@ export type ChartOptions = {
 @Component({
   selector: 'app-transaction-category-graph',
   standalone: true,
-  imports: [MaterialModule, NgApexchartsModule],
+  imports: [MatCardModule, MaterialModule, CommonModule, NgApexchartsModule],
   templateUrl: './transaction-category-graph.component.html',
   styleUrl: './transaction-category-graph.component.scss'
 })
 
 export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
   @ViewChild("chart") chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions>;
+  public transactionAmountChart: Partial<ChartOptions>;
+  public transactionQuantityChart: Partial<ChartOptions>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   monthModel: MonthModel[];
   categoryTransactionModel: CategoryTransactionGraphModel[];
   selectedMonth: any;
+  fillMonths: GenerateMontsToFilter;
 
   constructor(private dashboardSevice: DashboardService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService) { 
+      this.fillMonths = new GenerateMontsToFilter();
+      this.monthModel = this.fillMonths.fillMonthsToFilter(new Date());
+      this.selectedMonth = this.monthModel[2]?.referenceDate;
+    }
 
   ngOnInit(): void {
-    this.fillMonthsToFilter(new Date());
+    
     this.getTransactionCategoryGraph(null);
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.complete();
-  }
-
-  // Isso aqui poderia ficar na service???
-  fillMonthsToFilter(nowDate: Date) {
-    this.monthModel = [];
-
-    for (let i = -2; i < 12; i++) {
-      const date = new Date(nowDate);
-      date.setMonth(nowDate.getMonth() - i);
-
-      this.monthModel.push({
-        month: date.toLocaleString('pt-BR', { month: 'long', year: 'numeric' }).replace(/^\w/, c => c.toUpperCase()),
-        referenceDate: date,
-      });
-    }
-    this.selectedMonth = this.monthModel[2]?.referenceDate;
   }
 
   getTransactionCategoryGraph(event: MatSelectChange | null) {
@@ -84,15 +77,28 @@ export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.categoryTransactionModel = response;
 
-          this.chartOptions = {
+          this.transactionAmountChart = {
             series: [{
-              name: 'Total',
+              name: 'Valor Total',
               data: this.categoryTransactionModel.map(item => item.totalAmount),
-              
-            }],            
+
+            }],
             chart: { type: "bar", height: 350 },
             plotOptions: { bar: { horizontal: true } },
-            dataLabels: { enabled: false, formatter: (val:number) => `R$ ${val.toFixed(2)}` },
+            dataLabels: { enabled: false, formatter: (val: number) => `R$ ${val.toFixed(2)}` },
+            xaxis: {
+              categories: this.categoryTransactionModel.map(item => item.categoryDescription)
+            }
+          };
+
+          this.transactionQuantityChart = {
+            series: [{
+              name: 'Quantidade',
+              data: this.categoryTransactionModel.map(item => item.quantity),
+            }],
+            chart: { type: "bar" },
+            plotOptions: { bar: { horizontal: true } },
+            dataLabels: { enabled: false },
             xaxis: {
               categories: this.categoryTransactionModel.map(item => item.categoryDescription)
             }
