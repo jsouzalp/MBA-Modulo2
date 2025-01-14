@@ -38,9 +38,14 @@ public class Transaction_Repository : BaseRepository<Transaction>, ITransaction_
             return null;
         }
 
+        //return await _dbSet.AsNoTracking()
+        //    .Include(x => x.Category)
+        //    .Where(x => x.UserId == UserId.Value && x.TransactionDate >= startDate && x.TransactionDate <= endDate)
+        //    .ToListAsync();
+
         return await _dbSet.AsNoTracking()
             .Include(x => x.Category)
-            .Where(x => x.UserId == UserId.Value && x.TransactionDate >= startDate && x.TransactionDate <= endDate)
+            .Where(x => x.UserId == UserId.Value)
             .ToListAsync();
     }
 }

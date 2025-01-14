@@ -3,17 +3,20 @@ using FinPlanner360.Api.ViewModels.User;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Annotations;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Text;
 
 namespace FinPlanner360.Api.Controllers.V1;
 
+[Authorize(Roles = "USER")]
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[Controller]")]
@@ -42,6 +45,7 @@ public class UserController : MainController
 
 
 
+    [AllowAnonymous]
     [HttpPost]
     [SwaggerOperation(Summary = "Registra um novo usuário", Description = "Cria um novo usuário com os dados fornecidos e retorna um token JWT.")]
     [ProducesResponseType(typeof(LoginOutputViewModel), StatusCodes.Status200OK)]
@@ -103,7 +107,7 @@ public class UserController : MainController
     }
 
 
-
+    [AllowAnonymous]
     [HttpPost("login")]
     [SwaggerOperation(Summary = "Realiza o login do usuário", Description = "Autentica o usuário e retorna um token JWT.")]
     [ProducesResponseType(typeof(LoginOutputViewModel), StatusCodes.Status200OK)]
@@ -135,6 +139,46 @@ public class UserController : MainController
 
         return GenerateResponse();
     }
+
+
+    [HttpGet("exportreport")]
+    [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK)]
+    public async Task<IActionResult> ExportReport(string fileType)
+    {
+        var users = (await _userRepository.FilterAsync(p => true)).Select(p => new
+        {
+            p.UserId,
+            p.AuthenticationId,
+            p.Name,
+            p.Email,
+        }).ToArray();
+
+        byte[] fileBytes;
+        string contentType;
+        string fileName;
+
+        switch (fileType.ToLower())
+        {
+            case "pdf":
+                fileBytes = Reports.Fast.ReportService.GenerateReportPDF("Users", users);
+                contentType = "application/pdf";
+                fileName = "Usuarios.pdf";
+                break;
+
+            case "xlsx":
+                fileBytes = Reports.Closed_Xml.ReportService.GenerateXlsxBytes("Categoria", users);
+                contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                fileName = "Usuarios.xlsx";
+                break;
+
+            default:
+                return BadRequest("Tipo de arquivo inválido. Use 'pdf' ou 'xlsx'.");
+        }
+
+        return File(fileBytes, contentType, fileName);
+    }
+
+
 
     private async Task<string> GenerateJwt(string email)
     {
