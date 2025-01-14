@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Annotations;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Mime;
 using System.Security.Claims;
@@ -141,50 +142,17 @@ public class UserController : MainController
     }
 
     [AllowAnonymous]
-    [HttpGet("pdf-report")]
-    [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK, MediaTypeNames.Application.Pdf)]
-    public async Task<IActionResult> PdfReport()
-    {
-        var users = (await _userRepository.FilterAsync(p => true)).Select(p => new
-        {
-            p.UserId,
-            p.AuthenticationId,
-            p.Name,
-            p.Email,
-        }).ToArray();
-
-        var reportPdf = Reports.Fast.ReportService.GenerateReportPDF("Users", users);
-
-        return File(reportPdf, "application/pdf", "Usuarios.pdf");
-    }
-
-    [AllowAnonymous]
-    [HttpGet("xlsx-report")]
-    [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK, MediaTypeNames.Application.Pdf)]
-    public async Task<IActionResult> XlsxReport()
-    {
-        var users = (await _userRepository.FilterAsync(p => true)).Select(p => new
-        {
-            p.UserId,
-            p.AuthenticationId,
-            p.Name,
-            p.Email,
-        }).ToArray();
-
-        var fileBytes = Reports.Closed_Xml.ReportService.GenerateXlsxBytes("Categoria", users);
-        return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Usuarios.xlsx");
-
-    }
-
-    [AllowAnonymous]
     [HttpGet("export-report")]
+    [SwaggerOperation(
+    Summary = "Exporta um relatório de usuários",
+    Description = "Gera e exporta um relatório contendo informações dos usuários em formato PDF ou XLSX. O tipo de arquivo deve ser especificado no parâmetro `fileType`."
+    )]
     [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK)]
-    public async Task<IActionResult> ExportReport(string fileType)
+    public async Task<IActionResult> ExportReport([FromQuery][Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")][RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string fileType)
     {
         var users = (await _userRepository.FilterAsync(p => true)).Select(p => new
         {
             p.UserId,
-            p.AuthenticationId,
             p.Name,
             p.Email,
         }).ToArray();

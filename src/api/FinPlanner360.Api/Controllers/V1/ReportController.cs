@@ -1,4 +1,5 @@
-﻿using FinPlanner360.Api.ViewModels.Dashboard;
+﻿using FinPlanner360.Api.Extensions;
+using FinPlanner360.Api.ViewModels.Dashboard;
 using FinPlanner360.Api.ViewModels.Report;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
@@ -6,7 +7,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Reflection;
 
 namespace FinPlanner360.Api.Controllers.V1
 {
@@ -26,11 +30,11 @@ namespace FinPlanner360.Api.Controllers.V1
         }
 
         [HttpGet("Transactions/SummaryByCategory")]
-        [SwaggerOperation(Summary = "Sintético de transação por categoria", Description = "Responsável por devolver uma lista das transações por categoria")]
+        [SwaggerOperation(Summary = "Sintético de transação por categoria", Description = "Responsável por devolver uma lista das transações por categoria em um intervalo de datas")]
         [ProducesResponseType(typeof(IEnumerable<TransactionCategoyViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<TransactionCategoyViewModel>>> GetCategoryTransactionSummaryAsync([FromQuery] DateTime startDate,[FromQuery] DateTime endDate)
+        public async Task<ActionResult<IEnumerable<TransactionCategoyViewModel>>> GetCategoryTransactionSummaryAsync([FromQuery][Required] DateTime startDate,[FromQuery][Required] DateTime endDate)
         {
             if (startDate > endDate)
                 return BadRequest("A data de início não pode ser posterior à data de término.");
@@ -54,37 +58,44 @@ namespace FinPlanner360.Api.Controllers.V1
 
 
         [HttpGet("Transactions/AnalyticsByCategory")]
-        [SwaggerOperation(Summary = "Análise detalhada das transações", Description = "Retorna métricas analíticas detalhadas das transações em um intervalo de datas")]
+        [SwaggerOperation(Summary = "Sintético de transação por categoria", Description = "Responsável por devolver uma lista das transações analíticas por categoria em um intervalo de datas")]
         [ProducesResponseType(typeof(TransactionAnalyticsViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<TransactionAnalyticsViewModel>> GetCategoryTransactionAnalyticsAsync([FromQuery] DateTime startDate,[FromQuery] DateTime endDate)
+        public async Task<ActionResult<TransactionAnalyticsViewModel>> GetCategoryTransactionAnalyticsAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate)
         {
             if (startDate > endDate)
                 return BadRequest("A data de início não pode ser posterior à data de término.");
 
             var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
 
-            if (transactionsList == null && !transactionsList.Any())
+            if (transactionsList == null || !transactionsList.Any())
                 return NotFound("Nenhuma transação encontrada no intervalo de datas especificado.");
 
 
-            var transactionsReport = transactionsList
-                                     .Select(x => new TransactionAnalyticsViewModel
-                                     {
-                                         TransactionDate = x.TransactionDate,
-                                         CategoryDescription = x.Category.Description,
-                                         Type = x.Type,
-                                         TotalAmount = x.Amount,
-                                     })
-                                     .OrderBy(x => x.TransactionDate); 
+            var groupedTransactionsReport = transactionsList
+                    .Select(x => new TransactionAnalyticsViewModel
+                    {
+                        TransactionDate = x.TransactionDate.ToString("dd/MM/yyyy"),
+                        Type = x.Type.GetDescription(),
+                        Description = x.Description,
+                        CategoryDescription = x.Category.Description,
+                        TotalAmount = x.Amount.ToString("C"),
+                    })
+                    .GroupBy(x => x.CategoryDescription)
+                    .Select(group => new GroupedTransactionAnalyticsViewModel
+                    {
+                        CategoryDescription = group.Key,
+                        Transactions = group.OrderBy(x => x.TransactionDate).ToList()
+                    })
+                    .ToList();
 
 
-            return GenerateResponse(transactionsReport, HttpStatusCode.OK);
-
-
+            return GenerateResponse(groupedTransactionsReport, HttpStatusCode.OK);
         }
 
 
     }
+
+    
 }
