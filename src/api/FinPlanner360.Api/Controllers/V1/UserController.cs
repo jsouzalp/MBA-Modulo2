@@ -140,8 +140,44 @@ public class UserController : MainController
         return GenerateResponse();
     }
 
+    [AllowAnonymous]
+    [HttpGet("pdf-report")]
+    [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK, MediaTypeNames.Application.Pdf)]
+    public async Task<IActionResult> PdfReport()
+    {
+        var users = (await _userRepository.FilterAsync(p => true)).Select(p => new
+        {
+            p.UserId,
+            p.AuthenticationId,
+            p.Name,
+            p.Email,
+        }).ToArray();
 
-    [HttpGet("exportreport")]
+        var reportPdf = Reports.Fast.ReportService.GenerateReportPDF("Users", users);
+
+        return File(reportPdf, "application/pdf", "Usuarios.pdf");
+    }
+
+    [AllowAnonymous]
+    [HttpGet("xlsx-report")]
+    [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK, MediaTypeNames.Application.Pdf)]
+    public async Task<IActionResult> XlsxReport()
+    {
+        var users = (await _userRepository.FilterAsync(p => true)).Select(p => new
+        {
+            p.UserId,
+            p.AuthenticationId,
+            p.Name,
+            p.Email,
+        }).ToArray();
+
+        var fileBytes = Reports.Closed_Xml.ReportService.GenerateXlsxBytes("Categoria", users);
+        return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Usuarios.xlsx");
+
+    }
+
+    [AllowAnonymous]
+    [HttpGet("export-report")]
     [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK)]
     public async Task<IActionResult> ExportReport(string fileType)
     {
@@ -177,6 +213,7 @@ public class UserController : MainController
 
         return File(fileBytes, contentType, fileName);
     }
+
 
 
 

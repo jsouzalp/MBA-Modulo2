@@ -4,7 +4,6 @@
     <BusinessObjectDataSource Name="Users" ReferenceName="Users" DataType="System.Int32" Enabled="true">
       <Column Name="Name" DataType="System.String"/>
       <Column Name="Email" DataType="System.String"/>
-      <Column Name="CreatedDate" DataType="System.DateTime"/>
     </BusinessObjectDataSource>
   </Dictionary>
   <ReportPage Name="Page1" RawPaperSize="9" Watermark.Font="Arial, 60pt">
@@ -21,7 +20,6 @@
     <DataBand Name="Data1" Top="111.95" Width="718.2" Height="28.35" CanGrow="true" DataSource="Users">
       <LineObject Name="Line1" Top="28.35" Width="718.2" Border.Color="Gainsboro" Border.Width="3"/>
       <TextObject Name="Text43" Left="9.45" Top="3.78" Width="264.6" Height="18.9" Text="[Users.Email]" Font="Segoe UI, 10pt"/>
-      <TextObject Name="Text44" Left="614.25" Top="3.78" Width="94.5" Height="18.9" Text="[Users.CreatedDate]" Format="Date" Format.Format="d" HorzAlign="Center" Font="Segoe UI, 10pt"/>
       <TextObject Name="Text45" Left="283.5" Top="3.78" Width="321.3" Height="18.9" Text="[Users.Name]" Font="Segoe UI, 10pt"/>
     </DataBand>
     <ReportSummaryBand Name="ReportSummary1" Top="144.3" Width="718.2" Height="15.12">
