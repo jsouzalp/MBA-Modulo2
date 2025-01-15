@@ -63,7 +63,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Gastos por Categoria Analítico',
     iconName: 'material-symbols-light:date-range-outline',
-    route: 'pages/report/category',
+    route: 'pages/report/categoryAnalytics',
   },
   {
     displayName: 'xxxx',
