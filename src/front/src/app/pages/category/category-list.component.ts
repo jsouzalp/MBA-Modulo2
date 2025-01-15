@@ -58,8 +58,8 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(CategoryAddComponent, {
       width: '500px',
       height: '400px',
-      disableClose: true,
-      data: this.categoryModel
+      data: this.categoryModel,
+      disableClose: true
     });
 
     dialogRef.afterClosed()
@@ -83,8 +83,8 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(CategoryUpdateComponent, {
       width: '500px',
       height: '300px',
-      disableClose: true,
-      data: category
+      data: category,
+      disableClose: true
     });
 
     dialogRef.afterClosed()
@@ -97,14 +97,14 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   }
 
 
-  deleteCategory(id: string) {
+  deleteCategory(category: CategoryModel) {
 
-    const dialogData = new ConfirmDialogModel('Atenção', 'Confirma exclusão ?');
+    const dialogData = new ConfirmDialogModel('Atenção', `Confirma exclusão da categoria <b>${category.description}</b>?`);
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
-      disableClose: true,
-      data: dialogData
+      data: dialogData,
+      disableClose: true
     });
 
     dialogRef.afterClosed()
@@ -112,7 +112,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
       .subscribe(dialogResult => {
         if (!dialogResult) return;
 
-        this.categorySevice.delete(id)
+        this.categorySevice.delete(category.categoryId)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: () => {

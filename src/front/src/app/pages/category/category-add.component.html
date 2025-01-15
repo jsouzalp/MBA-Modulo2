@@ -3,9 +3,7 @@
   <form class="m-t-30" [formGroup]="form">
     <div fxLayout="row wrap">
       <div class="p-10">
-        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-          >Tipo</mat-label
-        >
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Tipo</mat-label>
         <mat-form-field appearance="outline" class="w-100">
           <mat-select formControlName="type" name="type">
             <mat-option [value]="1">Receita </mat-option>
@@ -17,19 +15,10 @@
         </small>
       </div>
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-          >Categoria</mat-label
-        >
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Categoria</mat-label>
         <mat-form-field appearance="outline" class="w-100">
-          <input
-            matInput
-            name="description"
-            formControlName="description"
-            type="text"
-            autocomplete="off"
-            maxlength="100"
-            minlength="4"
-          />
+          <input matInput name="description" formControlName="description" type="text" autocomplete="off"
+            maxlength="100" minlength="4" />
         </mat-form-field>
         <small class="text-danger" *ngIf="displayMessage['description']">
           <p [innerHTML]="displayMessage['description']"></p>
@@ -38,16 +27,13 @@
     </div>
   </form>
   <mat-dialog-actions align="end">
-    <button mat-raised-button (click)="cancel()" color="secondary" cdkFocusInitial>
+    <button mat-raised-button (click)="cancel()" color="secondary" cdkFocusInitial [disabled]="submitted">
       Cancelar
     </button>
 
-    <button
-      mat-raised-button
-      color="primary"
-      [disabled]="!form.valid || submitted"
-      (click)="submit(); submitted = true"
-    >
+    <button mat-raised-button color="primary" [disabled]="!form.valid || submitted"
+      (click)="submit()">
+      <i class="iconify f-s-12" data-icon="line-md:loading-loop" *ngIf="submitted"></i>
       Cadastrar
     </button>
   </mat-dialog-actions>
