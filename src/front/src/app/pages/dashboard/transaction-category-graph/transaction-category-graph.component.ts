@@ -14,18 +14,47 @@ import {
   ApexDataLabels,
   ApexXAxis,
   ApexPlotOptions,
-  NgApexchartsModule
-} from "ng-apexcharts";
+  NgApexchartsModule, 
+  ApexNonAxisChartSeries,
+  ApexResponsive, 
+  ApexStroke,
+  ApexMarkers,
+  ApexYAxis,
+  ApexGrid,
+  ApexTitleSubtitle,
+  ApexLegend} from "ng-apexcharts";
 import { GenerateMontsToFilter } from 'src/app/utils/generate-monts-to-filter';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { TransactionYearEvolutionGraphModel } from './models/transaction-year-evolution-graph';
 
-export type ChartOptions = {
+export type BarChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   dataLabels: ApexDataLabels;
   plotOptions: ApexPlotOptions;
   xaxis: ApexXAxis;
+};
+
+export type PieChartOptions = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  responsive: ApexResponsive[];
+  labels: any;
+};
+
+export type LineChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  dataLabels: ApexDataLabels;
+  markers: ApexMarkers;
+  colors: string[];
+  yaxis: ApexYAxis;
+  grid: ApexGrid;
+  legend: ApexLegend;
+  title: ApexTitleSubtitle;
 };
 
 @Component({
@@ -38,14 +67,17 @@ export type ChartOptions = {
 
 export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
   @ViewChild("chart") chart: ChartComponent;
-  public transactionAmountChart: Partial<ChartOptions>;
-  public transactionQuantityChart: Partial<ChartOptions>;
+  public transactionAmountChart: Partial<BarChartOptions>;
+  public transactionQuantityChart: Partial<PieChartOptions>;
+  public evolutionYearChart: Partial<LineChartOptions>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   monthModel: MonthModel[];
   categoryTransactionModel: CategoryTransactionGraphModel[];
+  transactionEvolutionModel: TransactionYearEvolutionGraphModel[];
   selectedMonth: any;
   fillMonths: GenerateMontsToFilter;
+  showValues = false;
 
   constructor(private dashboardSevice: DashboardService,
     private toastr: ToastrService) { 
@@ -54,9 +86,8 @@ export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
       this.selectedMonth = this.monthModel[2]?.referenceDate;
     }
 
-  ngOnInit(): void {
-    
-    this.getTransactionCategoryGraph(null);
+  ngOnInit(): void {    
+    this.getTransactionGraphData(null);
   }
 
   ngOnDestroy(): void {
@@ -64,13 +95,22 @@ export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  getTransactionCategoryGraph(event: MatSelectChange | null) {
+  toggleVisibility() {
+    this.showValues = !this.showValues;
+  }
+
+  getTransactionGraphData(event: MatSelectChange | null) {
     let selectedDate: Date = new Date();
 
     if (event) {
       selectedDate = event.value;
     }
 
+    this.getTransactionCategoryGraph(selectedDate);
+    this.getTransactionEvolutionGraph(selectedDate);
+  }
+
+  getTransactionCategoryGraph(selectedDate: Date) {
     this.dashboardSevice.getTransactionCategorySumary(selectedDate)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -92,16 +132,22 @@ export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
           };
 
           this.transactionQuantityChart = {
-            series: [{
-              name: 'Quantidade',
-              data: this.categoryTransactionModel.map(item => item.quantity),
-            }],
-            chart: { type: "bar" },
-            plotOptions: { bar: { horizontal: true } },
-            dataLabels: { enabled: false },
-            xaxis: {
-              categories: this.categoryTransactionModel.map(item => item.categoryDescription)
-            }
+            series: this.categoryTransactionModel.map(item => item.quantity),
+            chart: { width: 380, type: "pie" },
+            labels:this.categoryTransactionModel.map(item => item.categoryDescription),
+            responsive: [
+              {
+                breakpoint: 480,
+                options: {
+                  chart: {
+                    width: 200
+                  },
+                  legend: {
+                    position: "bottom"
+                  }
+                }
+              }
+            ]
           };
         },
         error: (fail) => {
@@ -109,4 +155,96 @@ export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
         }
       });
   }
+
+  getTransactionEvolutionGraph(selectedDate: Date) {
+    this.dashboardSevice.getTransactionInYearEvolution(selectedDate)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.transactionEvolutionModel = response;
+
+          let maxIncome:number = Math.max(...this.transactionEvolutionModel.map(item => item.totalIncome)) + 1000;
+          let minExpense:number = Math.min(...this.transactionEvolutionModel.map(item => item.totalExpense));
+          let minBalance:number = Math.max(...this.transactionEvolutionModel.map(item => item.totalBalance));
+
+          let minimalValue:number = (minExpense < minBalance ? minExpense : minBalance) - 1000;
+
+          this.evolutionYearChart = {
+            series: [
+              {
+                name: "Receitas",
+                data: this.transactionEvolutionModel.map(item => item.totalIncome)
+              },
+              {
+                name: "Despesas",
+                data: this.transactionEvolutionModel.map(item => item.totalExpense)
+              },
+              {
+                name: "Saldo Mensal",
+                data: this.transactionEvolutionModel.map(item => item.totalBalance)
+              }
+            ],
+            chart: {
+              height: 350,
+              type: "line",
+              dropShadow: {
+                enabled: true,
+                color: "#000",
+                top: 18,
+                left: 7,
+                blur: 10,
+                opacity: 0.2
+              },
+              toolbar: {
+                show: false
+              }
+            },
+            colors: ["#0064E8", "#FF0909", "#005422"],
+            dataLabels: {
+              enabled: false
+            },
+            stroke: {
+              curve: "smooth"
+            },
+            title: {
+              text: "Legendas",
+              align: "left"
+            },
+            grid: {
+              borderColor: "#e7e7e7",
+              row: {
+                colors: ["#f3f3f3", "transparent", "transparent"],
+                opacity: 0.5
+              }
+            },
+            markers: {
+              size: 1
+            },
+            xaxis: {
+              categories: this.transactionEvolutionModel.map(item => `${item.month}/${item.year}`),
+              title: {
+                text: "Meses"
+              }
+            },
+            yaxis: {
+              title: {
+                text: "Totais Realizados"
+              },
+              min: minimalValue,
+              max: maxIncome
+            },
+            legend: {
+              position: "top",
+              horizontalAlign: "right",
+              floating: true,
+              offsetY: -25,
+              offsetX: -5
+            }
+          };
+        },
+        error: (fail) => {
+          this.toastr.error(fail.error.errors);
+        }
+      });
+  }  
 }

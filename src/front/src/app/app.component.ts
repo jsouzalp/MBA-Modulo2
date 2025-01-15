@@ -8,13 +8,5 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'FinPlanner 360';
-
-  isDarkTheme = false;
-
-  toggleTheme(): void {
-    this.isDarkTheme = !this.isDarkTheme;
-    const theme = this.isDarkTheme ? 'dark-theme' : 'light-theme';
-    document.body.classList.value = theme;
-  }
+  title = 'MBA - Grupo 1';
 }

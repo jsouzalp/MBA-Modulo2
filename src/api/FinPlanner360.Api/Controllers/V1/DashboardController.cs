@@ -33,8 +33,9 @@ namespace FinPlanner360.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CardSumaryViewModel>> GetSumaryCardsAsync(DateTime? date)
         {
-            date = date.HasValue && date.Value != DateTime.MinValue && date.Value != DateTime.MaxValue 
-                ? date.Value 
+            DateTime dateNow = DateTime.Now;
+            date = date.HasValue && date.Value != DateTime.MinValue && date.Value != DateTime.MaxValue
+                ? date.Value
                 : DateTime.Now;
             DateTime startDate = new DateTime(date.Value.Year, date.Value.Month, 1);
             DateTime endDate = startDate.AddMonths(1).AddSeconds(-1);
@@ -81,6 +82,57 @@ namespace FinPlanner360.Api.Controllers.V1
                                              TotalAmount = g.Sum(x => x.Amount),
                                              Quantity = g.Count()
                                          });
+
+            return GenerateResponse(transactionsDashboard, HttpStatusCode.OK);
+        }
+
+        [HttpGet("evolution/{date:datetime?}")]
+        [SwaggerOperation(Summary = "Evolução do Saldo disponível", Description = "Responsável uma projeção de saldo disponível nos últimos 12 meses")]
+        [ProducesResponseType(typeof(IEnumerable<TransactionDashboardViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<IEnumerable<TransactionDashboardViewModel>>> GetBalanceAsync(DateTime? date)
+        {
+            date = date.HasValue && date.Value != DateTime.MinValue && date.Value != DateTime.MaxValue
+                ? date.Value
+                : DateTime.Now;
+            DateTime startDate = new DateTime(date.Value.Year, date.Value.Month, 1).AddMonths(1).AddYears(-1);
+            DateTime endDate = startDate.AddYears(1).AddSeconds(-1);
+
+            var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
+
+            var transactionsGrouped = (from x in transactionsList
+                                       group x by new { x.TransactionDate.Year, x.TransactionDate.Month } into g
+                                       select new TransactionYearEvolutionViewModel
+                                       {
+                                           Year = g.Key.Year,
+                                           Month = g.Key.Month,
+                                           TotalIncome = g.Sum(x => x.Type == TransactionTypeEnum.Income ? x.Amount : 0.00m),
+                                           TotalExpense = g.Sum(x => x.Type == TransactionTypeEnum.Expense ? x.Amount : 0.00m),
+                                           TotalBalance = g.Sum(x => x.Type == TransactionTypeEnum.Expense ? (x.Amount * -1.00m) : x.Amount)
+                                       }).OrderBy(x => x.Year)
+                                           .ThenBy(x => x.Month);
+
+            var allMonths = Enumerable.Range(0, 12)
+                .Select(x => startDate.AddMonths(x))
+                .Select(date => new { date.Year, date.Month })
+                .ToList();
+
+            var transactionsDashboard = (from month in allMonths
+                                         join transaction in transactionsGrouped
+                                         on new { month.Year, month.Month } equals new { transaction.Year, transaction.Month }
+                                         into transactionGroup
+                                         from tg in transactionGroup.DefaultIfEmpty()
+                                         select new TransactionYearEvolutionViewModel
+                                         {
+                                             Year = month.Year,
+                                             Month = month.Month,
+                                             TotalIncome = tg?.TotalIncome ?? 0.00m,
+                                             TotalExpense = tg?.TotalExpense ?? 0.00m,
+                                             TotalBalance = tg?.TotalBalance ?? 0.00m
+                                         }).OrderBy(x => x.Year)
+                                           .ThenBy(x => x.Month)
+                                           .ToList();
 
             return GenerateResponse(transactionsDashboard, HttpStatusCode.OK);
         }

@@ -3,40 +3,67 @@
     <div class="header d-flex justify-content-between align-items-center">
       <mat-form-field class="theme-select col-10" appearance="outline">
         <mat-label>Selecione o mês</mat-label>
-        <mat-select [(value)]="selectedMonth" (selectionChange)="getTransactionCategoryGraph($event)">
+        <mat-select [(value)]="selectedMonth" (selectionChange)="getTransactionGraphData($event)">
           <mat-option *ngFor="let month of monthModel" [value]="month.referenceDate">
             {{ month.month }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <button mat-icon-button (click)="toggleVisibility()">
+        <mat-icon>{{ showValues ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
     </div>
     <mat-card-header>
       <mat-card-title>Evolução das Transações</mat-card-title>
     </mat-card-header>
-  </mat-card-content>
 
-  <div class="grid-container">
-    <mat-card class="card">
-      <mat-card-subtitle>Totais por Categoria</mat-card-subtitle>
-      <mat-card-content>
-        <div id="chart">
-          <apx-chart [series]="transactionAmountChart.series" [chart]="transactionAmountChart.chart"
-            [dataLabels]="transactionAmountChart.dataLabels" [plotOptions]="transactionAmountChart.plotOptions"
-            [xaxis]="transactionAmountChart.xaxis">
-          </apx-chart>
-        </div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="card">
-      <mat-card-subtitle>Transações por Categoria</mat-card-subtitle>
-      <mat-card-content>
-        <div id="chart">
-          <apx-chart [series]="transactionQuantityChart.series" [chart]="transactionQuantityChart.chart"
-            [dataLabels]="transactionQuantityChart.dataLabels" [plotOptions]="transactionQuantityChart.plotOptions"
-            [xaxis]="transactionQuantityChart.xaxis">
-          </apx-chart>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+    <div class="grid-container">
+      <mat-card class="card">
+        <mat-card-subtitle>Totais por Categoria</mat-card-subtitle>
+        <mat-card-content>
+          <div id="barChart" *ngIf="showValues">
+            <apx-chart [series]="transactionAmountChart.series" 
+                       [chart]="transactionAmountChart.chart"
+                       [dataLabels]="transactionAmountChart.dataLabels" 
+                       [plotOptions]="transactionAmountChart.plotOptions"
+                       [xaxis]="transactionAmountChart.xaxis">
+            </apx-chart>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="card">
+        <mat-card-subtitle>Transações por Categoria</mat-card-subtitle>
+        <mat-card-content>
+          <div id="pieChart" *ngIf="showValues">
+            <apx-chart [series]="transactionQuantityChart.series" 
+                       [chart]="transactionQuantityChart.chart"
+                       [labels]="transactionQuantityChart.labels" 
+                       [responsive]="transactionQuantityChart.responsive">
+            </apx-chart>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="card">
+        <mat-card-subtitle>Evolução de Receitas x Despesas (12 meses)</mat-card-subtitle>
+        <mat-card-content>
+          <div id="pieChart" *ngIf="showValues">
+            <apx-chart [series]="evolutionYearChart.series" 
+                       [chart]="evolutionYearChart.chart" 
+                       [xaxis]="evolutionYearChart.xaxis"
+                       [stroke]="evolutionYearChart.stroke" 
+                       [colors]="evolutionYearChart.colors" 
+                       [dataLabels]="evolutionYearChart.dataLabels"
+                       [legend]="evolutionYearChart.legend" 
+                       [markers]="evolutionYearChart.markers" 
+                       [grid]="evolutionYearChart.grid"
+                       [yaxis]="evolutionYearChart.yaxis" 
+                       [title]="evolutionYearChart.title">
+            </apx-chart>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-card-content>
 </mat-card>
