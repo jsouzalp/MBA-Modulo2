@@ -1,9 +1,9 @@
-<div class="col-lg-6">
-    <mat-card class="b-1 shadow-none">
+<!-- <div class="col-lg-6">
+    <mat-card class="cardWithShadow">
       <mat-card-header>
         <mat-card-title>COLOCAR AQUI PARA IMPRIMIR OU EXPORTAR</mat-card-title>
       </mat-card-header>
-      <mat-card-content class="b-t-1">
+      <mat-card-content>
         <mat-list>
             <div *ngFor="let category of reportcategoryModel">  
                 <mat-list-item>
@@ -15,4 +15,45 @@
         </mat-list>
       </mat-card-content>
     </mat-card>
-  </div>
+  </div> -->
+
+  <!-- <mat-card class="cardWithShadow">
+    <mat-card-content>
+      <mat-card-title>COLOCAR AQUI PARA IMPRIMIR OU EXPORTAR</mat-card-title>
+      <mat-card-subtitle class="mat-body-1"></mat-card-subtitle>
+      <mat-list>
+        <div *ngFor="let category of reportcategoryModel">  
+            <mat-list-item>
+                <span matListItemTitle class="f-s-16 f-w-600">{{category.categoryDescription}}</span>
+                <span matListItemLine class="mat-body-1">{{category.totalAmount}}</span>
+                <span matListItemLine class="mat-body-1">{{category.type}}</span>
+            </mat-list-item>
+        </div>
+    </mat-list>
+
+    </mat-card-content>
+  </mat-card> -->
+
+
+  <mat-card class="cardWithShadow theme-card">
+    <mat-card-header>
+      <mat-card-title class="m-b-0">COLOCAR AQUI PARA IMPRIMIR OU EXPORTAR</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content class="b-t-1">
+      <div class="row">
+            <mat-card-content>
+              <mat-list>
+                <div *ngFor="let category of reportcategoryModel">  
+                    <mat-list-item>
+                        <span matListItemTitle class="f-s-16 f-w-600">{{category.categoryDescription}}</span>
+                        <span matListItemLine class="mat-body-1">{{category.totalAmount}}</span>
+                        <span matListItemLine class="mat-body-1">{{category.type}}</span>
+                    </mat-list-item>
+                </div>
+            </mat-list>
+
+            </mat-card-content>
+      </div>
+    </mat-card-content>
+  </mat-card>
