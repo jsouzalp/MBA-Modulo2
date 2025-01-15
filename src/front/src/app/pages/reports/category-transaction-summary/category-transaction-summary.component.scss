@@ -1,47 +1,72 @@
-.report-category {
-  margin-bottom: 2rem;
-}
+  // .theme-card {
+  //   padding: 20px;
+  //   border-radius: 8px;
+  //   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  //   background-color: #fff;
+  //   margin-bottom: 20px;
+  // }
 
-.report-category-title {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
+  // .mat-card-header {
+  //   background-color: #f4f4f4;
+  //   padding: 10px;
+  //   border-bottom: 2px solid #ccc;
+  // }
 
-.report-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed; 
-}
+  // .mat-card-title {
+  //   font-size: 20px;
+  //   font-weight: bold;
+  //   color: #333;
+  // }
 
-.report-table th, 
-.report-table td {
-  padding: 0.5rem;
-  text-align: left;
-  border: 1px solid #ddd;
-}
+  .report-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
 
-.header-cell {
-  background-color: #f4f4f4;
-  font-weight: bold;
-}
+  .category-description
+  {
+    width: 33%;  
+    text-align: left;
+    padding: 0 10px;
+  }
 
-.data-cell {
-  word-wrap: break-word; 
-}
+  .category-type {
+    width: 33%;  
+    text-align: left;
+    padding: 0 10px;
+  }
 
-.date-column {
-  width: 15%;
-}
 
-.description-column {
-  width: 45%; 
-}
+  .total-amount
+  {
+    width: 33%;  
+    text-align: left;
+    padding: 0 10px;
+  }
 
-.total-column {
-  width: 20%; 
-  text-align: right;
-}
 
-.type-column {
-  width: 20%; 
-}
+  .spacer {
+    flex-grow: 1; 
+  }
+
+  .mat-card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  mat-list-item {
+    padding: 5px 0;
+    margin: 5px 0;
+  }
+
+  mat-list {
+    padding: 0;
+    margin: 0;
+  }
