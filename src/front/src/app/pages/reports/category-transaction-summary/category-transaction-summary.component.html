@@ -8,12 +8,8 @@
             <div *ngFor="let category of reportcategoryModel">  
                 <mat-list-item>
                     <span matListItemTitle class="f-s-16 f-w-600">{{category.categoryDescription}}</span>
-                      <div *ngFor="let transaction of category.transactions">
-                        <span matListItemLine class="mat-body-1">{{transaction.description}}</span>
-                        <span matListItemLine class="mat-body-1">{{transaction.transactionDate}}</span>
-                        <span matListItemLine class="mat-body-1">{{transaction.totalAmount}}</span>
-                        <span matListItemLine class="mat-body-1">{{transaction.type}}</span>
-                      </div>
+                        <span matListItemLine class="mat-body-1">{{category.totalAmount}}</span>
+                        <span matListItemLine class="mat-body-1">{{category.type}}</span>
                 </mat-list-item>
             </div>
         </mat-list>

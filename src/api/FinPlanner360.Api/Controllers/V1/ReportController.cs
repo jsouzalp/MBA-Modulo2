@@ -49,8 +49,8 @@ namespace FinPlanner360.Api.Controllers.V1
                                       select new TransactionCategoyViewModel
                                       {
                                           CategoryDescription = g.Key.Description,
-                                          Type = g.Key.Type,
-                                          TotalAmount = g.Sum(x => x.Amount)
+                                          Type = g.Key.Type.GetDescription(),
+                                          TotalAmount = g.Sum(x => x.Amount).ToString("C")
                                       });
 
             return GenerateResponse(transactionsReport, HttpStatusCode.OK);

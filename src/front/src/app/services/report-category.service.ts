@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, map, Observable } from 'rxjs';
 import { BaseService } from './BaseService';
 import { ReportCategoryAnalytics } from '../pages/reports/category-transaction-analytics/Models/transaction.models';
+import { ReportCategory } from '../pages/reports/category-transaction-summary/models/transaction.models';
 
 
 
@@ -26,15 +27,13 @@ export class ReportCategoryService extends BaseService {
     return response;
   }
 
-  getSummary(): Observable<ReportCategoryAnalytics[]> {
+  getSummary(): Observable<ReportCategory[]> {
     let response = this.http
-      .get(this.UrlServiceV1 + 'v1/Report/Transactions/AnalyticsByCategory?startDate=2025-01-01&endDate=2025-01-31',  this.getAuthHeaderJson())
+      .get(this.UrlServiceV1 + 'v1/Report/Transactions/SummaryByCategory?startDate=2025-01-01&endDate=2025-01-31',  this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));
 
     return response;
   }
-
-
 }
