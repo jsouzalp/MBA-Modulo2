@@ -33,3 +33,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .margin-md-left { margin-left: 16px !important; }
 .margin-lg-left { margin-left: 24px !important; }
 .margin-xl-left { margin-left: 32px !important; }
+
+@keyframes rotate {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.mat-icon.rotating {
+  animation: rotate 2s linear infinite;
+}

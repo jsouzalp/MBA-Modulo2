@@ -89,7 +89,7 @@ export class GeneralBudgetListComponent implements OnInit, OnDestroy {
 
   deleteCategory(id: string) {
 
-    const dialogData = new ConfirmDialogModel('Atenção', 'Confirma exclusão ?');
+    const dialogData = new ConfirmDialogModel('Atenção', `Confirma exclusão do limite orçamentário geral?`);
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
@@ -106,7 +106,7 @@ export class GeneralBudgetListComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: () => {
-              this.toastr.success('Excluída com sucesso.');
+              this.toastr.success('Excluído com sucesso.');
               this.getBudgeties();
             },
             error: (fail) => {

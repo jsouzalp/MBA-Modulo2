@@ -58,6 +58,9 @@ export class CategoryAddComponent extends FormBaseComponent implements OnInit, O
   }
 
   submit() {
+    if (!this.form.valid) return;
+    
+    this.submitted = true;
     this.categoryModel = this.form.value;
     this.categorySevice.create(this.categoryModel)
       .pipe(takeUntil(this.destroy$))
@@ -69,13 +72,8 @@ export class CategoryAddComponent extends FormBaseComponent implements OnInit, O
             return;
           }
 
-          let toast = this.toastr.success('Categoria criada com sucesso.');
-          if (toast) {
-            toast.onHidden.pipe(takeUntil(this.destroy$)).subscribe(() => {
-              this.dialogRef.close({ inserted: true })
-            });
-          }
-
+          this.toastr.success('Categoria criada com sucesso.');
+          this.dialogRef.close({ inserted: true })
         },
         error: (fail) => {
           this.submitted = false;
