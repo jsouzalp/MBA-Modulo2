@@ -56,6 +56,16 @@ export const navItems: NavItem[] = [
     route: '/dashboard-',
   },
   {
+    displayName: 'Gastos por Categoria Sintético',
+    iconName: 'material-symbols-light:date-range-outline',
+    route: 'pages/report/categorySummary',
+  },
+  {
+    displayName: 'Gastos por Categoria Analítico',
+    iconName: 'material-symbols-light:date-range-outline',
+    route: 'pages/report/category',
+  },
+  {
     displayName: 'xxxx',
     iconName: 'ix:ingestion-report',
     route: '/dashboard-',

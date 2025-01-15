@@ -5,6 +5,7 @@ import { CategoryListComponent } from './category/category-list.component';
 import { TransactionCreateComponent } from './transaction/transaction-create.component';
 import { BudgetByCategoryListComponent } from './budget/by-category/budget-by-category-list.component';
 import { GeneralBudgetListComponent } from './budget/general/general-budget-list.component';
+import { CategoryTransactionSummaryComponent } from './reports/category-transaction-summary/category-transaction-summary.component';
 
 export const PagesRoutes: Routes = [
   {
@@ -29,7 +30,11 @@ export const PagesRoutes: Routes = [
       {
         path: 'transaction/create',
         component: TransactionCreateComponent,
-      }, 
+      },
+      {
+        path: 'report/categorySummary',
+        component: CategoryTransactionSummaryComponent,
+      }
     ],
   },
 ];
