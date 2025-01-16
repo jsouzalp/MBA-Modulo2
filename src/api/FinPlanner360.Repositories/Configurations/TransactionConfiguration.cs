@@ -38,11 +38,6 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
             .HasPrecision(2)
             .IsRequired();
 
-        builder.Property(x => x.Type)
-            .HasColumnName("TYPE")
-            .HasColumnType(DatabaseTypeConstant.Byte)
-            .IsRequired();
-
         builder.Property(x => x.CategoryId)
             .HasColumnName("CATEGORY_ID")
             .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)

@@ -5,6 +5,7 @@ namespace FinPlanner360.Business.Interfaces.Services;
 public interface INotificationService
 {
     bool HasNotification();
+    bool HasError();
 
     ICollection<Notification> GetNotifications();
 

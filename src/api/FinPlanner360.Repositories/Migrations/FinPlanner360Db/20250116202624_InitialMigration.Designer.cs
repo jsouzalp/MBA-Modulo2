@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
 {
     [DbContext(typeof(FinPlanner360DbContext))]
-    [Migration("20250109195749_InitialMigration")]
+    [Migration("20250116202624_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -150,10 +150,6 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("SmallDateTime")
                         .HasColumnName("TRANSACTION_DATE");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("TinyInt")
-                        .HasColumnName("TYPE");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("UniqueIdentifier")

@@ -58,6 +58,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(CategoryAddComponent, {
       width: '500px',
       height: '400px',
+      disableClose: true,
       data: this.categoryModel
     });
 
@@ -82,6 +83,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(CategoryUpdateComponent, {
       width: '500px',
       height: '300px',
+      disableClose: true,
       data: category
     });
 
@@ -101,6 +103,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
+      disableClose: true,
       data: dialogData
     });
 

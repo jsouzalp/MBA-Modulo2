@@ -1,5 +1,4 @@
-﻿using FinPlanner360.Business.Models.Enums;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace FinPlanner360.Business.Models;
 
@@ -10,7 +9,6 @@ public class Transaction : Entity
     public Guid TransactionId { get; set; }
     public string Description { get; set; }
     public decimal Amount { get; set; }
-    public TransactionTypeEnum Type { get; set; }
     public Guid CategoryId { get; set; }
     public DateTime TransactionDate { get; set; }
 
