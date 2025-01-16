@@ -46,13 +46,13 @@ namespace FinPlanner360.Api.Controllers.V1
 
             CardSumaryViewModel cardSumary = new CardSumaryViewModel
             {
-                TotalIncome = transactions.Where(x => x.TransactionDate < date && x.Type == TransactionTypeEnum.Income).Sum(x => x.Amount),
-                TotalExpense = transactions.Where(x => x.TransactionDate < date && x.Type == TransactionTypeEnum.Expense).Sum(x => x.Amount),
-                TotalBalance = transactions.Where(x => x.TransactionDate < date).Sum(x => x.Type == TransactionTypeEnum.Expense ? (x.Amount * -1.00m) : x.Amount),
-                TotalIncomeToday = transactions.Where(x => x.TransactionDate == date && x.Type == TransactionTypeEnum.Income).Sum(x => x.Amount),
-                TotalExpenseToday = transactions.Where(x => x.TransactionDate == date && x.Type == TransactionTypeEnum.Expense).Sum(x => x.Amount),
-                FutureTotalIncome = transactions.Where(x => x.TransactionDate > date && x.Type == TransactionTypeEnum.Income).Sum(x => x.Amount),
-                FutureTotalExpense = transactions.Where(x => x.TransactionDate > date && x.Type == TransactionTypeEnum.Expense).Sum(x => x.Amount)
+                TotalIncome = transactions.Where(x => x.TransactionDate < date && x.Category.Type == CategoryTypeEnum.Income).Sum(x => x.Amount),
+                TotalExpense = transactions.Where(x => x.TransactionDate < date && x.Category.Type == CategoryTypeEnum.Expense).Sum(x => x.Amount),
+                TotalBalance = transactions.Where(x => x.TransactionDate < date).Sum(x => x.Category.Type == CategoryTypeEnum.Expense ? (x.Amount * -1.00m) : x.Amount),
+                TotalIncomeToday = transactions.Where(x => x.TransactionDate == date && x.Category.Type == CategoryTypeEnum.Income).Sum(x => x.Amount),
+                TotalExpenseToday = transactions.Where(x => x.TransactionDate == date && x.Category.Type == CategoryTypeEnum.Expense).Sum(x => x.Amount),
+                FutureTotalIncome = transactions.Where(x => x.TransactionDate > date && x.Category.Type == CategoryTypeEnum.Income).Sum(x => x.Amount),
+                FutureTotalExpense = transactions.Where(x => x.TransactionDate > date && x.Category.Type == CategoryTypeEnum.Expense).Sum(x => x.Amount)
             };
 
             return GenerateResponse(cardSumary, HttpStatusCode.OK);
@@ -74,7 +74,7 @@ namespace FinPlanner360.Api.Controllers.V1
             var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
 
             var transactionsDashboard = (from x in transactionsList
-                                         group x by new { x.Category.Description, x.Type } into g
+                                         group x by new { x.Category.Description, x.Category.Type } into g
                                          select new TransactionDashboardViewModel
                                          {
                                              CategoryDescription = g.Key.Description,

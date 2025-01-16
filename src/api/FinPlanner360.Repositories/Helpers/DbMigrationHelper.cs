@@ -45,14 +45,13 @@ public static class DbMigrationHelper
             {
                 var categories = await CallDefaultCategoriesAsync(applicationContext);
                 string roleId = await CallIdentityRolesAsync(identityContext);
-                await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "André Cesconetto", "abcesconetto@gmail.com", roleId);
                 await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Hugo Domynique Ribeiro Nunes", "hgdmaf@gmail.com", roleId);
                 await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Jairo Azevedo", "jsouza.lp@gmail.com", roleId);
                 await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Jason Santos do Amaral", "jason.amaral@gmail.com", roleId);
                 await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Marco Aurelio Roque Pinto", "marco@imperiumsolucoes.com.br", roleId);
                 await CallUserConfigurationAsync(categories, applicationContext, identityContext, userManager, "Pedro Otávio Gutierres", "pedro@imperiumsolucoes.com.br", roleId);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -168,9 +167,11 @@ public static class DbMigrationHelper
             #endregion Roles
 
             #region Data
+
             Guid userId = Guid.Parse(identityUser.Id);
 
             #region Orçamento Geral
+
             GeneralBudget generalBudget = new()
             {
                 GeneralBudgetId = Guid.NewGuid(),
@@ -179,9 +180,11 @@ public static class DbMigrationHelper
                 CreatedDate = DateTime.Now
             };
             applicationContext.GeneralBudgets.Add(generalBudget);
-            #endregion
+
+            #endregion Orçamento Geral
 
             #region Orçamento
+
             Guid transportBudgetId = Guid.NewGuid();
             Budget transportBudget = new()
             {
@@ -215,17 +218,28 @@ public static class DbMigrationHelper
             applicationContext.Budgets.Add(transportBudget);
             applicationContext.Budgets.Add(leisureBudget);
             applicationContext.Budgets.Add(foodBudget);
-            #endregion
+
+            #endregion Orçamento
 
             #region User
 
-            DateTime baseDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime baseDate = new(DateTime.Now.Year, DateTime.Now.Month, 1);
             User user = new()
             {
                 UserId = userId,
                 Name = name,
                 Email = email,
                 AuthenticationId = userId,
+                Transactions =
+                [
+                    CreateTransaction(userId, "Recebimento de Salário Mensal", 10000.00m,  categories.SalaryId, baseDate.AddDays(10).Date),
+                    CreateTransaction(userId, "Pagamento de Aluguel", 1000.00m,  categories.HabitationId, baseDate.AddDays(15).Date),
+                    CreateTransaction(userId, "Uber", 100.00m, categories.TransportId, baseDate.Date),
+                    CreateTransaction(userId, "Metro", 100.00m, categories.TransportId, baseDate.Date),
+                    CreateTransaction(userId, "MBA Desenvolvedor.io", 1200.00m, categories.EducationId, baseDate.AddDays(15).Date),
+                    CreateTransaction(userId, "IFood", 300.00m, categories.FoodId, baseDate.AddDays(20).Date),
+                    CreateTransaction(userId, "Cinema", 500.00m, categories.LeisureId, baseDate.AddDays(7).Date)
+                ]
                 Transactions = new List<Transaction>()
                 {
                     // -12 meses
@@ -357,7 +371,8 @@ public static class DbMigrationHelper
             };
 
             applicationContext.Users.Add(user);
-            #endregion
+
+            #endregion User
 
             #endregion Data
 
@@ -365,14 +380,13 @@ public static class DbMigrationHelper
         }
     }
 
-    private static Transaction CreateTransaction(Guid userId, string description, decimal amount, TransactionTypeEnum type, Guid categoryId, DateTime transactionDate) 
-        => new Transaction()
+    private static Transaction CreateTransaction(Guid userId, string description, decimal amount, Guid categoryId, DateTime transactionDate)
+        => new()
         {
             TransactionId = Guid.NewGuid(),
             UserId = userId,
             Description = description,
             Amount = amount,
-            Type = type,
             CategoryId = categoryId,
             TransactionDate = transactionDate,
             CreatedDate = DateTime.Now

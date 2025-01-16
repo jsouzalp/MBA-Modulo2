@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, map } from 'rxjs';
+import { Observable, catchError, map } from 'rxjs';
 import { BaseService } from './BaseService';
+import { CategoryTransactionGraphModel } from '../components/dashboard/transaction-category-graph/models/transaction-category-graph';
+import { CardSumaryModel } from '../components/dashboard/balance-card/models/card-sumary.model';
+import { ToastrService } from 'ngx-toastr';
+import { MessageService } from './message.service ';
 import { CategoryTransactionGraphModel } from '../pages/dashboard/transaction-category-graph/models/transaction-category-graph';
 import { CardSumaryModel } from '../pages/dashboard/balance-card/models/card-sumary.model';
 import { TransactionYearEvolutionGraphModel } from '../pages/dashboard/transaction-category-graph/models/transaction-year-evolution-graph';
@@ -9,38 +13,36 @@ import { TransactionYearEvolutionGraphModel } from '../pages/dashboard/transacti
 @Injectable({ providedIn: 'root' })
 export class DashboardService extends BaseService {
 
-  public currentUrl = new BehaviorSubject<any>(undefined);
-
-  constructor(private http: HttpClient) {
-    super();
+  constructor(private http: HttpClient, toastr: ToastrService, messageService: MessageService) {
+    super(toastr, messageService);
   }
 
   getCardSumary(filterDate: Date | null): Observable<CardSumaryModel> {
     let url: string = `${this.UrlServiceV1}v1/dashboard/cards/`;
-    if (filterDate){
+    if (filterDate) {
       url += this.formatDate(filterDate);
     }
 
     let response = this.http
       .get(url, this.getAuthHeaderJson())
       .pipe(
-        map(this.extractData),
-        catchError(this.serviceError));
+        map(response => this.extractData(response)),
+        catchError(error => this.serviceError(error)));
 
     return response;
   }
 
   getTransactionCategorySumary(filterDate: Date | null): Observable<CategoryTransactionGraphModel[]> {
     let url: string = `${this.UrlServiceV1}v1/dashboard/transactions/`;
-    if (filterDate){
+    if (filterDate) {
       url += this.formatDate(filterDate);
     }
 
     let response = this.http
       .get(url, this.getAuthHeaderJson())
       .pipe(
-        map(this.extractData),
-        catchError(this.serviceError));
+        map(response => this.extractData(response)),
+        catchError(error => this.serviceError(error)));
 
     return response;
   }

@@ -49,6 +49,7 @@ export class GeneralBudgetListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(GeneralBudgetAddComponent, {
       width: '500px',
       height: '400px',
+      disableClose: true,
       data: this.budgetModel
     });
 
@@ -72,6 +73,7 @@ export class GeneralBudgetListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(GeneralBudgetUpdateComponent, {
       width: '500px',
       height: '400px',
+      disableClose: true,
       data: category
     });
 
@@ -91,6 +93,7 @@ export class GeneralBudgetListComponent implements OnInit, OnDestroy {
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
+      disableClose: true,
       data: dialogData
     });
 

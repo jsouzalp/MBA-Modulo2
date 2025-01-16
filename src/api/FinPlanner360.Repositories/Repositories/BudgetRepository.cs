@@ -15,16 +15,18 @@ public class BudgetRepository : BaseRepository<Budget>, IBudgetRepository
 
     public override async Task<ICollection<Budget>> GetAllAsync()
     {
+        Guid? userId = _appIdentityUser != null ? _appIdentityUser.GetUserId() : null;
+
         return await _dbSet
+            .AsNoTracking()
             .Include(x => x.Category)
+            .Where(c => c.UserId == userId)
             .ToListAsync();
     }
 
 
     public async Task<Budget> GetBudgetByCategoryId(Guid id)
     {
-        Guid? userId = _appIdentityUser != null ? _appIdentityUser.GetUserId() : null;
-
         return await _context.Budgets
             .AsNoTracking()
             .Where(c => c.CategoryId == id)

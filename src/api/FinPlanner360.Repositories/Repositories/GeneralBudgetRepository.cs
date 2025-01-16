@@ -15,6 +15,10 @@ public class GeneralBudgetRepository : BaseRepository<GeneralBudget>, IGeneralBu
 
     public override async Task<ICollection<GeneralBudget>> GetAllAsync()
     {
-        return await _dbSet.ToListAsync();
+        Guid? userId = _appIdentityUser != null ? _appIdentityUser.GetUserId() : null;
+        return await _dbSet
+            .AsNoTracking()
+            .Where(c => c.UserId == userId)
+            .ToListAsync();
     }
 }
