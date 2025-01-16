@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoryListComponent } from './category/category-list.component';
-
-import { TransactionCreateComponent } from './transaction/transaction-create.component';
 import { BudgetByCategoryListComponent } from './budget/by-category/budget-by-category-list.component';
 import { GeneralBudgetListComponent } from './budget/general/general-budget-list.component';
+import { TransactionListComponent } from './transaction/transaction-list.component';
 
 export const PagesRoutes: Routes = [
   {
@@ -27,8 +26,8 @@ export const PagesRoutes: Routes = [
         component: GeneralBudgetListComponent,
       },
       {
-        path: 'transaction/create',
-        component: TransactionCreateComponent,
+        path: 'transaction/list',
+        component: TransactionListComponent,
       }, 
     ],
   },

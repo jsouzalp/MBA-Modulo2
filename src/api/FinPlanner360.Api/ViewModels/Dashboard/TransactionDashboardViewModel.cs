@@ -6,6 +6,6 @@ namespace FinPlanner360.Api.ViewModels.Dashboard
     {
         public string CategoryDescription { get; set; }
         public decimal TotalAmount { get; set; }
-        public TransactionTypeEnum Type { get; set; }
+        public CategoryTypeEnum Type { get; set; }
     }
 }

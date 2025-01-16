@@ -1,5 +1,6 @@
 ﻿using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
+using FinPlanner360.Business.Models.Enums;
 
 namespace FinPlanner360.Business.Services;
 
@@ -15,6 +16,7 @@ public class NotificationService : INotificationService
     public bool HasNotification() => _notification != null && _notification.Any();
 
     public ICollection<Notification> GetNotifications() => _notification;
+    public bool HasError() => _notification.Any(j => j.Type == NotificationTypeEnum.Error);
 
     public void Handle(Notification notification)
     {
@@ -23,6 +25,6 @@ public class NotificationService : INotificationService
 
     public void Handle(string notification)
     {
-        Handle(new Notification(notification));
+        Handle(new Notification(notification, NotificationTypeEnum.Error));
     }
 }

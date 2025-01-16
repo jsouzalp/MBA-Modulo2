@@ -10,7 +10,6 @@ public class Transaction : Entity
     public Guid TransactionId { get; set; }
     public string Description { get; set; }
     public decimal Amount { get; set; }
-    public TransactionTypeEnum Type { get; set; }
     public Guid CategoryId { get; set; }
     public DateTime TransactionDate { get; set; }
 

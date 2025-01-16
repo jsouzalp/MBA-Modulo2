@@ -12,8 +12,9 @@ import { CommonModule } from '@angular/common';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MatButtonModule } from '@angular/material/button';
 import { LocalStorageUtils } from 'src/app/utils/localstorage';
-import { UserService } from 'src/app/services/user.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
+import { MessageService } from 'src/app/services/message.service ';
+import { NotificationMessage } from 'src/app/models/notificationMessage.model';
 
 @Component({
   selector: 'app-header',
@@ -29,26 +30,43 @@ export class HeaderComponent implements OnInit {
   @Output() toggleMobileNav = new EventEmitter<void>();
   @Output() toggleCollapsed = new EventEmitter<void>();
   email: string;
+  messages: NotificationMessage[] = [];
+  private subscription!: Subscription;
+  hasMessage: boolean = false;
+  messageCounter: number = 0;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private router: Router, private localStorageUtils: LocalStorageUtils,private loginSevice: UserService) { }
+  constructor(private router: Router, private localStorageUtils: LocalStorageUtils, private messageService: MessageService) { }
   ngOnInit(): void {
     this.email = this.localStorageUtils.getEmail();
+
+    this.subscription = this.messageService.messages$.subscribe(
+      (messages) => {
+        console.log('subscription.messages', messages);
+        this.messages = messages;
+        this.hasMessage = messages.length > 0;
+        this.messageCounter = messages.length;
+      }
+    );
+  }
+
+  deleteMessage(id: number): void {
+    this.messageService.deleteMessage(id);
+  }
+
+  clearAllMessages(): void {
+    this.messageService.clearMessages();
+  }
+
+  getMessageCount(): number {
+    return this.messages.length;
   }
 
   logout() {
 
+    this.localStorageUtils.clear();
+    this.router.navigate(['/login']);
 
-        this.loginSevice.logout()
-          .pipe(takeUntil(this.destroy$))
-          .subscribe({
-            next: () => {
-              this.localStorageUtils.clear();
-              this.router.navigate(['/login']);
-            },
-            error: (fail) => {
-              console.log('fail', fail);
-            }
-          });
   }
 }

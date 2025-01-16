@@ -57,6 +57,7 @@ export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(BudgetByCategoryAddComponent, {
       width: '500px',
       height: '400px',
+      disableClose: true,
       data: this.budgetModel
     });
 
@@ -82,6 +83,7 @@ export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(BudgetUpdateComponent, {
       width: '500px',
       height: '400px',
+      disableClose: true,
       data: category
     });
 
@@ -101,6 +103,7 @@ export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
+      disableClose: true,
       data: dialogData
     });
 
