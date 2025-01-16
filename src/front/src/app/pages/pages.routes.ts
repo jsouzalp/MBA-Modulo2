@@ -7,6 +7,7 @@ import { BudgetByCategoryListComponent } from './budget/by-category/budget-by-ca
 import { GeneralBudgetListComponent } from './budget/general/general-budget-list.component';
 import { CategoryTransactionSummaryComponent } from './reports/category-transaction-summary/category-transaction-summary.component';
 import { CategoryTransactionAnalyticsComponent } from './reports/category-transaction-analytics/category-transaction-analytics.component';
+import { CategoryTransactionComponent } from './reports/category-transaction/category-transaction.component';
 
 export const PagesRoutes: Routes = [
   {
@@ -39,6 +40,10 @@ export const PagesRoutes: Routes = [
       {
         path: 'report/categoryAnalytics',
         component: CategoryTransactionAnalyticsComponent,
+      },
+      {
+        path: 'report/category',
+        component: CategoryTransactionComponent,
       }
     ],
   },
