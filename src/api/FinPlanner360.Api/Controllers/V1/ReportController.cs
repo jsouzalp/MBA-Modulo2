@@ -18,8 +18,8 @@ namespace FinPlanner360.Api.Controllers.V1
     [Route("api/v{version:apiVersion}/[Controller]")]
     public class ReportController : MainController
     {
-        private readonly ITransaction_Repository _transactionRepository;
-        public ReportController(ITransaction_Repository transactionRepository,
+        private readonly ITransactionRepository _transactionRepository;
+        public ReportController(ITransactionRepository transactionRepository,
                                 IAppIdentityUser appIdentityUser, 
                                 INotificationService notificationService) : base(appIdentityUser, notificationService)
         {
@@ -44,7 +44,7 @@ namespace FinPlanner360.Api.Controllers.V1
                 return NotFound("Nenhuma transação encontrada no intervalo de datas especificado.");
 
             var transactionsReport = (from x in transactionsList
-                                      group x by new { x.Category.Description, x.Type } into g
+                                      group x by new { x.Category.Description, x.Category.Type } into g
                                       select new TransactionCategoyViewModel
                                       {
                                           CategoryDescription = g.Key.Description,
@@ -76,7 +76,7 @@ namespace FinPlanner360.Api.Controllers.V1
                     .Select(x => new TransactionAnalyticsViewModel
                     {
                         TransactionDate = x.TransactionDate.ToString("dd/MM/yyyy"),
-                        Type = x.Type.GetDescription(),
+                        Type = x.Category.Type.GetDescription(),
                         Description = x.Description,
                         CategoryDescription = x.Category.Description,
                         TotalAmount = x.Amount.ToString("C"),

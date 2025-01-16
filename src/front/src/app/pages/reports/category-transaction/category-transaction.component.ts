@@ -54,7 +54,6 @@ export class CategoryTransactionComponent implements OnInit {
     console.log(`Data inicial: ${this.startDateValue?.toISOString().split('T')[0]}`);
     console.log(`Data final: ${this.endDateValue?.toISOString().split('T')[0]}`);
 
-    this.showComponent = false;
   }
 
 

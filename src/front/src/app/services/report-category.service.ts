@@ -4,6 +4,8 @@ import { BehaviorSubject, catchError, map, Observable } from 'rxjs';
 import { BaseService } from './BaseService';
 import { ReportCategoryAnalytics } from '../pages/reports/category-transaction-analytics/Models/transaction.models';
 import { ReportCategory } from '../pages/reports/category-transaction-summary/models/transaction.models';
+import { ToastrService } from 'ngx-toastr';
+import { MessageService } from './message.service ';
 
 
 
@@ -13,8 +15,8 @@ export class ReportCategoryService extends BaseService {
 
   public currentUrl = new BehaviorSubject<any>(undefined);
 
-  constructor(private http: HttpClient) {
-    super();
+  constructor(private http: HttpClient, toastr: ToastrService, messageService: MessageService) {
+    super(toastr, messageService);
   }
 
   getAnalytics(): Observable<ReportCategoryAnalytics[]> {
