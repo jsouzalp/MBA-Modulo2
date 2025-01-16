@@ -1,21 +1,8 @@
 
+<mat-card class="b-1 shadow-none">
+    <mat-card-content class="b-t-1">
 
-
-      <!-- <mat-card class="b-1 shadow-none">
-        <mat-card-content class="b-t-1">
-          <mat-chip-listbox aria-label="Fish selection">
-            <mat-chip-option class="f-s-14" color="primary" selected>Sintético</mat-chip-option>
-            <mat-chip-option class="f-s-14" color="primary">Analítico</mat-chip-option>
-          </mat-chip-listbox>
-        </mat-card-content>
-      </mat-card>
-
-
-
-<app-category-transaction-summary></app-category-transaction-summary>
-<app-category-transaction-analytics></app-category-transaction-analytics> -->
-
-    <div class="date-picker-container">
+      <div class="date-picker-container">
         <mat-form-field appearance="fill">
           <mat-label>Data Inicial</mat-label>
           <input matInput [matDatepicker]="startDate" [(ngModel)]="startDateValue">
@@ -29,24 +16,26 @@
           <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
           <mat-datepicker #endDate></mat-datepicker>
         </mat-form-field>
+        
+        <mat-chip-listbox aria-label="Selection" [(ngModel)]="selectedOption">
+          <mat-chip-option class="f-s-14" color="primary" [value]="'summary'">Sintético</mat-chip-option>
+          <mat-chip-option class="f-s-14" color="primary" [value]="'analytics'">Analítico</mat-chip-option>
+        </mat-chip-listbox>
+
       </div>
 
+      <button mat-flat-button color="primary" class="m-r-8" (click)="onButtonClick()">Confirmar</button>
 
-<mat-card class="b-1 shadow-none">
-    <mat-card-content class="b-t-1">
-      <mat-chip-listbox aria-label="Selection" [(ngModel)]="selectedOption">
-        <mat-chip-option class="f-s-14" color="primary" [value]="'summary'">
-          Sintético
-        </mat-chip-option>
-        <mat-chip-option class="f-s-14" color="primary" [value]="'analytics'">
-          Analítico
-        </mat-chip-option>
-      </mat-chip-listbox>
-    </mat-card-content>
+     </mat-card-content>
   </mat-card>
   
-  <div class="component-container" [ngSwitch]="selectedOption">
+  <!-- <div class="component-container" [ngSwitch]="selectedOption">
     <app-category-transaction-summary *ngSwitchCase="'summary'"></app-category-transaction-summary>
     <app-category-transaction-analytics *ngSwitchCase="'analytics'"></app-category-transaction-analytics>
-  </div>
+  </div> -->
+
+  <ng-container *ngIf="showComponent">
+    <app-category-transaction-summary *ngIf="selectedOption === 'summary'"></app-category-transaction-summary>
+    <app-category-transaction-analytics *ngIf="selectedOption === 'analytics'"></app-category-transaction-analytics>
+  </ng-container>
 

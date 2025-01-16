@@ -34,14 +34,6 @@ export const PagesRoutes: Routes = [
         component: TransactionCreateComponent,
       },
       {
-        path: 'report/categorySummary',
-        component: CategoryTransactionSummaryComponent,
-      },
-      {
-        path: 'report/categoryAnalytics',
-        component: CategoryTransactionAnalyticsComponent,
-      },
-      {
         path: 'report/category',
         component: CategoryTransactionComponent,
       }

@@ -1,4 +1,4 @@
-import { Component,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component,CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { CategoryTransactionSummaryComponent } from '../category-transaction-summary/category-transaction-summary.component';
 import { CommonModule } from '@angular/common';
 import { CategoryTransactionAnalyticsComponent } from "../category-transaction-analytics/category-transaction-analytics.component";
@@ -32,13 +32,36 @@ export const MY_DATE_FORMATS = {
   templateUrl: './category-transaction.component.html',
   styleUrl: './category-transaction.component.scss'
 })
-export class CategoryTransactionComponent {
+
+
+
+export class CategoryTransactionComponent implements OnInit {
+  ngOnInit(): void {
+    const currentDate = new Date();
+    this.startDateValue = currentDate;
+    this.endDateValue = currentDate;
+  }
 
   startDateValue: Date | null = null;
   endDateValue: Date | null = null;
   selectedOption: string = 'summary';
+  showComponent: boolean = false;
   
+  onButtonClick(): void {
+
+    this.showComponent = true;
+
+    console.log(`Data inicial: ${this.startDateValue?.toISOString().split('T')[0]}`);
+    console.log(`Data final: ${this.endDateValue?.toISOString().split('T')[0]}`);
+
+    this.showComponent = false;
+  }
+
+
+
 
 }
+
+
 
 
