@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinPlanner360.Repositories.Migrations.IdentityDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250109195819_InitialMigration")]
+    [Migration("20250116202704_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

@@ -31,7 +31,6 @@ public static class BusinesConfiguration
         services.AddScoped<IBudgetRepository, BudgetRepository>();
         services.AddScoped<IGeneralBudgetRepository, GeneralBudgetRepository>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
-        services.AddScoped<ITransaction_Repository, Transaction_Repository>();
 
         #endregion Repositories injection
 

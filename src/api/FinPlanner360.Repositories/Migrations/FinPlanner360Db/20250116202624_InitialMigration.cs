@@ -96,7 +96,6 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                     TRANSACTION_ID = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
                     DESCRIPTION = table.Column<string>(type: "Varchar", maxLength: 50, nullable: false, collation: "Latin1_General_CI_AI"),
                     AMOUNT = table.Column<decimal>(type: "Money", precision: 2, nullable: false),
-                    TYPE = table.Column<int>(type: "TinyInt", nullable: false),
                     CATEGORY_ID = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
                     TRANSACTION_DATE = table.Column<DateTime>(type: "SmallDateTime", nullable: false),
                     USER_ID = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),

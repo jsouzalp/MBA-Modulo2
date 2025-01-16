@@ -5,8 +5,8 @@ import { AppTotalFollowersComponent } from 'src/app/components/total-followers/t
 import { AppTotalIncomeComponent } from 'src/app/components/total-income/total-income.component';
 import { AppPopularProductsComponent } from 'src/app/components/popular-products/popular-products.component';
 import { AppEarningReportsComponent } from 'src/app/components/earning-reports/earning-reports.component';
-import { BalanceCardComponent } from 'src/app/components/dashboard/balance-card/balance-card.component';
-import { TransactionCategoryGraphComponent } from 'src/app/components/dashboard/transaction-category-graph/transaction-category-graph.component';
+import { TransactionCategoryGraphComponent } from 'src/app/pages/dashboard/transaction-category-graph/transaction-category-graph.component';
+import { BalanceCardComponent } from './balance-card/balance-card.component';
 
 @Component({
   selector: 'app-dashboard',

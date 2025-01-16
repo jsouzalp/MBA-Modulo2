@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FinPlanner360.Api.ViewModels.Category;
-using FinPlanner360.Business.Extensions;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;

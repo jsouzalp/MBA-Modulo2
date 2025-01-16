@@ -148,10 +148,6 @@ namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
                         .HasColumnType("SmallDateTime")
                         .HasColumnName("TRANSACTION_DATE");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("TinyInt")
-                        .HasColumnName("TYPE");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("UniqueIdentifier")
                         .HasColumnName("USER_ID");

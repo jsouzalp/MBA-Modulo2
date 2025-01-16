@@ -1,5 +1,4 @@
-﻿using FinPlanner360.Business.Models.Enums;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace FinPlanner360.Business.Models;
 
