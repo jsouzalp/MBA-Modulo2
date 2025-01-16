@@ -2,6 +2,7 @@
 
 public class CardSumaryViewModel
 {
+    public decimal WalletBalance { get; set; }
     public decimal TotalIncome { get; set; }
     public decimal TotalExpense { get; set; }
     public decimal TotalBalance { get; set; }

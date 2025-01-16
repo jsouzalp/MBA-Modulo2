@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map } from 'rxjs';
 import { BaseService } from './BaseService';
-import { CategoryTransactionGraphModel } from '../components/dashboard/transaction-category-graph/models/transaction-category-graph';
-import { CardSumaryModel } from '../components/dashboard/balance-card/models/card-sumary.model';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from './message.service ';
 import { CategoryTransactionGraphModel } from '../pages/dashboard/transaction-category-graph/models/transaction-category-graph';

@@ -1,6 +1,5 @@
 ﻿using FinPlanner360.Business.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinPlanner360.Api.Controllers.V1

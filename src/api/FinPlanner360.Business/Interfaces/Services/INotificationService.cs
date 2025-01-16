@@ -1,5 +1,4 @@
 ﻿using FinPlanner360.Business.Models;
-using FinPlanner360.Business.Models.Enums;
 
 namespace FinPlanner360.Business.Interfaces.Services;
 
