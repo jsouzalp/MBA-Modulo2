@@ -170,7 +170,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   }
 
   getCategoryBalance(transaction: TransactionListModel): string {
-    if (transaction.type === CategoryTypeEnum.Income || transaction.categoryBalance === 0) return "";
+    if (transaction.type === CategoryTypeEnum.Income ) return "";
 
     if (transaction.categoryBalance < 0) return "Previsão orçamentária não configurada para essa categoria";
 

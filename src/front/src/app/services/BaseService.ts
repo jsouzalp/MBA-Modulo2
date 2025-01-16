@@ -2,10 +2,15 @@ import { HttpHeaders, HttpErrorResponse } from "@angular/common/http";
 import { throwError } from "rxjs";
 import { LocalStorageUtils } from "../utils/localstorage";
 import { environment } from "src/environments/environment";
+import { ToastrService } from "ngx-toastr";
+import { MessageService } from "./message.service ";
 
 export abstract class BaseService {
     protected UrlServiceV1: string = environment.apiUrlv1;
     public LocalStorage = new LocalStorageUtils();
+
+    constructor(protected toastr: ToastrService, private messageService: MessageService) { }
+
 
     protected getHeaderJson() {
         return {
@@ -26,7 +31,6 @@ export abstract class BaseService {
     }
 
     protected serviceError(response: Response | any) {
-
         let customError: string[] = [];
         let errors: string[] = [];
         let customResponse = { error: { errors: errors } }
@@ -62,11 +66,35 @@ export abstract class BaseService {
         return throwError(() => response);
     }
 
-    protected extractData(response: any) {
+    protected extractData(response: any): any {
+        if (response.notifications && response.notifications.length > 0) {
+            response.notifications.forEach((notification: any) => {
+                switch (notification.type) {
+                    case 1:
+                        this.toastr.success(notification.message, 'Sucesso');
+                        this.messageService.setMessage('Sucesso', notification.message);
+                        break;
+                    case 2:
+                        this.toastr.warning(notification.message, 'Atenção');
+                        this.messageService.setMessage('Atenção', notification.message);
+                        break;
+                    case 3:
+                        this.toastr.error(notification.message, 'Erro');
+                        this.messageService.setMessage('Erro', notification.message);
+                        break;
+                    case 4:
+                        this.toastr.info(notification.message, 'Informação');
+                        this.messageService.setMessage('Informação', notification.message);
+                        break;
+                    default:
+                        this.toastr.warning(notification.message, 'Notificação');
+                }
+            });
+        }
+
         if (response.result) {
             return response.result || {};
-        }
-        else {
+        } else {
             return response;
         }
     }
@@ -75,3 +103,5 @@ export abstract class BaseService {
         return date.toISOString().split('T')[0];
     }
 }
+
+

@@ -13,7 +13,7 @@ public class TransactionViewModel
     
     [Range(0.01, double.MaxValue, ErrorMessage = "O valor deve ser maior que zero.")]
     public decimal Amount { get; set; }
-    public TransactionTypeEnum Type { get; set; }
+    public CategoryTypeEnum Type { get; set; }
     
     [Required(ErrorMessage = "A categoria é obrigatória.")]
     public Guid CategoryId { get; set; }

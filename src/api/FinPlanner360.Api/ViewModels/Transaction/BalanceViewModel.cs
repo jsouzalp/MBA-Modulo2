@@ -9,7 +9,7 @@ public class BalanceViewModel
     public string Description { get; set; }
 
     public decimal Amount { get; set; }
-    public TransactionTypeEnum Type { get; set; }
+    public CategoryTypeEnum Type { get; set; }
 
     public Guid CategoryId { get; set; }
 

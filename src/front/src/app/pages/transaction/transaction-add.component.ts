@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChildren } from '@angular/core';
+import { Component, ElementRef, Injectable, OnDestroy, OnInit, ViewChildren } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
@@ -13,8 +13,11 @@ import { CategoryModel } from '../category/models/category.model';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { TransactionModel } from './models/transaction.model';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { MessageService } from 'src/app/services/message.service ';
 
-
+@Injectable({
+  providedIn: 'root',
+})
 @Component({
   selector: 'app-transaction-add',
   standalone: true,
@@ -37,7 +40,8 @@ export class TransactionAddComponent extends FormBaseComponent implements OnInit
     private transactionSevice: TransactionService,
     private categorySevice: CategoryService,
     private toastr: ToastrService,
-    private dialogRef: MatDialogRef<TransactionAddComponent>) {
+    private dialogRef: MatDialogRef<TransactionAddComponent>,
+    private messageService: MessageService) {
 
     super();
 
@@ -54,7 +58,7 @@ export class TransactionAddComponent extends FormBaseComponent implements OnInit
       categoryId: {
         required: 'A categoria é obrigatória.',
       },
-      transactionDate:{
+      transactionDate: {
         required: 'A data da transação é obrigatória.',
       }
     };
@@ -112,6 +116,9 @@ export class TransactionAddComponent extends FormBaseComponent implements OnInit
         },
         error: (fail) => {
           this.submitted = false;
+          if (fail.error.errors[0].includes('acima do limite estabelecido')) {
+            this.messageService.setMessage('Erro', fail.error.errors[0]);
+          }
           this.toastr.error(fail.error.errors);
         }
       });

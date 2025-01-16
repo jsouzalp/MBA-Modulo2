@@ -24,6 +24,7 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
     public async Task<ICollection<Transaction>> GetBalanceByMonthYearAsync(DateTime date)
     {
         return await _dbSet
+            .AsNoTracking()
             .Include(x => x.Category)
             .Where(x => x.UserId == UserId &&
                     x.TransactionDate.Year == date.Year &&
@@ -35,6 +36,7 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
     public async Task<decimal> GetBalanceByMonthYearAndCatregoryAsync(DateTime date, Guid categoryId)
     {
         return await _dbSet
+            .AsNoTracking()
             .Include(x => x.Category)
             .Where(x => x.UserId == UserId &&
                     x.CategoryId == categoryId &&
