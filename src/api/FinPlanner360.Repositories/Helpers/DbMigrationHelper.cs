@@ -345,7 +345,7 @@ public static class DbMigrationHelper
                     CreateTransaction(userId, "IFood", 300.00m, TransactionTypeEnum.Expense, categories.FoodId, baseDate.AddDays(20).Date),
                     CreateTransaction(userId, "Cinema", 500.00m, TransactionTypeEnum.Expense, categories.LeisureId, baseDate.AddDays(7).Date),
 
-                    // +1 meses
+                    // +1 mes
                     CreateTransaction(userId, "Recebimento de Salário Mensal", 15000.00m, TransactionTypeEnum.Income, categories.SalaryId, baseDate.AddDays(10).AddMonths(1).Date),
                     CreateTransaction(userId, "Pagamento de Aluguel", 1500.00m, TransactionTypeEnum.Expense, categories.HabitationId, baseDate.AddDays(15).AddMonths(1).Date),
                     CreateTransaction(userId, "Uber", 150.00m, TransactionTypeEnum.Expense, categories.TransportId, baseDate.AddMonths(1).Date),

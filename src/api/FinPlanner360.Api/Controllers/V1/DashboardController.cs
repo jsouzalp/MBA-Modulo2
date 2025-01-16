@@ -33,12 +33,12 @@ namespace FinPlanner360.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<CardSumaryViewModel>> GetSumaryCardsAsync(DateTime? date)
         {
-            DateTime dateNow = DateTime.Now;
             date = date.HasValue && date.Value != DateTime.MinValue && date.Value != DateTime.MaxValue
                 ? date.Value
                 : DateTime.Now;
             DateTime startDate = new DateTime(date.Value.Year, date.Value.Month, 1);
             DateTime endDate = startDate.AddMonths(1).AddSeconds(-1);
+            bool isFuture = DateTime.Now;
 
             ICollection<Transaction> transactions = await _transactionRepository.GetTransactionsByRangeAsync(startDate, endDate);
 
