@@ -14,7 +14,7 @@ import { HttpResponse } from '@angular/common/http';
   templateUrl: './category-transaction-summary.component.html',
   styleUrl: './category-transaction-summary.component.scss'
 })
-export class CategoryTransactionSummaryComponent implements OnInit, OnChanges , OnDestroy {
+export class CategoryTransactionSummaryComponent implements OnInit, OnDestroy {
 
 
   @Input() startDate!: Date | null;
@@ -31,39 +31,17 @@ export class CategoryTransactionSummaryComponent implements OnInit, OnChanges , 
   constructor(
     private reportcategoryService: ReportCategoryService,
     private toastr: ToastrService) {
+    // TODO: verificar se é desktop
+  }
 
-         // TODO: verificar se é desktop
-
-     }
-
-
-
-
-    displayedColumns: string[] = ['transactionDate', 'description', 'totalAmount', 'type'];
-
+  displayedColumns: string[] = ['transactionDate', 'description', 'totalAmount', 'type'];
 
   ngOnInit(): void {
-    console.log("Passo 1")
-    this.getCategoriesReport(this.startDate,this.endDate);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-      console.log('Datas recebidas:', this.startDate, this.endDate);
-
-     this.getCategoriesReport(this.startDate,this.endDate);
-
-  }
-
-
-  getCategoriesReport(startDt?: Date | null, endDt?: Date |null)  {
-
-    if (!startDt || !endDt )  
-      return;
-
-    const safeStartDt = startDt ?? new Date(); 
-    const safeEndDt = endDt ?? new Date(); 
-
-    this.reportcategoryService.getSummary(safeStartDt,safeEndDt)
+  getCategoriesReport(startDt: Date, endDt: Date) {
+    this.reportcategoryModel = [];
+    this.reportcategoryService.getSummary(startDt, endDt)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
@@ -73,8 +51,6 @@ export class CategoryTransactionSummaryComponent implements OnInit, OnChanges , 
           this.toastr.error(fail.error.errors);
         }
       });
-
-      console.log(this.reportcategoryModel);
   }
 
 
@@ -84,11 +60,11 @@ export class CategoryTransactionSummaryComponent implements OnInit, OnChanges , 
     this.destroy$.complete();
   }
 
-  generatePDF():void{
+  generatePDF(): void {
 
-    console.log( "generateExcel()->" + this.startDate  + " - " +   this.endDate )
+    console.log("generateExcel()->" + this.startDate + " - " + this.endDate)
 
-    this.reportcategoryService.getPdfSummary(this.startDate,this.endDate)
+    this.reportcategoryService.getPdfSummary(this.startDate, this.endDate)
       .subscribe({
         next: (response) => {
           if (response.body) {
@@ -104,16 +80,16 @@ export class CategoryTransactionSummaryComponent implements OnInit, OnChanges , 
           }
         },
         error: (fail) => {
-          this.toastr.error(fail.error.errors);          
+          this.toastr.error(fail.error.errors);
         }
-      })
+      })
   }
 
-  generateExcel():void {
+  generateExcel(): void {
 
-  console.log( "generateExcel()->" + this.startDate  + " - " +   this.endDate )
+    console.log("generateExcel()->" + this.startDate + " - " + this.endDate)
 
-    this.reportcategoryService.getXlsxSummary(this.startDate,this.endDate)
+    this.reportcategoryService.getXlsxSummary(this.startDate, this.endDate)
       .subscribe({
         next: (response) => {
           if (response.body) {
@@ -129,12 +105,12 @@ export class CategoryTransactionSummaryComponent implements OnInit, OnChanges , 
           }
         },
         error: (fail) => {
-          this.toastr.error(fail.error.errors);          
+          this.toastr.error(fail.error.errors);
         }
-      })
-  }
+      })
+  }
 
-  
+
 
   private obterNomeArquivo(res: HttpResponse<Blob>): string {
     let fileName = 'Relatorio.pdf';

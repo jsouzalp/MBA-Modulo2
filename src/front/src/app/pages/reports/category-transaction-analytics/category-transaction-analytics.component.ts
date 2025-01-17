@@ -32,6 +32,7 @@ export class CategoryTransactionAnalyticsComponent implements OnInit, OnDestroy 
 
 
   getCategoriesReport() {
+    this.reportcategoryModel = [];
     this.reportcategoryService.getAnalytics()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -42,8 +43,6 @@ export class CategoryTransactionAnalyticsComponent implements OnInit, OnDestroy 
           this.toastr.error(fail.error.errors);
         }
       });
-
-      console.log(this.reportcategoryModel);
   }
 
 
