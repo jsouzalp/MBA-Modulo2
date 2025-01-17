@@ -20,7 +20,6 @@ import { TransactionModel } from './models/transaction.model';
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule, NgxCurrencyDirective],
   templateUrl: './Transaction-update.component.html',
 })
-
 export class TransactionUpdateComponent extends FormBaseComponent implements OnInit, OnDestroy {
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements!: ElementRef[];
 
@@ -56,7 +55,7 @@ export class TransactionUpdateComponent extends FormBaseComponent implements OnI
   ngOnInit(): void {
     this.getCategories();
     this.form = new FormGroup({
-      amount: new FormControl<number|null>(this.transactionModel.amount, [Validators.required, Validators.min(0.01)]),
+      amount: new FormControl<number | null>(this.transactionModel.amount, [Validators.required, Validators.min(0.01)]),
       categoryId: new FormControl(this.transactionModel.categoryId, [Validators.required]),
     });
   }
@@ -76,12 +75,12 @@ export class TransactionUpdateComponent extends FormBaseComponent implements OnI
           this.toastr.error(fail.error.errors);
         }
       });
-  }  
+  }
 
   submit() {
     this.transactionModel = this.form.value;
     this.transactionModel.transactionId = this.data.transactionId;
-    
+
     this.transactionService.update(this.transactionModel)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -92,13 +91,8 @@ export class TransactionUpdateComponent extends FormBaseComponent implements OnI
             return;
           }
 
-          let toast = this.toastr.success('Categoria alterada com sucesso.');
-          if (toast) {
-            toast.onHidden.pipe(takeUntil(this.destroy$)).subscribe(() => {
-              this.dialogRef.close({ updated: true })
-            });
-          }
-
+          this.toastr.success('Categoria alterada com sucesso.');
+          this.dialogRef.close({ updated: true })
         },
         error: (fail) => {
           this.submitted = false;

@@ -22,8 +22,6 @@ import { TransactionModel } from './models/transaction.model';
   styleUrls: ['./transaction-list.component.scss'],
   providers: [CurrencyPipe]
 })
-
-
 export class TransactionListComponent implements OnInit, OnDestroy {
   transactionsModel: TransactionListModel[] = [];
   budgetModel: GeneralBudgetModel;
