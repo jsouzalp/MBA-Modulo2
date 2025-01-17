@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { LocalStorageUtils } from './utils/localstorage';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +11,22 @@ export class AuthGuard implements CanActivate {
 
   constructor(private router: Router, private localStorageUtils: LocalStorageUtils) { }
 
-  canActivate(): boolean {
+  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
+    return this.canActivateVerify(childRoute, state);
+  }
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
+    return this.canActivateVerify(route, state);
+  }
+
+  canActivateVerify(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.isAuthenticated() && this.isValidToken()) {
       return true;
     }
 
-    this.router.navigate(['/login']);
+    if (state?.url) this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+    else this.router.navigate(['/login']);
+
     return false;
   }
 

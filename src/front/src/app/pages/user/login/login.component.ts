@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   FormControlName,
 } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material.module';
 import { MatButtonModule } from '@angular/material/button';
 import { LocalStorageUtils } from 'src/app/utils/localstorage';
@@ -39,7 +39,14 @@ export class LoginComponent extends FormBaseComponent implements OnInit, AfterVi
   loginModel!: LoginModel;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private router: Router, private localStorageUtils: LocalStorageUtils, private loginSevice: UserService, private toastr: ToastrService) {
+  returnUrl: string;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private localStorageUtils: LocalStorageUtils,
+    private loginSevice: UserService,
+    private toastr: ToastrService) {
     super();
 
     this.validationMessages = {
@@ -61,6 +68,12 @@ export class LoginComponent extends FormBaseComponent implements OnInit, AfterVi
     this.form = new FormGroup({
       email: new FormControl(this.email, [Validators.required, Validators.email]),
       password: new FormControl('Password@2024', [Validators.required]),
+    });
+
+    this.route.queryParams.subscribe((params: any) => {
+     if (params?.returnUrl) {
+        this.returnUrl = params.returnUrl;
+      }
     });
   }
 
@@ -85,7 +98,11 @@ export class LoginComponent extends FormBaseComponent implements OnInit, AfterVi
       .subscribe({
         next: (response) => {
           this.localStorageUtils.setUser(response);
-          this.router.navigate(['/pages/dashboard']);
+
+          if (this.returnUrl)
+            this.router.navigate([this.returnUrl]);
+          else
+            this.router.navigate(['/pages/dashboard']);
         },
         error: (fail) => {
           this.processFail(fail);
