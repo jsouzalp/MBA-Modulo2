@@ -29,13 +29,56 @@ export class ReportCategoryService extends BaseService {
     return response;
   }
 
-  getSummary(): Observable<ReportCategory[]> {
+  getSummary(startDate: Date | null , endDate: Date | null): Observable<ReportCategory[]> {
+
+    let param1 = '';
+    let param2 = '';
+    
+    if (startDate)
+      param1 = this.formatDate(startDate);
+
+    if (endDate)
+      param2 = this.formatDate(endDate);
+
+
     let response = this.http
-      .get(this.UrlServiceV1 + 'v1/Report/Transactions/SummaryByCategory?startDate=2025-01-01&endDate=2025-01-31',  this.getAuthHeaderJson())
+      .get(this.UrlServiceV1 + 'v1/Report/Transactions/SummaryByCategory?startDate=' +  param1 + '&endDate=' + param2  ,  this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));
 
     return response;
   }
+
+ 
+  getPdfSummary(startDate?: Date | null , endDate?: Date | null) {
+
+    let param1 = '';
+    let param2 = '';
+    
+    if (startDate)
+      param1 = this.formatDate(startDate);
+
+    if (endDate)
+      param2 = this.formatDate(endDate);
+
+      return this.http.get(this.UrlServiceV1 + 'v1/Report/Transactions/SummaryByCategory/export-report?startDate=' +  param1 + '&endDate=' + param2 + '&fileType=pdf', { headers: this.getAuthHeaderOnly(), responseType: 'blob', observe: 'response' })
+
+  }
+
+  getXlsxSummary(startDate?: Date | null , endDate?: Date | null) {
+
+    let param1 = '';
+    let param2 = '';
+    
+    if (startDate)
+      param1 = this.formatDate(startDate);
+
+    if (endDate)
+      param2 = this.formatDate(endDate);
+
+      return this.http.get(this.UrlServiceV1 + 'v1/Report/Transactions/SummaryByCategory/export-report?startDate=' +  param1 + '&endDate=' + param2 + '&fileType=xlsx', { headers: this.getAuthHeaderOnly(), responseType: 'blob', observe: 'response' })
+
+  }
+
 }

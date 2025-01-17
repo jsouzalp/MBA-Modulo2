@@ -1,23 +1,3 @@
-  // .theme-card {
-  //   padding: 20px;
-  //   border-radius: 8px;
-  //   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  //   background-color: #fff;
-  //   margin-bottom: 20px;
-  // }
-
-  // .mat-card-header {
-  //   background-color: #f4f4f4;
-  //   padding: 10px;
-  //   border-bottom: 2px solid #ccc;
-  // }
-
-  // .mat-card-title {
-  //   font-size: 20px;
-  //   font-weight: bold;
-  //   color: #333;
-  // }
-
   .report-item {
     display: flex;
     justify-content: space-between;
@@ -45,14 +25,14 @@
 
   .total-amount
   {
-    width: 33%;  
+    width: 50%;  
     text-align: left;
-    padding: 0 10px;
+    padding: 0 40px;
   }
 
 
   .spacer {
-    flex-grow: 1; 
+    flex-grow: 5; 
   }
 
   .mat-card-title {
@@ -69,4 +49,34 @@
   mat-list {
     padding: 0;
     margin: 0;
+  }
+
+
+  .flex-align-right {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .mat-card-title {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+  }
+
+
+  .inline-container {
+    display: flex;
+    align-items: center; /* Alinha os itens verticalmente no centro */
+    gap: 10px; /* Espaçamento entre os itens */
+
+
+   
+
   }

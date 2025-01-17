@@ -1,69 +1,25 @@
-<!-- <div class="col-lg-6">
-    <mat-card class="cardWithShadow">
-      <mat-card-header>
-        <mat-card-title>COLOCAR AQUI PARA IMPRIMIR OU EXPORTAR</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-list>
-            <div *ngFor="let category of reportcategoryModel">  
-                <mat-list-item>
-                    <span matListItemTitle class="f-s-16 f-w-600">{{category.categoryDescription}}</span>
-                        <span matListItemLine class="mat-body-1">{{category.totalAmount}}</span>
-                        <span matListItemLine class="mat-body-1">{{category.type}}</span>
-                </mat-list-item>
-            </div>
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
-  </div> -->
-
-  <!-- <mat-card class="cardWithShadow">
-    <mat-card-content>
-      <mat-card-title>COLOCAR AQUI PARA IMPRIMIR OU EXPORTAR</mat-card-title>
-      <mat-card-subtitle class="mat-body-1"></mat-card-subtitle>
-      <mat-list>
-        <div *ngFor="let category of reportcategoryModel">  
-            <mat-list-item>
-                <span matListItemTitle class="f-s-16 f-w-600">{{category.categoryDescription}}</span>
-                <span matListItemLine class="mat-body-1">{{category.totalAmount}}</span>
-                <span matListItemLine class="mat-body-1">{{category.type}}</span>
-            </mat-list-item>
-        </div>
-    </mat-list>
-
-    </mat-card-content>
-  </mat-card> -->
-
-
-  <!-- <mat-card class="cardWithShadow theme-card">
+<mat-card class="cardWithShadow theme-card">
     <mat-card-header>
-      <mat-card-title class="m-b-0">COLOCAR AQUI PARA IMPRIMIR OU EXPORTAR</mat-card-title>
-    </mat-card-header>
-    
-    <mat-card-content class="b-t-1">
-      <div class="row">
-            <mat-card-content>
-              <mat-list>
-                <div *ngFor="let category of reportcategoryModel">  
-                    <mat-list-item>
-                        <span matListItemTitle class="f-s-16 f-w-600" style="display: flex; justify-content: space-between; width: 100%;">
-                          <span>{{category.categoryDescription}}</span>
-                          <span>{{category.totalAmount}}</span>
-                          <span>{{category.type}}</span>
-                        </span>
+      <mat-card-title class="m-b-0">
+          <!-- <h4>Relatório por categoria Sintético</h4> 
+          <button mat-icon-button aria-label="" (click)="generatePDF()">
+            <i class="iconify" data-icon="icon-park-outline:file-pdf-one"></i>
+          </button>
+          <button mat-icon-button aria-label="" (click)="generateExcel()">
+            <i class="iconify" data-icon="icon-park-outline:file-excel"></i>
+          </button> -->
 
-                    </mat-list-item>
-                </div>
-            </mat-list>
-           </mat-card-content>
-      </div>
-    </mat-card-content>
-  </mat-card> -->
+          <div class="inline-container">
+            <h4>Relatório por categorias Sintético</h4> 
+            <button mat-icon-button aria-label="" (click)="generatePDF()">
+              <i class="iconify" data-icon="icon-park-outline:file-pdf-one"></i>
+            </button>
+            <button mat-icon-button aria-label="" (click)="generateExcel()">
+              <i class="iconify" data-icon="icon-park-outline:file-excel"></i>
+            </button>
+          </div>
 
-
-  <!-- <mat-card class="cardWithShadow theme-card">
-    <mat-card-header>
-      <mat-card-title class="m-b-0">Relatório de Categorias</mat-card-title>
+      </mat-card-title>
     </mat-card-header>
   
     <mat-card-content class="b-t-1">
@@ -73,37 +29,12 @@
             <div *ngFor="let category of reportcategoryModel">  
               <mat-list-item>
                 <div class="report-item">
-                  <span>{{category.categoryDescription}}</span>
-                  <span></span> 
-                  <span>{{category.totalAmount}}</span>
-                  <span></span> 
-                  <span>{{category.type}}</span>
-                </div>
-              </mat-list-item>
-            </div>
-          </mat-list>
-        </mat-card-content>
-      </div>
-    </mat-card-content>
-  </mat-card> -->
-
-  <mat-card class="cardWithShadow theme-card">
-    <mat-card-header>
-      <mat-card-title class="m-b-0">Relatório de Categorias</mat-card-title>
-    </mat-card-header>
-  
-    <mat-card-content class="b-t-1">
-      <div class="row">
-        <mat-card-content>
-          <mat-list>
-            <div *ngFor="let category of reportcategoryModel">  
-              <mat-list-item>
-                <div class="report-item">
+                  <span class="category-type">{{category.type}}</span>
+                  <span class="spacer"></span> 
                   <span class="category-description">{{category.categoryDescription}}</span>
                   <span class="spacer"></span> 
                   <span class="total-amount">{{category.totalAmount}}</span>
                   <span class="spacer"></span> 
-                  <span class="category-type">{{category.type}}</span>
                 </div>
               </mat-list-item>
             </div>
@@ -112,3 +43,6 @@
       </div>
     </mat-card-content>
   </mat-card>
+
+
+

@@ -5,6 +5,7 @@ import { CategoryTransactionAnalyticsComponent } from "../category-transaction-a
 import { MaterialModule } from 'src/app/material.module';
 import { FormsModule } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, NativeDateAdapter } from '@angular/material/core';
+import { FormBaseComponent } from 'src/app/components/base-components/form-base.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -45,15 +46,17 @@ export class CategoryTransactionComponent implements OnInit {
   startDateValue: Date | null = null;
   endDateValue: Date | null = null;
   selectedOption: string = 'summary';
+
+  confirmedOption: string = 'summary';
   showComponent: boolean = false;
+  refrashValue: number = 0;
+
   
   onButtonClick(): void {
 
     this.showComponent = true;
-
-    console.log(`Data inicial: ${this.startDateValue?.toISOString().split('T')[0]}`);
-    console.log(`Data final: ${this.endDateValue?.toISOString().split('T')[0]}`);
-
+    this.confirmedOption = this.selectedOption;
+    this.refrashValue ++;
   }
 
 
