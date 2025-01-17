@@ -1,16 +1,12 @@
 ﻿using FinPlanner360.Api.Extensions;
-using FinPlanner360.Api.ViewModels.Dashboard;
 using FinPlanner360.Api.ViewModels.Report;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
-using FinPlanner360.Repositories.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Reflection;
 
 namespace FinPlanner360.Api.Controllers.V1
 {
@@ -21,7 +17,7 @@ namespace FinPlanner360.Api.Controllers.V1
     {
         private readonly ITransactionRepository _transactionRepository;
         public ReportController(ITransactionRepository transactionRepository,
-                                IAppIdentityUser appIdentityUser, 
+                                IAppIdentityUser appIdentityUser,
                                 INotificationService notificationService) : base(appIdentityUser, notificationService)
         {
 
@@ -34,15 +30,21 @@ namespace FinPlanner360.Api.Controllers.V1
         [ProducesResponseType(typeof(IEnumerable<TransactionCategoyViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<TransactionCategoyViewModel>>> GetCategoryTransactionSummaryAsync([FromQuery][Required] DateTime startDate,[FromQuery][Required] DateTime endDate)
+        public async Task<ActionResult<IEnumerable<TransactionCategoyViewModel>>> GetCategoryTransactionSummaryAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate)
         {
             if (startDate > endDate)
-                return BadRequest("A data de início não pode ser posterior à data de término.");
+            {
+                Notify("A data de início não pode ser posterior à data de término.");
+                return GenerateResponse();
+            }
 
             var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
 
             if (transactionsList == null && !transactionsList.Any())
-                return NotFound("Nenhuma transação encontrada no intervalo de datas especificado.");
+            {
+                Notify("Nenhuma transação encontrada no intervalo de datas especificado.");
+                return GenerateResponse();
+            }
 
             var transactionsReport = (from x in transactionsList
                                       group x by new { x.Category.Description, x.Category.Type } into g
@@ -75,13 +77,13 @@ namespace FinPlanner360.Api.Controllers.V1
                 return NotFound("Nenhuma transação encontrada no intervalo de datas especificado.");
 
             List<TransactionCategoyViewModel> transactionsReport = (from x in transactionsList
-                                    group x by new { x.Category.Description, x.Category.Type } into g
-                                    select new TransactionCategoyViewModel
-                                    {
-                                        CategoryDescription = g.Key.Description,
-                                        Type = g.Key.Type.GetDescription(),
-                                        TotalAmount = g.Sum(x => x.Amount).ToString("C")
-                                    }).ToList();
+                                                                    group x by new { x.Category.Description, x.Category.Type } into g
+                                                                    select new TransactionCategoyViewModel
+                                                                    {
+                                                                        CategoryDescription = g.Key.Description,
+                                                                        Type = g.Key.Type.GetDescription(),
+                                                                        TotalAmount = g.Sum(x => x.Amount).ToString("C")
+                                                                    }).ToList();
 
             byte[] fileBytes;
             string contentType;
@@ -102,7 +104,8 @@ namespace FinPlanner360.Api.Controllers.V1
                     break;
 
                 default:
-                    return BadRequest("Tipo de arquivo inválido. Use 'pdf' ou 'xlsx'.");
+                    Notify("Tipo de arquivo inválido. Use 'pdf' ou 'xlsx'.");
+                    return GenerateResponse();
             }
 
             return File(fileBytes, contentType, fileName);
@@ -118,13 +121,18 @@ namespace FinPlanner360.Api.Controllers.V1
         public async Task<ActionResult<TransactionAnalyticsViewModel>> GetCategoryTransactionAnalyticsAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate)
         {
             if (startDate > endDate)
-                return BadRequest("A data de início não pode ser posterior à data de término.");
+            {
+                Notify("A data de início não pode ser posterior à data de término.");
+                return GenerateResponse();
+            }
 
             var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
 
             if (transactionsList == null || !transactionsList.Any())
-                return NotFound("Nenhuma transação encontrada no intervalo de datas especificado.");
-
+            {
+                Notify("Nenhuma transação encontrada no intervalo de datas especificado.");
+                return GenerateResponse();
+            }
 
             var groupedTransactionsReport = transactionsList
                     .Select(x => new TransactionAnalyticsViewModel
