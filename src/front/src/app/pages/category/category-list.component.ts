@@ -46,8 +46,6 @@ export class CategoryListComponent implements OnInit, OnDestroy {
           this.toastr.error(fail.error.errors);
         }
       });
-
-      console.log(this.categoryModel);
   }
 
   getDescription(type: CategoryTypeEnum): string {
