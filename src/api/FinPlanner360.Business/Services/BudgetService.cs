@@ -20,13 +20,13 @@ public class BudgetService : BaseService, IBudgetService
         _budgetRepository = budgetRepository;
     }
 
-    private async Task<bool> BudgetExists(Guid categoryId)
+    private async Task<bool> BudgetExists(Guid categoryId, Guid? budgetId = null)
     {
-        var budget = await _budgetRepository.FilterAsync(c => c.CategoryId == categoryId);
+        var budget = await _budgetRepository.FilterAsync(c => c.CategoryId == categoryId && (!budgetId.HasValue || c.BudgetId != budgetId));
 
         if (budget.Count != 0)
         {
-            Notify("Já existe um Budget.");
+            Notify("Já existe um limite orçamentário para esta categoria.");
             return true;
         }
 
@@ -53,8 +53,10 @@ public class BudgetService : BaseService, IBudgetService
         if (!await _validationFactory.ValidateAsync(budget))
             return;
 
-        await _budgetRepository.UpdateAsync(budget);
-
+        if (!await BudgetExists(budget.CategoryId, budget.BudgetId))
+        {
+            await _budgetRepository.UpdateAsync(budget);
+        }
     }
 
     public async Task DeleteAsync(Guid budgetId)
