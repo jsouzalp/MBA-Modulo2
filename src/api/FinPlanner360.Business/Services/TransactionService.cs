@@ -137,19 +137,17 @@ public class TransactionService : BaseService, ITransactionService
         // Calculate the used budget percentage
         decimal usedPercentage = ((usedBudget + transaction.Amount) / budgetAmount) * 100;
 
-        if (usedPercentage > 80 && usedPercentage < 100)
-        {
-            Notify("O saldo está acima de 80%.", NotificationTypeEnum.Warning);
-
-            return true;
-        }
-        else if (usedPercentage > 100)
+        if (usedPercentage > 100)
         {
             Notify("O lançamento não pode ser realizado, pois está acima do limite estabelecido.");
             return false;
         }
 
-        Notify("O saldo atingiu 100%.", NotificationTypeEnum.Warning);
+        if (usedPercentage > 80 && usedPercentage < 100)
+            Notify("O saldo está acima de 80%.", NotificationTypeEnum.Warning);
+        else if (usedPercentage == 100)
+            Notify("O saldo atingiu 100%.", NotificationTypeEnum.Warning);
+
         return true;
     }
 
@@ -165,19 +163,17 @@ public class TransactionService : BaseService, ITransactionService
         // Calculate the used budget percentage
         decimal usedPercentage = ((usedBudget + transaction.Amount) / categoryBudget.Amount) * 100;
 
-        if (usedPercentage > 80 && usedPercentage < 100)
-        {
-            Notify("O saldo dessa categoria está acima de 80%.", NotificationTypeEnum.Warning);
-
-            return true;
-        }
-        else if (usedPercentage > 100)
+        if (usedPercentage > 100)
         {
             Notify("O lançamento não pode ser realizado, pois está acima do limite estabelecido.");
             return false;
         }
 
-        Notify("O saldo dessa categoria atingiu 100%.", NotificationTypeEnum.Warning);
+        if (usedPercentage > 80 && usedPercentage < 100)
+            Notify("O saldo dessa categoria está acima de 80%.", NotificationTypeEnum.Warning);
+        else if (usedPercentage == 100)
+            Notify("O saldo dessa categoria atingiu 100%.", NotificationTypeEnum.Warning);
+
         return true;
     }
 }
