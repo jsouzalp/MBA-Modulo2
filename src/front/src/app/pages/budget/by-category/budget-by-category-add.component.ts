@@ -77,6 +77,7 @@ export class BudgetByCategoryAddComponent extends FormBaseComponent implements O
   }
 
   submit() {
+    this.submitted = true
     this.budgetModel = this.form.value;
     this.budgetSevice.create(this.budgetModel)
       .pipe(takeUntil(this.destroy$))
@@ -84,19 +85,15 @@ export class BudgetByCategoryAddComponent extends FormBaseComponent implements O
         next: (result) => {
 
           if (!result) {
-            this.toastr.error('Erro ao salvar a categoria.');
+            this.toastr.error('Erro ao salvar o limite orçamentário.');
             return;
           }
 
-          let toast = this.toastr.success('Categoria criada com sucesso.');
-          if (toast) {
-            toast.onHidden.pipe(takeUntil(this.destroy$)).subscribe(() => {
-              this.dialogRef.close({ inserted: true })
-            });
-          }
-
+          this.toastr.success('Limite orçamentário para a categoria criado com sucesso.');
+          this.dialogRef.close({ inserted: true })
         },
         error: (fail) => {
+          console.log('x')
           this.submitted = false;
           this.toastr.error(fail.error.errors);
         }

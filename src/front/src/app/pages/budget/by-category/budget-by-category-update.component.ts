@@ -78,6 +78,7 @@ export class BudgetUpdateComponent extends FormBaseComponent implements OnInit, 
   }  
 
   submit() {
+    this.submitted = true;
     this.budgetModel = this.form.value;
     this.budgetModel.budgetId = this.data.budgetId;
     
@@ -87,17 +88,12 @@ export class BudgetUpdateComponent extends FormBaseComponent implements OnInit, 
         next: (result) => {
 
           if (!result) {
-            this.toastr.error('Erro ao salvar a categoria.');
+            this.toastr.error('Erro ao salvar o limite orçamentário.');
             return;
           }
 
-          let toast = this.toastr.success('Categoria alterada com sucesso.');
-          if (toast) {
-            toast.onHidden.pipe(takeUntil(this.destroy$)).subscribe(() => {
-              this.dialogRef.close({ updated: true })
-            });
-          }
-
+          this.toastr.success('Limite orçamentário alterado com sucesso.');
+          this.dialogRef.close({ updated: true })
         },
         error: (fail) => {
           this.submitted = false;

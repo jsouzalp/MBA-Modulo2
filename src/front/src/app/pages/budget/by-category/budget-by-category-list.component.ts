@@ -11,17 +11,14 @@ import { CategoryTypeEnum } from '../../category/enums/category-type.enum';
 import { BudgetByCategoryAddComponent } from './budget-by-category-add.component';
 import { BudgetUpdateComponent } from './budget-by-category-update.component';
 
-
-
 @Component({
   selector: 'app-budget-list',
   standalone: true,
   imports: [CommonModule, MaterialModule],
   templateUrl: './budget-by-category-list.component.html',
 })
-
-
 export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
+
   budgetModel: BudgetModel[] = [];
   displayedColumns: string[] = ['description', 'amount', 'Menu'];
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -70,7 +67,7 @@ export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
       })
   }
 
-  updateDialog(row:any) {
+  updateDialog(row: any) {
 
     let category: BudgetModel = {
       categoryId: row.categoryId,
@@ -97,9 +94,9 @@ export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
   }
 
 
-  deleteCategory(id: string) {
+  deleteCategory(budget: BudgetModel) {
 
-    const dialogData = new ConfirmDialogModel('Atenção', 'Confirma exclusão ?');
+    const dialogData = new ConfirmDialogModel('Atenção', `Confirma exclusão da limite orçamentário da categoria <b>${budget.description}</b>?`);
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
@@ -112,11 +109,11 @@ export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
       .subscribe(dialogResult => {
         if (!dialogResult) return;
 
-        this.budgetSevice.delete(id)
+        this.budgetSevice.delete(budget.budgetId)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: () => {
-              this.toastr.success('Excluída com sucesso.');
+              this.toastr.success('Excluído com sucesso.');
               this.getBudgeties();
             },
             error: (fail) => {
