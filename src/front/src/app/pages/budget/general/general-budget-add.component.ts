@@ -89,6 +89,8 @@ export class GeneralBudgetAddComponent extends FormBaseComponent implements OnIn
   }
 
   submit() {
+    if (!this.form.valid) return;
+    
     this.submitted = true;
     this.budgetModel = this.form.value;
     this.budgetSevice.create(this.budgetModel)

@@ -77,6 +77,8 @@ export class BudgetByCategoryAddComponent extends FormBaseComponent implements O
   }
 
   submit() {
+    if (!this.form.valid) return;
+    
     this.submitted = true
     this.budgetModel = this.form.value;
     this.budgetSevice.create(this.budgetModel)

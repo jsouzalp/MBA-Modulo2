@@ -56,6 +56,8 @@ export class CategoryUpdateComponent extends FormBaseComponent implements OnInit
   }
 
   submit() {
+    if (!this.form.valid) return;
+    
     this.submitted = true
     this.categoryModel = this.form.value;
     this.categoryModel.categoryId = this.data.categoryId;

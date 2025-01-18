@@ -58,6 +58,8 @@ export class CategoryAddComponent extends FormBaseComponent implements OnInit, O
   }
 
   submit() {
+    if (!this.form.valid) return;
+    
     this.submitted = true;
     this.categoryModel = this.form.value;
     this.categorySevice.create(this.categoryModel)

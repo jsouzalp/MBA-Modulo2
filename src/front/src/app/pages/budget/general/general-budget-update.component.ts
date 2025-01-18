@@ -117,6 +117,8 @@ export class GeneralBudgetUpdateComponent extends FormBaseComponent implements O
   }
 
   submit() {
+    if (!this.form.valid) return;
+    
     this.submitted = true;
     this.budgetModel = this.form.value;
     this.budgetModel.generalBudgetId = this.data.generalBudgetId;

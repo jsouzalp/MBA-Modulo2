@@ -78,6 +78,8 @@ export class BudgetUpdateComponent extends FormBaseComponent implements OnInit, 
   }  
 
   submit() {
+    if (!this.form.valid) return;
+    
     this.submitted = true;
     this.budgetModel = this.form.value;
     this.budgetModel.budgetId = this.data.budgetId;
