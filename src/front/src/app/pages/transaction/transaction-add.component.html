@@ -17,7 +17,7 @@
             minlength="4"
           />
         </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['description']">
+        <small class="text-error" *ngIf="displayMessage['description']">
           <p [innerHTML]="displayMessage['description']"></p>
         </small>
       </div>
@@ -43,7 +43,7 @@
             minlength="3"
           />
         </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['amount']">
+        <small class="text-error" *ngIf="displayMessage['amount']">
           <p [innerHTML]="displayMessage['amount']"></p>
         </small>
       </div>      
@@ -62,7 +62,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['categoryId']">
+        <small class="text-error" *ngIf="displayMessage['categoryId']">
           <p [innerHTML]="displayMessage['categoryId']"></p>
         </small>
       </div>
@@ -79,7 +79,7 @@
           ></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['transactionDate']">
+        <small class="text-error" *ngIf="displayMessage['transactionDate']">
           <p [innerHTML]="displayMessage['transactionDate']"></p>
         </small>
       </div>

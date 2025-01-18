@@ -10,7 +10,7 @@
             <mat-option [value]="2">Despesa </mat-option>
           </mat-select>
         </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['type']">
+        <small class="text-error" *ngIf="displayMessage['type']">
           <p [innerHTML]="displayMessage['type']"></p>
         </small>
       </div>
@@ -20,7 +20,7 @@
           <input matInput name="description" formControlName="description" type="text" autocomplete="off"
             maxlength="100" minlength="4" />
         </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['description']">
+        <small class="text-error" *ngIf="displayMessage['description']">
           <p [innerHTML]="displayMessage['description']"></p>
         </small>
       </div>
