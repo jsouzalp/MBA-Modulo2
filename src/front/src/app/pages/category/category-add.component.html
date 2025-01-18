@@ -1,6 +1,6 @@
 <h3 mat-dialog-title>Cadastro de categoria</h3>
 <mat-dialog-content>
-  <form class="m-t-30" [formGroup]="form">
+  <form class="m-t-30" [formGroup]="form" (ngSubmit)="submit()">
     <div fxLayout="row wrap">
       <div class="p-10">
         <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Tipo</mat-label>
@@ -27,12 +27,11 @@
     </div>
   </form>
   <mat-dialog-actions align="end">
-    <button mat-raised-button (click)="cancel()" color="secondary" cdkFocusInitial [disabled]="submitted">
+    <button type="button" mat-raised-button (click)="cancel()" color="secondary" cdkFocusInitial [disabled]="submitted">
       Cancelar
     </button>
 
-    <button mat-raised-button color="primary" [disabled]="!form.valid || submitted"
-      (click)="submit()">
+    <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid || submitted">
       <i class="iconify f-s-12" data-icon="line-md:loading-loop" *ngIf="submitted"></i>
       Cadastrar
     </button>
