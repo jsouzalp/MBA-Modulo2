@@ -40,6 +40,7 @@ export class LoginComponent extends FormBaseComponent implements OnInit, AfterVi
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   returnUrl: string;
+  submitted: boolean = false;
 
   constructor(
     private router: Router,
@@ -90,7 +91,7 @@ export class LoginComponent extends FormBaseComponent implements OnInit, AfterVi
   }
 
   submit() {
-
+    this.submitted = true;
     this.loginModel = this.form.value;
 
     this.loginSevice.login(this.loginModel)
@@ -105,6 +106,7 @@ export class LoginComponent extends FormBaseComponent implements OnInit, AfterVi
             this.router.navigate(['/pages/dashboard']);
         },
         error: (fail) => {
+          this.submitted = false;
           this.processFail(fail);
         }
       });
