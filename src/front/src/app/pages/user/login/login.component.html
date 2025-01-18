@@ -33,7 +33,7 @@
                 class="text-primary f-w-600 text-decoration-none m-l-auto f-s-14">Esqueceu a senha ?</a>
             </div>
             <button type="submit" mat-flat-button color="primary" class="w-100" [disabled]="!form.valid || submitted">
-              <i class="iconify f-s-12" data-icon="line-md:loading-loop" *ngIf="submitted"></i>
+              <mat-icon class="rotating" *ngIf="submitted">loop</mat-icon>
               Acessar
             </button>
             <!-- input -->

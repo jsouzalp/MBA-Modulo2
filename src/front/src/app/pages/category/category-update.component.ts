@@ -56,6 +56,7 @@ export class CategoryUpdateComponent extends FormBaseComponent implements OnInit
   }
 
   submit() {
+    this.submitted = true
     this.categoryModel = this.form.value;
     this.categoryModel.categoryId = this.data.categoryId;
     this.categoryModel.type = this.data.type;
@@ -70,13 +71,8 @@ export class CategoryUpdateComponent extends FormBaseComponent implements OnInit
             return;
           }
 
-          let toast = this.toastr.success('Categoria alterada com sucesso.');
-          if (toast) {
-            toast.onHidden.pipe(takeUntil(this.destroy$)).subscribe(() => {
-              this.dialogRef.close({ inserted: true })
-            });
-          }
-
+          this.toastr.success('Categoria alterada com sucesso.');
+          this.dialogRef.close({ inserted: true })
         },
         error: (fail) => {
           this.submitted = false;
