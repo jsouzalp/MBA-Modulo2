@@ -60,6 +60,7 @@ export abstract class BaseService {
             return throwError(() => customResponse);
         }
         else if (response.status === 401) {
+            this.LocalStorage.clear();
             window.location.href = '/login';
         }
 
