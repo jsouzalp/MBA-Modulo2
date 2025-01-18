@@ -2,6 +2,7 @@
 using FinPlanner360.Busines.Interfaces.Validations;
 using FinPlanner360.Busines.Services;
 using FinPlanner360.Business.DTO.Transacton;
+using FinPlanner360.Business.Exceptions;
 using FinPlanner360.Business.Extensions;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
@@ -16,6 +17,7 @@ public class TransactionService : BaseService, ITransactionService
     private readonly IMapper _mapper;
     private readonly ITransactionRepository _transactionRepository;
     private readonly IBudgetRepository _budgetRepository;
+    private readonly ICategoryRepository _categoryRepository;
     private readonly IGeneralBudgetRepository _generalBudgetRepository;
     private readonly IValidationFactory<Transaction> _validationFactory;
 
@@ -24,12 +26,14 @@ public class TransactionService : BaseService, ITransactionService
         INotificationService notificationService,
         ITransactionRepository transactionRepository,
         IBudgetRepository budgetRepository,
+        ICategoryRepository categoryRepository,
         IGeneralBudgetRepository generalbudgetRepository) : base(notificationService)
     {
         _mapper = mapper;
         _validationFactory = validationFactory;
         _transactionRepository = transactionRepository;
         _budgetRepository = budgetRepository;
+        _categoryRepository = categoryRepository;
         _generalBudgetRepository = generalbudgetRepository;
     }
 
@@ -111,14 +115,22 @@ public class TransactionService : BaseService, ITransactionService
 
     private async Task<bool> BudgetOkAsync(Transaction transaction)
     {
+        if (await ItIsIncome(transaction))
+            return true;
+
         var generalBudget = (await _generalBudgetRepository.GetAllAsync()).FirstOrDefault();
 
         if (generalBudget != null && (generalBudget.Percentage.HasValue || generalBudget.Amount.HasValue))
-        {
             return await GeneralBudgetOkAsync(transaction, generalBudget);
-        }
 
         return await CategoryBudgetOkAsync(transaction);
+    }
+
+    private async Task<bool> ItIsIncome(Transaction transaction)
+    {
+        var category = await _categoryRepository.GetCategoryById(transaction.CategoryId) ?? throw new BusinessException("Categoria do lançamento não identificada, recarregue e tente novamente.");
+
+        return category.Type == CategoryTypeEnum.Income;
     }
 
     private async Task<bool> GeneralBudgetOkAsync(Transaction transaction, GeneralBudget generalBudget)
@@ -139,7 +151,7 @@ public class TransactionService : BaseService, ITransactionService
 
         if (usedPercentage > 100)
         {
-            Notify("O lançamento não pode ser realizado, pois está acima do limite estabelecido.");
+            Notify("O lançamento não pode ser realizado, pois está acima do limite estabelecido pelo orçamento geral.");
             return false;
         }
 
@@ -154,6 +166,12 @@ public class TransactionService : BaseService, ITransactionService
     private async Task<bool> CategoryBudgetOkAsync(Transaction transaction)
     {
         var categoryBudget = await _budgetRepository.GetBudgetByCategoryId(transaction.CategoryId);
+        if (categoryBudget == null)
+        {
+            Notify("É necessário um limite orçamentário para a categoria informada ou geral para realizar o lançamento.");
+            return false;
+        }
+
         var balance = await _transactionRepository.GetBalanceByMonthYearAsync(transaction.TransactionDate);
         if (balance.Count == 0) return true;
 
