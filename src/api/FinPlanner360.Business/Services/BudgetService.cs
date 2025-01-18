@@ -20,9 +20,9 @@ public class BudgetService : BaseService, IBudgetService
         _budgetRepository = budgetRepository;
     }
 
-    private async Task<bool> BudgetExists(Guid categoryId, Guid? budgetId = null)
+    private async Task<bool> BudgetExists(Guid userId, Guid categoryId, Guid? budgetId = null)
     {
-        var budget = await _budgetRepository.FilterAsync(c => c.CategoryId == categoryId && (!budgetId.HasValue || c.BudgetId != budgetId));
+        var budget = await _budgetRepository.FilterAsync(c => c.CategoryId == categoryId && c.UserId == userId && (!budgetId.HasValue || c.BudgetId != budgetId));
 
         if (budget.Count != 0)
         {
@@ -38,7 +38,7 @@ public class BudgetService : BaseService, IBudgetService
         if (!await _validationFactory.ValidateAsync(budget))
             return;
 
-        if (!await BudgetExists(budget.CategoryId))
+        if (!await BudgetExists(budget.UserId, budget.CategoryId))
         {
             await _budgetRepository.CreateAsync(budget.FillAttributes());
         }
@@ -53,7 +53,7 @@ public class BudgetService : BaseService, IBudgetService
         if (!await _validationFactory.ValidateAsync(budget))
             return;
 
-        if (!await BudgetExists(budget.CategoryId, budget.BudgetId))
+        if (!await BudgetExists(budget.UserId, budget.CategoryId, budget.BudgetId))
         {
             await _budgetRepository.UpdateAsync(budget);
         }
