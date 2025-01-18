@@ -62,11 +62,11 @@ export class GeneralBudgetAddComponent extends FormBaseComponent implements OnIn
     const percentage = group.get('percentage')?.value;
 
     if ((!amount && !percentage) || (amount == 0 && percentage == 0)) {
-      return { requiredOne: 'Informe o valou ou o porcentual.' };
+      return { requiredOne: 'Informe apenas o valor ou o porcentual.' };
     }
 
     if (amount && percentage) {
-      return { onlyOneAllowed: 'Informe o valou ou o porcentual.' };
+      return { onlyOneAllowed: 'Informe apenas o valor ou o porcentual.' };
     }
 
     if (percentage && (percentage < 1 || percentage > 100)) {
@@ -89,6 +89,7 @@ export class GeneralBudgetAddComponent extends FormBaseComponent implements OnIn
   }
 
   submit() {
+    this.submitted = true;
     this.budgetModel = this.form.value;
     this.budgetSevice.create(this.budgetModel)
       .pipe(takeUntil(this.destroy$))
@@ -96,17 +97,12 @@ export class GeneralBudgetAddComponent extends FormBaseComponent implements OnIn
         next: (result) => {
 
           if (!result) {
-            this.toastr.error('Erro ao salvar a categoria.');
+            this.toastr.error('Erro ao salvar o limite orçamentário geral.');
             return;
           }
 
-          let toast = this.toastr.success('Categoria criada com sucesso.');
-          if (toast) {
-            toast.onHidden.pipe(takeUntil(this.destroy$)).subscribe(() => {
-              this.dialogRef.close({ inserted: true })
-            });
-          }
-
+          this.toastr.success('Limite orçamentário geral criado com sucesso.');
+          this.dialogRef.close({ inserted: true })
         },
         error: (fail) => {
           this.submitted = false;

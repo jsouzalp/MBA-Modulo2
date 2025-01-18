@@ -41,15 +41,15 @@ export class GeneralBudgetUpdateComponent extends FormBaseComponent implements O
 
     this.validationMessages = {
       amount: {
-        requiredOne: 'Informe o valou ou o porcentual.',
+        requiredOne: 'Informe o valor ou o porcentual.',
         min: 'O valor deve ser maior que zero.',
-        onlyOneAllowed: 'Informe o valou ou o porcentual.'
+        onlyOneAllowed: 'Informe o valor ou o porcentual.'
       },
       percentage: {
-        requiredOne: 'Informe o valou ou o porcentual.',
+        requiredOne: 'Informe o valor ou o porcentual.',
         min: 'O valor deve ser maior que zero.',
         max: 'O valor não pode ultrapassar 100%.',
-        onlyOneAllowed: 'Informe o valou ou o porcentual.'
+        onlyOneAllowed: 'Informe o valor ou o porcentual.'
       },
     };
 
@@ -77,11 +77,11 @@ export class GeneralBudgetUpdateComponent extends FormBaseComponent implements O
     const percentage = group.get('percentage')?.value;
 
     if ((!amount && !percentage) || (amount == 0 && percentage == 0)) {
-      return { requiredOne: 'Informe o valou ou o porcentual.' };
+      return { requiredOne: 'Informe apenas o valor ou o porcentual.' };
     }
 
     if (amount && percentage) {
-      return { onlyOneAllowed: 'Informe o valou ou o porcentual.' };
+      return { onlyOneAllowed: 'Informe apenas o valor ou o porcentual.' };
     }
 
     if (percentage && (percentage < 1 || percentage > 100)) {
@@ -117,6 +117,7 @@ export class GeneralBudgetUpdateComponent extends FormBaseComponent implements O
   }
 
   submit() {
+    this.submitted = true;
     this.budgetModel = this.form.value;
     this.budgetModel.generalBudgetId = this.data.generalBudgetId;
 
@@ -126,17 +127,12 @@ export class GeneralBudgetUpdateComponent extends FormBaseComponent implements O
         next: (result) => {
 
           if (!result) {
-            this.toastr.error('Erro ao salvar a categoria.');
+            this.toastr.error('Erro ao salvar o limite orçamentário geral.');
             return;
           }
 
-          let toast = this.toastr.success('Categoria alterada com sucesso.');
-          if (toast) {
-            toast.onHidden.pipe(takeUntil(this.destroy$)).subscribe(() => {
-              this.dialogRef.close({ updated: true })
-            });
-          }
-
+          this.toastr.success('Limite orçamentário geral alterado com sucesso.');
+          this.dialogRef.close({ updated: true })
         },
         error: (fail) => {
           this.submitted = false;
