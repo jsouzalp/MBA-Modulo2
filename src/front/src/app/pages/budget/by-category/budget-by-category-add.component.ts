@@ -93,7 +93,6 @@ export class BudgetByCategoryAddComponent extends FormBaseComponent implements O
           this.dialogRef.close({ inserted: true })
         },
         error: (fail) => {
-          console.log('x')
           this.submitted = false;
           this.toastr.error(fail.error.errors);
         }

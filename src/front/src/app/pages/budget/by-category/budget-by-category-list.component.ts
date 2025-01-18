@@ -96,7 +96,7 @@ export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
 
   deleteCategory(budget: BudgetModel) {
 
-    const dialogData = new ConfirmDialogModel('Atenção', `Confirma exclusão da limite orçamentário da categoria <b>${budget.description}</b>?`);
+    const dialogData = new ConfirmDialogModel('Atenção', `Confirma exclusão do limite orçamentário da categoria <b>${budget.description}</b>?`);
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",

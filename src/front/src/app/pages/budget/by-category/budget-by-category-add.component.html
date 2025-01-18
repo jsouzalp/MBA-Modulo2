@@ -11,7 +11,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['categoryId']">
+        <small class="text-error" *ngIf="displayMessage['categoryId']">
           <p [innerHTML]="displayMessage['categoryId']"></p>
         </small>
       </div>
@@ -27,7 +27,7 @@
           }" matInput name="amount" formControlName="amount" type="text" autocomplete="off" maxlength="50"
             minlength="3" (keyup.enter)="submit()" />
         </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['amount']">
+        <small class="text-error" *ngIf="displayMessage['amount']">
           <p [innerHTML]="displayMessage['amount']"></p>
         </small>
       </div>
