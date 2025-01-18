@@ -29,7 +29,7 @@ public class BudgetRepository : BaseRepository<Budget>, IBudgetRepository
     {
         return await _context.Budgets
             .AsNoTracking()
-            .Where(c => c.CategoryId == id)
+            .Where(c => c.CategoryId == id && c.UserId == UserId)
             .FirstOrDefaultAsync();
     }
 }

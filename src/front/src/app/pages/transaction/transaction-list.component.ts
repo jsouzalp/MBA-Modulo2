@@ -168,11 +168,11 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   }
 
   getCategoryBalance(transaction: TransactionListModel): string {
-    if (transaction.type === CategoryTypeEnum.Income ) return "";
+    if (transaction.type === CategoryTypeEnum.Income) return "";
 
     if (transaction.categoryBalance < 0) return "Previsão orçamentária não configurada para essa categoria";
 
-    return `Saldo da categoria(${transaction.category}): ${this.currencyPipe.transform(transaction.categoryBalance)}`;
+    return `Saldo da categoria (${transaction.category}): ${this.currencyPipe.transform(transaction.categoryBalance)}`;
   }
 
   getGeneralBudgetBalance(): string {
