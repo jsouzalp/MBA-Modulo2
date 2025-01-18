@@ -73,7 +73,8 @@
               </div>
             </div>
           </td>
-          <td mat-footer-cell *matFooterCellDef [matTooltip]="getGeneralBudgetBalance()" matTooltipPosition="right" class="f-w-600">
+          <td mat-footer-cell *matFooterCellDef [matTooltip]="getGeneralBudgetBalance()" matTooltipPosition="right"
+            class="f-w-600">
             {{ getBalance() | currency }}
           </td>
         </ng-container>
@@ -97,7 +98,7 @@
                 <span>Editar lançamento</span>
               </button>
 
-              <button mat-menu-item (click)="deleteTransaction(element.transactionId)">
+              <button mat-menu-item (click)="deleteTransaction(element)">
                 <mat-icon>delete</mat-icon>
                 <span>Deletar lançamento</span>
               </button>

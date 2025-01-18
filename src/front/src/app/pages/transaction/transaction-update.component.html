@@ -1,6 +1,6 @@
 <h3 mat-dialog-title>Alteração de categoria</h3>
 <mat-dialog-content>
-  <form class="m-t-30" [formGroup]="form">
+  <form class="m-t-30" [formGroup]="form" (ngSubmit)="submit()">
     <div fxLayout="row wrap">
       <div class="p-10">
         <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Tipo</mat-label>
@@ -25,22 +25,22 @@
             allowNegative: false,
             nullable :true
           }" matInput name="amount" formControlName="amount" type="text" autocomplete="off" maxlength="50"
-            minlength="3" />
+            minlength="3" (keyup.enter)="submit()" />
         </mat-form-field>
         <small class="text-error" *ngIf="displayMessage['amount']">
           <p [innerHTML]="displayMessage['amount']"></p>
         </small>
       </div>
     </div>
-  </form>
-  <mat-dialog-actions align="end">
-    <button mat-raised-button (click)="cancel()" color="secondary" cdkFocusInitial>
-      Cancelar
-    </button>
+    <mat-dialog-actions align="end">
+      <button type="button" mat-raised-button (click)="cancel()" color="secondary" cdkFocusInitial [disabled]="submitted">
+        Cancelar
+      </button>
 
-    <button mat-raised-button color="primary" [disabled]="!form.valid || submitted"
-      (click)="submit(); submitted = true">
-      Confirmar
-    </button>
-  </mat-dialog-actions>
+      <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid || submitted">
+        <mat-icon class="rotating" *ngIf="submitted">loop</mat-icon>
+        Confirmar
+      </button>
+    </mat-dialog-actions>
+  </form>
 </mat-dialog-content>

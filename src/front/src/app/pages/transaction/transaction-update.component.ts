@@ -78,6 +78,9 @@ export class TransactionUpdateComponent extends FormBaseComponent implements OnI
   }
 
   submit() {
+    if (!this.form.valid) return;
+
+    this.submitted = true;
     this.transactionModel = this.form.value;
     this.transactionModel.transactionId = this.data.transactionId;
 
@@ -87,11 +90,11 @@ export class TransactionUpdateComponent extends FormBaseComponent implements OnI
         next: (result) => {
 
           if (!result) {
-            this.toastr.error('Erro ao salvar a categoria.');
+            this.toastr.error('Erro ao salvar o lançamento.');
             return;
           }
 
-          this.toastr.success('Categoria alterada com sucesso.');
+          this.toastr.success('Lançamento alterado com sucesso.');
           this.dialogRef.close({ updated: true })
         },
         error: (fail) => {

@@ -122,9 +122,9 @@ export class TransactionListComponent implements OnInit, OnDestroy {
       })
   }
 
-  deleteTransaction(id: string) {
+  deleteTransaction(transaction: TransactionModel) {
 
-    const dialogData = new ConfirmDialogModel('Atenção', 'Confirma exclusão ?');
+    const dialogData = new ConfirmDialogModel('Atenção', `Confirma exclusão da transação <b>${transaction.description} [${transaction.amount}]</b>?`);
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
@@ -136,7 +136,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
       .subscribe(dialogResult => {
         if (!dialogResult) return;
 
-        this.transactionService.delete(id)
+        this.transactionService.delete(transaction.transactionId)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: () => {
