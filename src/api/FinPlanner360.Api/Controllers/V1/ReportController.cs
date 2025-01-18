@@ -40,7 +40,7 @@ namespace FinPlanner360.Api.Controllers.V1
 
             var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
 
-            if (transactionsList == null && !transactionsList.Any())
+            if (transactionsList == null || transactionsList.Count == 0)
             {
                 Notify("Nenhuma transação encontrada no intervalo de datas especificado.");
                 return GenerateResponse();
@@ -69,12 +69,21 @@ namespace FinPlanner360.Api.Controllers.V1
         public async Task<IActionResult> ExportReportCategoryTransactionSummaryAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate, [FromQuery][Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")][RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string fileType)
         {
             if (startDate > endDate)
-                return BadRequest("A data de início não pode ser posterior à data de término.");
+            {
+                Notify("A data de início não pode ser posterior à data de término.");
+                return GenerateResponse();
+            }
+
 
             var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
 
-            if (transactionsList == null && !transactionsList.Any())
-                return NotFound("Nenhuma transação encontrada no intervalo de datas especificado.");
+
+            if (transactionsList == null || !transactionsList.Any())
+            {
+                Notify("Nenhuma transação encontrada no intervalo de datas especificado.");
+                return GenerateResponse();
+            }
+
 
             List<TransactionCategoyViewModel> transactionsReport = (from x in transactionsList
                                                                     group x by new { x.Category.Description, x.Category.Type } into g

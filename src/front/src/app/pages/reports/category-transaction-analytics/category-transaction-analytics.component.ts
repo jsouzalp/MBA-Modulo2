@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
@@ -15,9 +15,16 @@ import { ReportCategoryAnalytics } from './Models/transaction.models';
 })
 export class CategoryTransactionAnalyticsComponent implements OnInit, OnDestroy {
 
+
+  @Input() startDate!: Date | null;
+  @Input() endDate!: Date | null;
+
+    
   reportcategoryModel: ReportCategoryAnalytics[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+  desktop: boolean = true;
+  showContent: boolean = true; 
 
   constructor(
     private reportcategoryService: ReportCategoryService,
@@ -27,20 +34,23 @@ export class CategoryTransactionAnalyticsComponent implements OnInit, OnDestroy 
 
 
   ngOnInit(): void {
-    this.getCategoriesReport();
+    // this.getCategoriesReport();
   }
 
 
-  getCategoriesReport() {
+  getCategoriesReport(startDt: Date, endDt: Date) {
+
     this.reportcategoryModel = [];
-    this.reportcategoryService.getAnalytics()
+    this.reportcategoryService.getAnalytics(startDt, endDt)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
           this.reportcategoryModel = response;
+          this.showContent = true;
         },
         error: (fail) => {
           this.toastr.error(fail.error.errors);
+          this.showContent = false;
         }
       });
   }

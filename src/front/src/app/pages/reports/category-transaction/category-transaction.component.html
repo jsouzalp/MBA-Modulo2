@@ -32,6 +32,6 @@
 <div [hidden]="!confirmed">
   <app-category-transaction-summary [startDate]="startDateValue" [endDate]="endDateValue" #summary
     [hidden]="selectedOption != 'summary'"></app-category-transaction-summary>
-  <app-category-transaction-analytics #analytics
+  <app-category-transaction-analytics [startDate]="startDateValue" [endDate]="endDateValue" #analytics
     [hidden]="selectedOption != 'analytics'"></app-category-transaction-analytics>
 </div>

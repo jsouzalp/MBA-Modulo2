@@ -20,13 +20,13 @@ export class CategoryTransactionSummaryComponent implements OnInit, OnDestroy {
   @Input() startDate!: Date | null;
   @Input() endDate!: Date | null;
 
-  @Input() refrash!: number | null;
+  
 
   reportcategoryModel: ReportCategory[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   desktop: boolean = true;
-
+  showContent: boolean = true; 
 
   constructor(
     private reportcategoryService: ReportCategoryService,
@@ -46,9 +46,11 @@ export class CategoryTransactionSummaryComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response) => {
           this.reportcategoryModel = response;
+          this.showContent = true
         },
         error: (fail) => {
           this.toastr.error(fail.error.errors);
+          this.showContent = false
         }
       });
   }

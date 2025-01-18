@@ -6,6 +6,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { FormsModule } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, NativeDateAdapter } from '@angular/material/core';
 import { FormBaseComponent } from 'src/app/components/base-components/form-base.component';
+import { MatSelectionListChange } from '@angular/material/list';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -46,22 +47,36 @@ export class CategoryTransactionComponent implements OnInit {
 
   startDateValue: Date;
   endDateValue: Date;
-  selectedOption: string = 'summary';
+
+  // selectedOption: string = 'summary';
+
+  selectedOption: string | null = 'summary';
+
+  previousOption: string | null = null;
 
   confirmed: boolean = false;
 
   onButtonClick(): void {
+
+
+    if (!this.selectedOption)
+      return;
+
     this.confirmed = true;
     
     if (this.selectedOption == 'summary')
       this.summaryComponent.getCategoriesReport(this.startDateValue, this.endDateValue);
     else
-      this.analyticsComponent.getCategoriesReport();
+      this.analyticsComponent.getCategoriesReport(this.startDateValue, this.endDateValue);
   }
 
   alterouSelecao() {
+
     this.confirmed = false;
   }
+
+
+
 }
 
 
