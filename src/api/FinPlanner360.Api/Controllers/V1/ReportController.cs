@@ -205,7 +205,7 @@ namespace FinPlanner360.Api.Controllers.V1
             switch (fileType.ToLower())
             {
                 case "pdf":
-                    fileBytes = Reports.Fast.ReportService.GenerateReportPDF("Category", transactionsReport);
+                    fileBytes = Reports.Fast.ReportService.GenerateReportPDF("CategoryAnalytics", transactionsReport);
                     contentType = "application/pdf";
                     fileName = "Categorias.pdf";
                     break;

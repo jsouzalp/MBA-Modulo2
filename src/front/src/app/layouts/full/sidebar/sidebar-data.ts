@@ -50,20 +50,15 @@ export const navItems: NavItem[] = [
     navCap: 'Relatórios:',
     divider: true
   },
-  {
-    displayName: 'Gastos por período',
-    iconName: 'material-symbols-light:date-range-outline',
-    route: '/dashboard-',
-  },
+  // {
+  //   displayName: 'Gastos por período',
+  //   iconName: 'material-symbols-light:date-range-outline',
+  //   route: '/dashboard-',
+  // },
   {
     displayName: 'Gastos por Categoria',
     iconName: 'material-symbols-light:date-range-outline',
     route: 'pages/report/category',
-  },
-  {
-    displayName: 'xxxx',
-    iconName: 'ix:ingestion-report',
-    route: '/dashboard-',
   },
   {
     navCap: 'Ui Components - será excluído',
