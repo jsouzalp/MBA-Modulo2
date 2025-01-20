@@ -24,7 +24,7 @@ export class CategoryTransactionAnalyticsComponent implements OnInit, OnDestroy 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   desktop: boolean = true;
-  showContent: boolean = true; 
+  showContent: boolean = false; 
 
   constructor(
     private reportcategoryService: ReportCategoryService,
@@ -54,7 +54,16 @@ export class CategoryTransactionAnalyticsComponent implements OnInit, OnDestroy 
         }
       });
   }
+  
+  generatePDF()
+  {
 
+  }
+
+  generateExcel()
+  {
+    
+  }
 
 
   ngOnDestroy(): void {
