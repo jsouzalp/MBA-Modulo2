@@ -56,7 +56,6 @@ export class LocalStorageUtils {
     public clear() {
         localStorage.removeItem('mba.grupo1.user');
         localStorage.removeItem('mba.grupo1.token');
-        localStorage.removeItem('mba.grupo1.email');
         localStorage.removeItem("mba.grupo1.expires_at");
     }
 }
