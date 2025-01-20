@@ -30,6 +30,13 @@ export abstract class BaseService {
         };
     }
 
+    protected getAuthHeaderOnly() {
+        return new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.LocalStorage.getUserToken()}`
+        });
+    }
+
     protected serviceError(response: Response | any) {
         let customError: string[] = [];
         let errors: string[] = [];

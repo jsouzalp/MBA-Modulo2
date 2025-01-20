@@ -1,0 +1,14 @@
+.date-picker-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .align-right {
+    text-align: right;
+  }
+
+  .flex-align-right {
+    display: flex;
+    justify-content: flex-end;
+  }

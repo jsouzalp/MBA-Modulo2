@@ -45,15 +45,15 @@ export const navItems: NavItem[] = [
     navCap: 'Relatórios:',
     divider: true
   },
+  // {
+  //   displayName: 'Gastos por período',
+  //   iconName: 'material-symbols-light:date-range-outline',
+  //   route: '/dashboard-',
+  // },
   {
-    displayName: 'Gastos por período',
+    displayName: 'Gastos por Categoria',
     iconName: 'material-symbols-light:date-range-outline',
-    route: '/dashboard-',
-  },
-  {
-    displayName: 'xxxx',
-    iconName: 'ix:ingestion-report',
-    route: '/dashboard-',
+    route: 'pages/report/category',
   },
    {
     navCap: 'Auth',

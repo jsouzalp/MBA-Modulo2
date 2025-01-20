@@ -1,0 +1,39 @@
+<div *ngIf="showContent">
+  <mat-card class="cardWithShadow theme-card">
+    
+    <mat-card-header>
+      <div style="display: flex; align-items: center; justify-content: space-between;width: 100%;">
+        <h2 style="margin: 0;">Relatório por categorias Sintético</h2>
+        <div style="display: flex; gap: 4px; margin-left: auto;">
+          <button mat-icon-button aria-label="" (click)="generatePDF()">
+            <i class="iconify" data-icon="icon-park-outline:file-pdf-one"></i>
+          </button>
+          <button mat-icon-button aria-label="" (click)="generateExcel()">
+            <i class="iconify" data-icon="icon-park-outline:file-excel"></i>
+          </button>
+        </div>
+      </div>
+  </mat-card-header>
+
+    <mat-card-content class="b-t-1">
+      <div class="row">
+        <mat-card-content>
+          <mat-list>
+            <div *ngFor="let category of reportcategoryModel">
+              <mat-list-item>
+                <div class="report-item">
+                  <span class="category-type">{{category.type}}</span>
+                  <span class="spacer"></span>
+                  <span class="category-description">{{category.categoryDescription}}</span>
+                  <span class="spacer"></span>
+                  <span class="total-amount">{{category.totalAmount}}</span>
+                  <span class="spacer"></span>
+                </div>
+              </mat-list-item>
+            </div>
+          </mat-list>
+        </mat-card-content>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,82 @@
+  .report-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .category-description
+  {
+    width: 33%;  
+    text-align: left;
+    padding: 0 10px;
+  }
+
+  .category-type {
+    width: 33%;  
+    text-align: left;
+    padding: 0 10px;
+  }
+
+
+  .total-amount
+  {
+    width: 50%;  
+    text-align: left;
+    padding: 0 40px;
+  }
+
+
+  .spacer {
+    flex-grow: 5; 
+  }
+
+  .mat-card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  mat-list-item {
+    padding: 5px 0;
+    margin: 5px 0;
+  }
+
+  mat-list {
+    padding: 0;
+    margin: 0;
+  }
+
+
+  .flex-align-right {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .mat-card-title {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+  }
+
+
+  .inline-container {
+    display: flex;
+    align-items: center; /* Alinha os itens verticalmente no centro */
+    gap: 10px; /* Espaçamento entre os itens */
+
+
+   
+
+  }
