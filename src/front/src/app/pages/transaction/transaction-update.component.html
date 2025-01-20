@@ -1,35 +1,39 @@
-<h3 mat-dialog-title>Alteração de categoria</h3>
+<h3 mat-dialog-title>Cadastro de transação</h3>
 <mat-dialog-content>
   <form class="m-t-30" [formGroup]="form">
-    <div fxLayout="row wrap">
-      <div class="p-10">
+    <div class="row">
+      <div class="col-6 p-10">
         <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-          >Tipo</mat-label
-        >
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-select formControlName="categoryId" name="categoryId">
-            <mat-option *ngFor="let category of categoryModel" [value]="category.categoryId">
-              {{ category.description }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['categoryId']">
-          <p [innerHTML]="displayMessage['categoryId']"></p>
-        </small>
-      </div>
-      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-          >Orçamento</mat-label
+          >Descrição</mat-label
         >
         <mat-form-field appearance="outline" class="w-100">
           <input
-          [currencyMask]="{
-            prefix: '',
-            thousands: '.',
-            decimal: ',',
-            allowNegative: false,
-            nullable :true
-          }"
+            matInput
+            name="description"
+            formControlName="description"
+            type="text"
+            autocomplete="off"
+            maxlength="50"
+            minlength="4"
+          />
+        </mat-form-field>
+        <small class="text-danger" *ngIf="displayMessage['description']">
+          <p [innerHTML]="displayMessage['description']"></p>
+        </small>
+      </div>
+      <div class="col-6 p-10">
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
+          >Valor</mat-label
+        >
+        <mat-form-field appearance="outline" class="w-100">
+          <input
+            [currencyMask]="{
+              prefix: '',
+              thousands: '.',
+              decimal: ',',
+              allowNegative: false,
+              nullable: true
+            }"
             matInput
             name="amount"
             formControlName="amount"
@@ -42,11 +46,53 @@
         <small class="text-danger" *ngIf="displayMessage['amount']">
           <p [innerHTML]="displayMessage['amount']"></p>
         </small>
+      </div>      
+
+      <div class="col-6 p-10">
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
+          >Categoria</mat-label
+        >
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="categoryId" name="categoryId">
+            <mat-option
+              *ngFor="let category of categoryModel"
+              [value]="category.categoryId"
+            >
+              {{ category.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small class="text-danger" *ngIf="displayMessage['categoryId']">
+          <p [innerHTML]="displayMessage['categoryId']"></p>
+        </small>
       </div>
+      <div class="col-6 p-10">
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
+          >Data</mat-label
+        >
+        <mat-form-field appearance="outline" class="w-100">
+          <input matInput [matDatepicker]="picker" formControlName="transactionDate"/>
+          <mat-hint>DD/MM/AAAA</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <small class="text-danger" *ngIf="displayMessage['transactionDate']">
+          <p [innerHTML]="displayMessage['transactionDate']"></p>
+        </small>
+      </div>
+
     </div>
   </form>
   <mat-dialog-actions align="end">
-    <button mat-raised-button (click)="cancel()" color="secondary" cdkFocusInitial>
+    <button
+      mat-raised-button
+      (click)="cancel()"
+      color="secondary"
+      cdkFocusInitial
+    >
       Cancelar
     </button>
 
@@ -56,7 +102,7 @@
       [disabled]="!form.valid || submitted"
       (click)="submit(); submitted = true"
     >
-      Cadastrar
+    Salvar
     </button>
   </mat-dialog-actions>
 </mat-dialog-content>
