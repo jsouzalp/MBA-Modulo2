@@ -43,6 +43,7 @@ public static class BusinesConfiguration
         services.AddScoped<IBudgetService, BudgetService>();
         services.AddScoped<IGeneralBudgetService, GeneralBudgetService>();
         services.AddScoped<ITransactionService, TransactionService>();
+        services.AddScoped<ITransactionReportService, TransactionReportService>();
         // others services
 
         // Validations

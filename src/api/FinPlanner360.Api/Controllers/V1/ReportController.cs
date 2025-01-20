@@ -1,8 +1,10 @@
-﻿using FastReport.Web;
+﻿using AutoMapper;
+using FastReport.Web;
 using FinPlanner360.Api.Extensions;
 using FinPlanner360.Api.ViewModels.Report;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
+using FinPlanner360.Business.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -16,13 +18,18 @@ namespace FinPlanner360.Api.Controllers.V1
     [Route("api/v{version:apiVersion}/[Controller]")]
     public class ReportController : MainController
     {
+        private readonly IMapper _mapper;
         private readonly ITransactionRepository _transactionRepository;
-        public ReportController(ITransactionRepository transactionRepository,
+        private readonly ITransactionReportService _transactionReportService;
+        public ReportController(IMapper mapper,
+                                ITransactionRepository transactionRepository,
+                                ITransactionReportService transactionReportService,
                                 IAppIdentityUser appIdentityUser,
                                 INotificationService notificationService) : base(appIdentityUser, notificationService)
         {
-
+            _mapper = mapper;
             _transactionRepository = transactionRepository;
+            _transactionReportService = transactionReportService;
 
         }
 
@@ -225,6 +232,44 @@ namespace FinPlanner360.Api.Controllers.V1
         }
 
 
+        /// <summary>
+        /// Listar transação por tipo
+        /// </summary>
+        /// <remarks>Esta rota lista todas as transações por tipo e o período inicial e final.</remarks>
+        /// <param name="dataInicio">Data inicio de emissão/atualização da transação. Formato: yyyy-MM-dd Ex: 2025-01-10 </param>
+        /// <param name="dataFim">Data fim de emissão/atualização da transação. Formato: yyyy-MM-dd Ex: 2025-01-13</param>
+        /// <response code="200">Sucesso na operação!</response>
+        /// <response code="204">Sucesso na operação, porém sem conteúdo de resposta.</response>
+        /// <response code="400">Dados inconsistentes na requisição ao listar as transações.</response>
+        /// <response code="401">Usuário não autenticado.</response>
+        /// <response code="500">Erro interno de servidor.</response>
+        [HttpGet("Transactions/ByType")]
+        [SwaggerOperation(Tags = new[] { "Transações" })]
+        [ProducesResponseType(typeof(IEnumerable<TransactionReportViewModel>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<TransactionReportViewModel>>> GetTransactionByType(
+           [Required(ErrorMessage = "O campo data inicial é obrigatório")] DateTime dataInicio,
+           [Required(ErrorMessage = "O campo Data final é obrigatório")] DateTime dataFim)
+        {
+
+
+            if (dataInicio > dataFim)
+            {
+                Notify("A data de início não pode ser posterior à data de término.");
+                return GenerateResponse();
+            }
+
+            var transactionsReportDto = await _transactionReportService.GetTransactionReportByTypeAsync(dataInicio, dataFim);
+
+            if (transactionsReportDto == null || !transactionsReportDto.Any())
+            {
+                Notify("Nenhuma transação encontrada no intervalo de datas especificado.");
+                return GenerateResponse();
+            }
+
+            var transactionsReportViewModel = _mapper.Map<IEnumerable<TransactionReportViewModel>>(transactionsReportDto);
+
+            return GenerateResponse(transactionsReportViewModel, HttpStatusCode.OK);
+        }
 
 
 

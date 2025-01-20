@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using FinPlanner360.Api.Extensions;
 using FinPlanner360.Api.ViewModels.Budget;
 using FinPlanner360.Api.ViewModels.Category;
 using FinPlanner360.Api.ViewModels.GeneralBudget;
+using FinPlanner360.Api.ViewModels.Report;
 using FinPlanner360.Api.ViewModels.Transaction;
 using FinPlanner360.Business.DTO.Transacton;
 using FinPlanner360.Business.Models;
@@ -29,6 +31,9 @@ public class AutomapperConfig : Profile
         CreateMap<Transaction, BalanceDTO>()
             .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.Description))
             .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Category.Type));
+        
+        CreateMap<TransactionReportDTO, TransactionReportViewModel>()
+            .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type.GetDescription())).ReverseMap();
 
     }
 }

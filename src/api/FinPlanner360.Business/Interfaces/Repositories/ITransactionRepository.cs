@@ -1,4 +1,5 @@
-﻿using FinPlanner360.Business.Models;
+﻿using FinPlanner360.Business.DTO.Transacton;
+using FinPlanner360.Business.Models;
 
 namespace FinPlanner360.Business.Interfaces.Repositories;
 
@@ -13,4 +14,8 @@ public interface ITransactionRepository : IRepository<Transaction>
     Task<ICollection<Transaction>> GetTransactionsByRangeAsync(DateTime startDate, DateTime endDate);
     
     Task<ICollection<Transaction>> GetTransactionsWithCategoryByRangeAsync(DateTime startDate, DateTime endDate);
+
+    Task<ICollection<TransactionReportDTO>> GetTransactionReportByTypeAsync(DateTime startDate, DateTime endDate);
+
+
 }

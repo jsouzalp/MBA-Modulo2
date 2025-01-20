@@ -1,4 +1,5 @@
-﻿using FinPlanner360.Business.Interfaces.Repositories;
+﻿using FinPlanner360.Business.DTO.Transacton;
+using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
 using FinPlanner360.Business.Models.Enums;
@@ -85,6 +86,32 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
         return await _dbSet.AsNoTracking()
             .Include(x => x.Category)
             .Where(x => x.UserId == UserId.Value && x.TransactionDate >= startDate && x.TransactionDate <= endDate)
-            .ToListAsync();
+        .ToListAsync();
+    }
+
+    public async Task<ICollection<TransactionReportDTO>> GetTransactionReportByTypeAsync(DateTime startDate, DateTime endDate) 
+    { 
+        if (!UserId.HasValue) 
+        {
+            return null; 
+        } 
+        
+        var transactions = await _dbSet.AsNoTracking()
+            .Include(x => x.Category)
+            .Where(x => x.UserId == UserId.Value && x.TransactionDate >= startDate && x.TransactionDate <= endDate)
+            .ToListAsync(); 
+        
+        var report = transactions
+            .GroupBy(x => new { x.Category.Type, x.Category.Description })
+            .Select(g => new TransactionReportDTO 
+            { 
+                Type = g.Key.Type, 
+                CategoryDescription = g.Key.Description, 
+                TotalAmount = g.Sum(x => x.Amount), 
+                TransactionCount = g.Count() 
+            })
+            .ToList(); 
+        
+        return report; 
     }
 }

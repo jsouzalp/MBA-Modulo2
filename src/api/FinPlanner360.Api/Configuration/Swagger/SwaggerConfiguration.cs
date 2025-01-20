@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace FinPlanner360.Api.Configuration.Swagger;
 
@@ -21,6 +22,10 @@ public static class SwaggerConfiguration
             });
 
             c.OperationFilter<Swagger.SwaggerDefaultValues>();
+
+            // Adicionar os comentários XML
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"; 
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile); c.IncludeXmlComments(xmlPath);
         });
 
         return services;
