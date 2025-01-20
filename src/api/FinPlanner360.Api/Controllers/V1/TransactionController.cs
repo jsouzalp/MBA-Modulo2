@@ -62,9 +62,11 @@ public class TransactionController : MainController
     public async Task<ActionResult<TransactionUpdateViewModel>> Update(Guid id, [FromBody] TransactionUpdateViewModel transactionViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
+
         if (id != transactionViewModel.TransactionId) return BadRequest();
         if (await GetTransactionByIdAsync(transactionViewModel.TransactionId) == null) return NotFound();
 
+        transactionViewModel.UserId = UserId;
         await _transactionService.UpdateAsync(_mapper.Map<Transaction>(transactionViewModel));
 
         return GenerateResponse(transactionViewModel, HttpStatusCode.OK);

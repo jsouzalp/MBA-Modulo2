@@ -19,19 +19,16 @@ export class CategoryTransactionSummaryComponent implements OnInit, OnDestroy {
 
   @Input() startDate!: Date | null;
   @Input() endDate!: Date | null;
-
-  
-
+ 
   reportcategoryModel: ReportCategory[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   desktop: boolean = true;
-  showContent: boolean = true; 
+  showContent: boolean = false; 
 
   constructor(
     private reportcategoryService: ReportCategoryService,
     private toastr: ToastrService) {
-    // TODO: verificar se é desktop
   }
 
   displayedColumns: string[] = ['transactionDate', 'description', 'totalAmount', 'type'];
@@ -55,17 +52,7 @@ export class CategoryTransactionSummaryComponent implements OnInit, OnDestroy {
       });
   }
 
-
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
-  }
-
   generatePDF(): void {
-
-    console.log("generateExcel()->" + this.startDate + " - " + this.endDate)
-
     this.reportcategoryService.getPdfSummary(this.startDate, this.endDate)
       .subscribe({
         next: (response) => {
@@ -88,9 +75,6 @@ export class CategoryTransactionSummaryComponent implements OnInit, OnDestroy {
   }
 
   generateExcel(): void {
-
-    console.log("generateExcel()->" + this.startDate + " - " + this.endDate)
-
     this.reportcategoryService.getXlsxSummary(this.startDate, this.endDate)
       .subscribe({
         next: (response) => {
@@ -112,8 +96,6 @@ export class CategoryTransactionSummaryComponent implements OnInit, OnDestroy {
       })
   }
 
-
-
   private obterNomeArquivo(res: HttpResponse<Blob>): string {
     let fileName = 'Relatorio.pdf';
     try {
@@ -127,7 +109,9 @@ export class CategoryTransactionSummaryComponent implements OnInit, OnDestroy {
     return fileName;
   }
 
-
-
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
 
 }

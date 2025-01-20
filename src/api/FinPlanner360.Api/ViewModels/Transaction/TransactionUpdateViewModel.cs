@@ -20,6 +20,5 @@ public class TransactionUpdateViewModel
 
     public DateTime? TransactionDate { get; set; }
 
-    [Required(ErrorMessage = "O código do usuário é obrigatório.")]
     public Guid UserId { get; set; }
 }

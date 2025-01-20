@@ -1,25 +1,43 @@
-
 <div *ngIf="showContent">
-  <div class="col-lg-6">
-      <mat-card class="b-1 shadow-none">
-        <mat-card-header>
-          <mat-card-title>COLOCAR AQUI PARA IMPRIMIR OU EXPORTAR</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="b-t-1">
+  <mat-card class="cardWithShadow theme-card">
+    
+    <mat-card-header>
+        <div style="display: flex; align-items: center; justify-content: space-between;width: 100%;">
+          <h2 style="margin: 0;">Relatório por categorias Analítico</h2>
+          <div style="display: flex; gap: 4px; margin-left: auto;">
+            <button mat-icon-button aria-label="" (click)="generatePDF()">
+              <i class="iconify" data-icon="icon-park-outline:file-pdf-one"></i>
+            </button>
+            <button mat-icon-button aria-label="" (click)="generateExcel()">
+              <i class="iconify" data-icon="icon-park-outline:file-excel"></i>
+            </button>
+          </div>
+        </div>
+    </mat-card-header>
+
+    <mat-card-content class="b-t-1">
+      <div class="row">
+        <mat-card-content>
           <mat-list>
-              <div *ngFor="let category of reportcategoryModel">  
-                  <mat-list-item>
-                      <span matListItemTitle class="f-s-16 f-w-600">{{category.categoryDescription}}</span>
-                        <div *ngFor="let transaction of category.transactions">
-                          <span matListItemLine class="mat-body-1">{{transaction.description}}</span>
-                          <span matListItemLine class="mat-body-1">{{transaction.transactionDate}}</span>
-                          <span matListItemLine class="mat-body-1">{{transaction.totalAmount}}</span>
-                          <span matListItemLine class="mat-body-1">{{transaction.type}}</span>
-                        </div>
-                  </mat-list-item>
-              </div>
+            <div *ngFor="let category of reportcategoryModel" style="margin-bottom: 8px;">  
+              <mat-list-item>
+                <span matListItemTitle class="f-s-16 f-w-600" style="margin-bottom: 4px;">{{category.categoryDescription}}</span>
+                <div *ngFor="let transaction of category.transactions" style="margin-left: 16px; margin-top: 2px;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span matListItemLine class="mat-body-1" style="width: 200px;">{{transaction.description}}</span>
+                    <span matListItemLine class="mat-body-1" style="width: 120px;">{{transaction.transactionDate}}</span>
+                    <span matListItemLine class="mat-body-1" style="width: 100px; text-align: right;">{{transaction.totalAmount}}</span>
+                    <span matListItemLine class="mat-body-1" style="width: 80px; text-align: center;">{{transaction.type}}</span>
+                  </div>
+                </div>
+                <div style="height: 20px;"></div>
+              </mat-list-item>
+            </div>
           </mat-list>
+
+
         </mat-card-content>
-      </mat-card>
-    </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

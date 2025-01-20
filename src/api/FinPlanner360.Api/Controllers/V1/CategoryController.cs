@@ -32,7 +32,7 @@ public class CategoryController : MainController
 
 
     [HttpGet]
-    [SwaggerOperation(Summary = "", Description = "")]
+    [SwaggerOperation(Summary = "Obtém todas as categorias.", Description = "Busca todas as categorias cadastradas no banco de dados.")]
     [ProducesResponseType(typeof(List<CategoryViewModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -45,7 +45,7 @@ public class CategoryController : MainController
 
 
     [HttpPost]
-    [SwaggerOperation(Summary = "", Description = "")]
+    [SwaggerOperation(Summary = "Cria uma nova categoria.", Description = "Registra uma nova categoria no banco de dados.")]
     [ProducesResponseType(typeof(CategoryViewModel), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -61,7 +61,7 @@ public class CategoryController : MainController
 
 
     [HttpPut("{id:guid}")]
-    [SwaggerOperation(Summary = "", Description = "")]
+    [SwaggerOperation(Summary = "Atualiza uma categoria existente.", Description = "Atualiza os dados de uma categoria já cadastrada no banco de dados.")]
     [ProducesResponseType(typeof(CategoryViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -79,7 +79,7 @@ public class CategoryController : MainController
 
 
     [HttpDelete("{id:guid}")]
-    [SwaggerOperation(Summary = "", Description = "")]
+    [SwaggerOperation(Summary = "Exclui uma categoria.", Description = "Remove uma categoria do banco de dados pelo seu ID.")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

@@ -1,9 +1,10 @@
 <div *ngIf="showContent">
   <mat-card class="cardWithShadow theme-card">
+    
     <mat-card-header>
-      <mat-card-title class="m-b-0">
-        <div class="inline-container">
-          <h4>Relatório por categorias Sintético</h4>
+      <div style="display: flex; align-items: center; justify-content: space-between;width: 100%;">
+        <h2 style="margin: 0;">Relatório por categorias Sintético</h2>
+        <div style="display: flex; gap: 4px; margin-left: auto;">
           <button mat-icon-button aria-label="" (click)="generatePDF()">
             <i class="iconify" data-icon="icon-park-outline:file-pdf-one"></i>
           </button>
@@ -11,9 +12,8 @@
             <i class="iconify" data-icon="icon-park-outline:file-excel"></i>
           </button>
         </div>
-
-      </mat-card-title>
-    </mat-card-header>
+      </div>
+  </mat-card-header>
 
     <mat-card-content class="b-t-1">
       <div class="row">

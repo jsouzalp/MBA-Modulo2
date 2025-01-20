@@ -32,7 +32,7 @@ public class GeneralBudgetController : MainController
 
 
     [HttpGet]
-    [SwaggerOperation(Summary = "", Description = "")]
+    [SwaggerOperation(Summary = "Obtém todos os orçamentos gerais", Description = "Retorna uma lista de orçamentos gerais cadastrados no sistema.")]
     [ProducesResponseType(typeof(IEnumerable<GeneralBudgetViewModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -45,7 +45,7 @@ public class GeneralBudgetController : MainController
 
 
     [HttpPost]
-    [SwaggerOperation(Summary = "", Description = "")]
+    [SwaggerOperation( Summary = "Cria um novo orçamento geral", Description = "Cria um novo orçamento geral baseado nas informações fornecidas no corpo da requisição.")]
     [ProducesResponseType(typeof(GeneralBudgetViewModel), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -62,7 +62,7 @@ public class GeneralBudgetController : MainController
 
 
     [HttpPut("{id:guid}")]
-    [SwaggerOperation(Summary = "", Description = "")]
+    [SwaggerOperation(Summary = "Atualiza um orçamento geral existente",Description = "Atualiza as informações de um orçamento geral baseado no ID fornecido.")]
     [ProducesResponseType(typeof(GeneralBudgetViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -80,7 +80,7 @@ public class GeneralBudgetController : MainController
 
 
     [HttpDelete("{id:guid}")]
-    [SwaggerOperation(Summary = "", Description = "")]
+    [SwaggerOperation(Summary = "Exclui um orçamento geral", Description = "Exclui um orçamento geral com base no ID fornecido.")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

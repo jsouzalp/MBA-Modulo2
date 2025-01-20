@@ -87,14 +87,17 @@ public class TransactionService : BaseService, ITransactionService
 
     public async Task UpdateAsync(Transaction transactionUpdate)
     {
-        var budget = await _transactionRepository.GetByIdAsync(transactionUpdate.TransactionId);
-        budget.Amount = transactionUpdate.Amount;
-        budget.CategoryId = transactionUpdate.CategoryId;
+        var transaction = await _transactionRepository.GetByIdAsync(transactionUpdate.TransactionId);
+        transaction.Amount = transactionUpdate.Amount;
+        transaction.CategoryId = transactionUpdate.CategoryId;
+        transaction.Description = transactionUpdate.Description;
+        transaction.TransactionDate = transactionUpdate.TransactionDate;
 
-        if (!await _validationFactory.ValidateAsync(budget))
+        if (!await _validationFactory.ValidateAsync(transaction))
             return;
 
-        await _transactionRepository.UpdateAsync(budget);
+        if (await BudgetOkAsync(transaction))
+            await _transactionRepository.UpdateAsync(transaction);
     }
 
     public async Task DeleteAsync(Guid transactionId)

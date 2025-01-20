@@ -27,7 +27,7 @@ import { TransactionModel } from './models/transaction.model';
 export class TransactionListComponent implements OnInit, OnDestroy {
   transactionsModel: TransactionListModel[] = [];
   budgetModel: GeneralBudgetModel;
-  displayedColumns: string[] = ['transactionDate', 'description', 'type', 'amount', 'Menu'];
+  displayedColumns: string[] = ['transactionDate', 'description', 'category', 'type', 'amount', 'Menu'];
   monthYears: string[] = [];
   selectedMonthYear: string;
   months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
@@ -97,11 +97,10 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   }
 
   updateDialog(row: any) {
-
     let transaction: TransactionModel = {
       categoryId: row.categoryId,
       description: row.description,
-      transactionId: row.transactionId,
+      transactionId: row.transactionId      ,
       userId: row.userId,
       amount: row.amount,
       transactionDate: row.transactionDate,

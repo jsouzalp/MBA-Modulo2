@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="06/20/2009 23:03:47" ReportInfo.Modified="01/20/2025 14:35:14" ReportInfo.CreatorVersion="2025.1.0.0">
+  <Dictionary>
+    <BusinessObjectDataSource Name="CategoryAnalytics" ReferenceName="CategoryAnalytics" DataType="System.Int32" Enabled="true">
+      <Column Name="TransactionDate" DataType="System.String"/>
+      <Column Name="CategoryDescription" DataType="System.String"/>
+      <Column Name="Description" DataType="System.String"/>
+      <Column Name="Type" DataType="System.String"/>
+      <Column Name="TotalAmount" DataType="System.String"/>
+    </BusinessObjectDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1" RawPaperSize="9" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="56.7">
+      <ShapeObject Name="Shape1" Left="9.45" Top="9.45" Width="699.3" Height="47.25"/>
+      <TextObject Name="Text2" Left="18.9" Top="18.9" Width="680.4" Height="28.35" Text="Categorias&#13;&#10;" HorzAlign="Center" VertAlign="Center" Font="Segoe UI, 12pt, style=Bold"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="58.15" Width="718.2" Height="18.9" CanShrink="true">
+      <LineObject Name="Line2" Top="18.9" Width="718.2" Border.Color="Gainsboro" Border.Width="5"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="78.51" Width="718.2" Height="28.35" CanGrow="true" DataSource="CategoryAnalytics">
+      <LineObject Name="Line1" Top="28.35" Width="718.2" Border.Color="Gainsboro" Border.Width="3"/>
+      <TextObject Name="Text43" Left="10.55" Top="3.78" Width="122.85" Height="18.9" Text="[CategoryAnalytics.TransactionDate]" VertAlign="Center" Font="Consolas, 8pt"/>
+      <TextObject Name="Text43" Left="141.75" Top="3.78" Width="160.65" Height="18.9" Text="[CategoryAnalytics.CategoryDescription]" VertAlign="Center" Font="Consolas, 8pt"/>
+      <TextObject Name="Text43" Left="325.15" Top="3.78" Width="160.65" Height="18.9" Text="[CategoryAnalytics.Description]" VertAlign="Center" Font="Consolas, 8pt"/>
+      <TextObject Name="Text45" Left="595.35" Top="3.78" Width="113.4" Height="18.9" Text="[CategoryAnalytics.TotalAmount]" VertAlign="Center" Font="Consolas, 8pt"/>
+      <TextObject Name="Text47" Left="498.85" Top="4.45" Width="66.15" Height="18.9" Text="[CategoryAnalytics.Type]" VertAlign="Center" Font="Consolas, 6pt"/>
+    </DataBand>
+    <ReportSummaryBand Name="ReportSummary1" Top="108.31" Width="718.2" Height="24.57">
+      <LineObject Name="Line3" Top="15.12" Width="718.2" Border.Color="Gainsboro" Border.Width="3"/>
+    </ReportSummaryBand>
+    <PageFooterBand Name="PageFooter1" Top="134.34" Width="718.2" Height="18.9">
+      <TextObject Name="Text30" Left="623.7" Top="9.45" Width="37.8" Height="9.45" Text="[Page#]" HorzAlign="Right" VertAlign="Bottom" Font="Segoe UI, 6pt, style=Bold"/>
+      <TextObject Name="Text31" Left="670.95" Top="9.45" Width="28.35" Height="9.45" Text="[TotalPages#]" VertAlign="Bottom" Font="Segoe UI, 6pt, style=Bold"/>
+      <TextObject Name="Text33" Left="661.5" Top="9.45" Width="9.45" Height="9.45" Text="/" VertAlign="Bottom" Font="Segoe UI, 6pt, style=Bold"/>
+      <TextObject Name="Text32" Left="18.9" Top="9.45" Width="94.5" Height="9.45" Text="[Date]" VertAlign="Bottom" Font="Segoe UI, 6pt, style=Bold"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

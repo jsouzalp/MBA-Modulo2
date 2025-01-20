@@ -15,6 +15,8 @@ import { LocalStorageUtils } from 'src/app/utils/localstorage';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import { MessageService } from 'src/app/services/message.service ';
 import { NotificationMessage } from 'src/app/models/notificationMessage.model';
+import { MatDialog } from '@angular/material/dialog';
+import { MessagesComponent } from 'src/app/pages/messages/messages.component';
 
 @Component({
   selector: 'app-header',
@@ -37,13 +39,12 @@ export class HeaderComponent implements OnInit {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private router: Router, private localStorageUtils: LocalStorageUtils, private messageService: MessageService) { }
+  constructor(private router: Router, private localStorageUtils: LocalStorageUtils, private messageService: MessageService, public dialog: MatDialog,) { }
   ngOnInit(): void {
     this.email = this.localStorageUtils.getEmail();
 
     this.subscription = this.messageService.messages$.subscribe(
       (messages) => {
-        console.log('subscription.messages', messages);
         this.messages = messages;
         this.hasMessage = messages.length > 0;
         this.messageCounter = messages.length;
@@ -61,6 +62,16 @@ export class HeaderComponent implements OnInit {
 
   getMessageCount(): number {
     return this.messages.length;
+  }
+
+  openMessages() {
+    this.dialog.open(MessagesComponent, {
+      width: '1000px',
+      height: '600px',
+      disableClose: true
+    });
+
+
   }
 
   logout() {

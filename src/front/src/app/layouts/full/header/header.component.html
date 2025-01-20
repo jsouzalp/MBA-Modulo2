@@ -21,6 +21,7 @@
     color="inherit"
     aria-label="Notifications"
     class="d-flex justify-content-center"
+    (click)="openMessages()"
   >
     <span matBadge="{{messageCounter}}" [matBadgeHidden]="!hasMessage" matBadgeOverlap="false" matBadgeSize="small">
       <i class="iconify icon-20 d-flex" data-icon="solar:bell-line-duotone"></i>

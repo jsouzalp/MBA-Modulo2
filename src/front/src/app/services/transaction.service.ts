@@ -27,7 +27,7 @@ export class TransactionService extends BaseService {
 
   create(transaction: TransactionModel): Observable<TransactionModel> {
     let response = this.http
-      .post(this.UrlServiceV1 + 'v1/transaction', transaction, this.getAuthHeaderJson())
+      .post(`${this.UrlServiceV1}v1/transaction/`, transaction, this.getAuthHeaderJson())
       .pipe(
         map(response => this.extractData(response)),
         catchError(error => this.serviceError(error)));
@@ -37,7 +37,7 @@ export class TransactionService extends BaseService {
 
   update(transaction: TransactionModel): Observable<TransactionModel> {
     let response = this.http
-      .put(this.UrlServiceV1 + 'v1/transaction/' + transaction.transactionId, transaction, this.getAuthHeaderJson())
+      .put(`${this.UrlServiceV1}v1/transaction/${transaction.transactionId}`, transaction, this.getAuthHeaderJson())
       .pipe(
         map(response => this.extractData(response)),
         catchError(error => this.serviceError(error)));
@@ -47,7 +47,7 @@ export class TransactionService extends BaseService {
 
   delete(transactionId: string): Observable<void> {
     let response = this.http
-      .delete(this.UrlServiceV1 + `v1/transaction/${transactionId}`, this.getAuthHeaderJson())
+      .delete(`${this.UrlServiceV1}v1/transaction/${transactionId}`, this.getAuthHeaderJson())
       .pipe(
         map(response => this.extractData(response)),
         catchError(error => this.serviceError(error)));
