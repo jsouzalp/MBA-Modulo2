@@ -3,7 +3,7 @@ import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 
-import { AuthGuard } from './auth.guard';
+import { AuthConnectedGuard, AuthGuard } from './auth.guard';
 import { LoginComponent } from './pages/user/login/login.component';
 import { ForgotPasswordComponent } from './pages/user/forgot-password/forgot-password.component';
 import { RestorePasswordComponent } from './pages/user/restore-password/restore-password.component';
@@ -37,8 +37,8 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: 'login', component: LoginComponent },
-  { path: 'authentication/forgot-password', component: ForgotPasswordComponent },
-  { path: 'restore-password', component: RestorePasswordComponent },
+  { path: 'login', component: LoginComponent, canActivate: [AuthConnectedGuard] },
+  { path: 'authentication/forgot-password', component: ForgotPasswordComponent, canActivate: [AuthConnectedGuard] },
+  { path: 'restore-password', component: RestorePasswordComponent, canActivate: [AuthConnectedGuard] },
   { path: '**', component: NotFoundComponent }
 ];

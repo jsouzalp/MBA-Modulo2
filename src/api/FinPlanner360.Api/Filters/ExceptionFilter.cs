@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FinPlanner360.Business.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
@@ -21,18 +22,36 @@ public class ExceptionFilter : IExceptionFilter
 
         _logger.LogError(context?.Exception ?? context.Exception, $"Ocorreu um erro inesperado: {context?.Exception?.Message ?? context.Exception?.ToString()}");
 
-        var outputResponse = new
+        ObjectResult output;
+        if (context.Exception is BusinessException businessException)
         {
-            success = false,
-            message = "Ops, aconteceu um erro inesperado", 
-            internalMessage = context?.Exception?.Message ?? context.Exception?.ToString()
-        };
+            var outputResponse = new
+            {
+                success = false,
+                errors = new string[] { businessException.Message }
+            };
 
-        var output = new ObjectResult(outputResponse)
+            output = new ObjectResult(outputResponse)
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Value = outputResponse
+            };
+        }
+        else
         {
-            StatusCode = StatusCodes.Status500InternalServerError,
-            Value = outputResponse
-        };
+            var outputResponse = new
+            {
+                success = false,
+                message = "Ops, aconteceu um erro inesperado",
+                internalMessage = context?.Exception?.Message ?? context.Exception?.ToString()
+            };
+
+            output = new ObjectResult(outputResponse)
+            {
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Value = outputResponse
+            };
+        }
 
         _executor.ExecuteAsync(new ActionContext(context.HttpContext, context.RouteData, context.ActionDescriptor), output)
             .GetAwaiter()
