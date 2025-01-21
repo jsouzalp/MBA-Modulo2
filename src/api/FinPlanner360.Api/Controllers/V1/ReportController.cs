@@ -1,6 +1,7 @@
 ﻿using FastReport.Web;
 using FinPlanner360.Api.Extensions;
 using FinPlanner360.Api.ViewModels.Report;
+using FinPlanner360.Business.Extensions;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -33,13 +34,13 @@ namespace FinPlanner360.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<IEnumerable<TransactionCategoyViewModel>>> GetCategoryTransactionSummaryAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate)
         {
-            if (startDate > endDate)
+            if (startDate.GetStartDate() > endDate.GetEndDate())
             {
                 Notify("A data de início não pode ser posterior à data de término.");
                 return GenerateResponse();
             }
 
-            var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
+            var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetStartDate(), endDate.GetEndDate());
 
             if (transactionsList == null || transactionsList.Count == 0)
             {
@@ -66,14 +67,14 @@ namespace FinPlanner360.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> ExportReportCategoryTransactionSummaryAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate, [FromQuery][Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")][RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string fileType)
         {
-            if (startDate > endDate)
+            if (startDate.GetStartDate() > endDate.GetEndDate())
             {
                 Notify("A data de início não pode ser posterior à data de término.");
                 return GenerateResponse();
             }
 
 
-            var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
+            var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetStartDate(), endDate.GetEndDate()  );
 
 
             if (transactionsList == null || !transactionsList.Any())
@@ -126,13 +127,13 @@ namespace FinPlanner360.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<TransactionAnalyticsViewModel>> GetCategoryTransactionAnalyticsAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate)
         {
-            if (startDate > endDate)
+            if (startDate.GetStartDate() > endDate.GetEndDate())
             {
                 Notify("A data de início não pode ser posterior à data de término.");
                 return GenerateResponse();
             }
 
-            var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
+            var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetStartDate(), endDate.GetEndDate());
 
             if (transactionsList == null || !transactionsList.Any())
             {
@@ -169,13 +170,13 @@ namespace FinPlanner360.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<TransactionAnalyticsViewModel>> ExportReportCategoryTransactionAnalyticsAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate, [FromQuery][Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")][RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string fileType)
         {
-            if (startDate > endDate)
+            if (startDate.GetStartDate() > endDate.GetEndDate())
             {
                 Notify("A data de início não pode ser posterior à data de término.");
                 return GenerateResponse();
             }
 
-            ICollection<Business.Models.Transaction> transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
+            ICollection<Business.Models.Transaction> transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetStartDate(), endDate.GetEndDate());
 
             if (transactionsList == null || !transactionsList.Any())
             {
