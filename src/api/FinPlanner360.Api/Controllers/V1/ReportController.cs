@@ -1,6 +1,7 @@
 ﻿using FastReport.Web;
 using FinPlanner360.Api.Extensions;
 using FinPlanner360.Api.ViewModels.Report;
+using FinPlanner360.Business.Extensions;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -33,7 +34,7 @@ public class ReportController : MainController
     {
         if (!IsValidDateRange(startDate, endDate)) { return GenerateResponse(); }
 
-        var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
+        var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetBeginDate(), endDate.GetEndDate());
 
         if (!ExistsTransactions(transactionsList)) { return GenerateResponse(); }
 
@@ -59,7 +60,7 @@ public class ReportController : MainController
         if (!IsValidDateRange(startDate, endDate)) { return GenerateResponse(); }
         if (!ValidateFileType(fileType)) { return GenerateResponse(); }
 
-        var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
+        var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetBeginDate(), endDate.GetEndDate());
 
         if (!ExistsTransactions(transactionsList)) { return GenerateResponse(); }
 
@@ -84,7 +85,7 @@ public class ReportController : MainController
     {
         if (!IsValidDateRange(startDate, endDate)) { return GenerateResponse(); }
 
-        var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
+        var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetBeginDate(), endDate.GetEndDate());
 
         if (!ExistsTransactions(transactionsList)) { return GenerateResponse(); }
 
@@ -119,7 +120,7 @@ public class ReportController : MainController
         if (!IsValidDateRange(startDate, endDate)) { return GenerateResponse(); }
         if (!ValidateFileType(fileType)) { return GenerateResponse(); }
 
-        ICollection<Business.Models.Transaction> transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
+        ICollection<Business.Models.Transaction> transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetBeginDate(), endDate.GetEndDate());
 
         if (!ExistsTransactions(transactionsList)) { return GenerateResponse(); }
 

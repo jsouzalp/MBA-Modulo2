@@ -21,7 +21,7 @@ public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
         Guid? userId = _appIdentityUser != null ? _appIdentityUser.GetUserId() : null;
 
-        return await _context.Categories
+        return await _dbSet
             .AsNoTracking()
             .Where(c => c.CategoryId == id && (c.UserId == null || c.UserId == UserId.Value))
             .Select(c => new Category

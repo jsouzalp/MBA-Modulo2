@@ -66,7 +66,7 @@ namespace FinPlanner360.Api.Controllers.V1
         {
             date = date.HasValue && date.Value != DateTime.MinValue && date.Value != DateTime.MaxValue
                 ? date.Value
-                    : DateTime.Now;
+                : DateTime.Now.Date;
             DateTime startDate = new DateTime(date.Value.Year, date.Value.Month, 1);
             DateTime endDate = startDate.AddMonths(1).AddSeconds(-1);
 
@@ -93,7 +93,7 @@ namespace FinPlanner360.Api.Controllers.V1
         {
             date = date.HasValue && date.Value != DateTime.MinValue && date.Value != DateTime.MaxValue
                 ? date.Value
-                : DateTime.Now;
+                : DateTime.Now.Date;
             DateTime startDate = new DateTime(date.Value.Year, date.Value.Month, 1).AddMonths(1).AddYears(-1);
             DateTime endDate = startDate.AddYears(1).AddSeconds(-1);
 

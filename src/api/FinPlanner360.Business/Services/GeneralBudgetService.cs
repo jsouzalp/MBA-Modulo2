@@ -21,20 +21,6 @@ public class GeneralBudgetService : BaseService, IGeneralBudgetService
         _budgetRepository = budgetRepository;
     }
 
-    private async Task<bool> BudgetExists()
-    {
-
-        var budget = await _budgetRepository.GetAllAsync();
-
-        if (budget.Count != 0)
-        {
-            Notify("Já existe um Budget.");
-            return true;
-        }
-
-        return false;
-    }
-
     public async Task CreateAsync(GeneralBudget budget)
     {
         if (!await _validationFactory.ValidateAsync(budget))
@@ -71,5 +57,17 @@ public class GeneralBudgetService : BaseService, IGeneralBudgetService
         await _budgetRepository.RemoveAsync(budget);
     }
 
+    private async Task<bool> BudgetExists()
+    {
 
+        var budget = await _budgetRepository.GetAllAsync();
+
+        if (budget.Count != 0)
+        {
+            Notify("Já existe um orçamento geral registrado.");
+            return true;
+        }
+
+        return false;
+    }
 }

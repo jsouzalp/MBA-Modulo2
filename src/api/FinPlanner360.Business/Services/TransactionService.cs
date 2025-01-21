@@ -85,13 +85,14 @@ public class TransactionService : BaseService, ITransactionService
         if (!await _validationFactory.ValidateAsync(transaction))
             return;
 
-        if (await BudgetOkAsync(transaction))
+        if (await BudgetOkAsync(transaction, 0.00m))
             await _transactionRepository.CreateAsync(transaction.FillAttributes());
     }
 
     public async Task UpdateAsync(Transaction transactionUpdate)
     {
         var transaction = await _transactionRepository.GetByIdAsync(transactionUpdate.TransactionId);
+        decimal originalAmount = transaction.Amount;
         transaction.Amount = transactionUpdate.Amount;
         transaction.CategoryId = transactionUpdate.CategoryId;
         transaction.Description = transactionUpdate.Description;
@@ -100,7 +101,7 @@ public class TransactionService : BaseService, ITransactionService
         if (!await _validationFactory.ValidateAsync(transaction))
             return;
 
-        if (await BudgetOkAsync(transaction))
+        if (await BudgetOkAsync(transaction, originalAmount))
             await _transactionRepository.UpdateAsync(transaction);
     }
 
@@ -116,7 +117,7 @@ public class TransactionService : BaseService, ITransactionService
         await _transactionRepository.RemoveAsync(transactionId);
     }
 
-    private async Task<bool> BudgetOkAsync(Transaction transaction)
+    private async Task<bool> BudgetOkAsync(Transaction transaction, decimal originalAmount)
     {
         if (await ItIsIncome(transaction))
             return true;
@@ -124,9 +125,9 @@ public class TransactionService : BaseService, ITransactionService
         var generalBudget = (await _generalBudgetRepository.GetAllAsync()).FirstOrDefault();
 
         if (generalBudget != null && (generalBudget.Percentage.HasValue || generalBudget.Amount.HasValue))
-            return await GeneralBudgetOkAsync(transaction, generalBudget);
+            return await GeneralBudgetOkAsync(transaction, generalBudget, originalAmount);
 
-        return await CategoryBudgetOkAsync(transaction);
+        return await CategoryBudgetOkAsync(transaction, originalAmount);
     }
 
     private async Task<bool> ItIsIncome(Transaction transaction)
@@ -136,13 +137,13 @@ public class TransactionService : BaseService, ITransactionService
         return category.Type == CategoryTypeEnum.Income;
     }
 
-    private async Task<bool> GeneralBudgetOkAsync(Transaction transaction, GeneralBudget generalBudget)
+    private async Task<bool> GeneralBudgetOkAsync(Transaction transaction, GeneralBudget generalBudget, decimal originalAmount)
     {
         var balance = await _transactionRepository.GetBalanceByMonthYearAsync(transaction.TransactionDate);
         if (balance.Count == 0) return true;
 
         decimal usedBudget = balance.Where(j => j.Category.Type == CategoryTypeEnum.Expense).Sum(j => j.Amount);
-        decimal incomingBalance = balance.Where(j => j.Category.Type == CategoryTypeEnum.Income).Sum(j => j.Amount);
+        decimal incomingBalance = balance.Where(j => j.Category.Type == CategoryTypeEnum.Income).Sum(j => j.Amount) + originalAmount;
 
         // Determine the budget amount
         decimal budgetAmount = generalBudget.Amount.GetValueOrDefault() > 0
@@ -166,7 +167,7 @@ public class TransactionService : BaseService, ITransactionService
         return true;
     }
 
-    private async Task<bool> CategoryBudgetOkAsync(Transaction transaction)
+    private async Task<bool> CategoryBudgetOkAsync(Transaction transaction, decimal originalAmount)
     {
         var categoryBudget = await _budgetRepository.GetBudgetByCategoryId(transaction.CategoryId);
         if (categoryBudget == null)
@@ -179,7 +180,7 @@ public class TransactionService : BaseService, ITransactionService
         if (balance.Count == 0) return true;
 
         decimal usedBudget = balance.Where(j => j.Category.Type == CategoryTypeEnum.Expense && j.CategoryId == transaction.CategoryId).Sum(j => j.Amount);
-        decimal incomingBalance = balance.Where(j => j.Category.Type == CategoryTypeEnum.Income).Sum(j => j.Amount);
+        decimal incomingBalance = balance.Where(j => j.Category.Type == CategoryTypeEnum.Income).Sum(j => j.Amount) + originalAmount;
 
         // Calculate the used budget percentage
         decimal usedPercentage = ((usedBudget + transaction.Amount) / categoryBudget.Amount) * 100;

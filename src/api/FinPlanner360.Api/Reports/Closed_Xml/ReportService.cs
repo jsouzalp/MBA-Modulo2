@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace FinPlanner360.Api.Reports.Closed_Xml
 {
@@ -21,7 +22,13 @@ namespace FinPlanner360.Api.Reports.Closed_Xml
                 for (int i = 0; i < properties.Length; i++)
                 {
                     var value = properties[i].GetValue(item);
-                    sheet.Cell(row, i + 1).Value = value?.ToString();
+                    var cell = sheet.Cell(row, i + 1);
+                    cell.Value = value?.ToString();
+
+                    if (IsNumeric(properties[i].PropertyType))
+                    {
+                        cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                    }
                 }
                 row++;
             }
@@ -29,6 +36,16 @@ namespace FinPlanner360.Api.Reports.Closed_Xml
             using var memory = new MemoryStream();
             workbook.SaveAs(memory);
             return memory.ToArray();
+        }
+
+        private static bool IsNumeric(Type type)
+        {
+            return type == typeof(decimal) || 
+                type == typeof(double) ||
+                type == typeof(byte) ||
+                type == typeof(short) ||
+                type == typeof(int) ||
+                type == typeof(long);
         }
 
     }
