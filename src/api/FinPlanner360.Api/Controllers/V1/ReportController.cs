@@ -225,11 +225,6 @@ namespace FinPlanner360.Api.Controllers.V1
             return File(fileBytes, contentType, fileName);
         }
 
-
-
-
-
-
     }
 
 
