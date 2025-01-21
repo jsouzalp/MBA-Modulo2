@@ -6,6 +6,7 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FormBaseComponent } from 'src/app/components/base-components/form-base.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormControlName, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { BudgetService } from 'src/app/services/budget.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { NgxCurrencyDirective } from 'ngx-currency';
 import { CategoryModel } from '../category/models/category.model';
@@ -22,8 +23,6 @@ import { provideNativeDateAdapter } from '@angular/material/core';
   templateUrl: './Transaction-update.component.html',
   providers: [CurrencyPipe, provideNativeDateAdapter()]
 })
-
-
 export class TransactionUpdateComponent extends FormBaseComponent implements OnInit, OnDestroy {
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements!: ElementRef[];
 
@@ -36,7 +35,7 @@ export class TransactionUpdateComponent extends FormBaseComponent implements OnI
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: TransactionModel,
     public dialog: MatDialog,
-    private transactionSevice: TransactionService,
+    private transactionService: TransactionService,
     private categorySevice: CategoryService,
     private toastr: ToastrService,
     private dialogRef: MatDialogRef<TransactionUpdateComponent>,
@@ -67,7 +66,6 @@ export class TransactionUpdateComponent extends FormBaseComponent implements OnI
   }
 
   ngOnInit(): void {
-    console.log('transactionModel 1: ', this.transactionModel);
     this.getCategories();
     this.form = new FormGroup({
       description: new FormControl(this.transactionModel.description, [Validators.required, Validators.minLength(4), Validators.maxLength(100)]),
@@ -95,33 +93,28 @@ export class TransactionUpdateComponent extends FormBaseComponent implements OnI
   }
 
   submit() {
+    if (!this.form.valid) return;
+
+    this.submitted = true;
     this.transactionModel = this.form.value;
     this.transactionModel.transactionId = this.data.transactionId;
 
-    this.transactionSevice.update(this.transactionModel)
+    this.transactionService.update(this.transactionModel)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result) => {
 
           if (!result) {
-            this.toastr.error('Erro ao salvar a lançamento.');
+            this.toastr.error('Erro ao salvar o lançamento.');
             return;
           }
 
-          let toast = this.toastr.success('Lançamento efetuado com sucesso.');
-          if (toast) {
-            toast.onHidden.pipe(takeUntil(this.destroy$)).subscribe(() => {
-              this.updated = true;
-              this.cancel();
-            });
-          }
-
+          this.toastr.success('Lançamento efetuado com sucesso.');
+          this.updated = true;
+          this.cancel();
         },
         error: (fail) => {
           this.submitted = false;
-          if (fail.error.errors[0].includes('acima do limite estabelecido')) {
-            this.messageService.setMessage('Erro', fail.error.errors[0]);
-          }
           this.toastr.error(fail.error.errors);
         }
       });

@@ -94,6 +94,9 @@ export class TransactionAddComponent extends FormBaseComponent implements OnInit
   }
 
   submit() {
+    if (!this.form.valid) return;
+
+    this.submitted = true;
     this.transactionModel = this.form.value;
     this.transactionSevice.create(this.transactionModel)
       .pipe(takeUntil(this.destroy$))
@@ -105,13 +108,9 @@ export class TransactionAddComponent extends FormBaseComponent implements OnInit
             return;
           }
 
-          let toast = this.toastr.success('Lançamento efetuado com sucesso.');
-          if (toast) {
-            toast.onHidden.pipe(takeUntil(this.destroy$)).subscribe(() => {
-              this.inserted = true;
-              this.cancel();
-            });
-          }
+          this.toastr.success('Lançamento efetuado com sucesso.');
+          this.inserted = true;
+          this.cancel();
 
         },
         error: (fail) => {

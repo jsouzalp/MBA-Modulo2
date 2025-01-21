@@ -11,16 +11,7 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
 {
     public TransactionRepository(FinPlanner360DbContext context, IAppIdentityUser appIdentityUser)
         : base(context, appIdentityUser)
-    {
-    }
-
-    //public Guid? UserId
-    //{
-    //    get
-    //    {
-    //        return _appIdentityUser != null ? _appIdentityUser.GetUserId() : null;
-    //    }
-    //}
+    { }
 
     public async Task<ICollection<Transaction>> GetBalanceByMonthYearAsync(DateTime date)
     {

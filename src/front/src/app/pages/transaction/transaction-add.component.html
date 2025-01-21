@@ -1,108 +1,70 @@
-<h3 mat-dialog-title>Cadastro de transação</h3>
+<h3 mat-dialog-title>Lançamento de transação</h3>
 <mat-dialog-content>
-  <form class="m-t-30" [formGroup]="form">
+  <form class="m-t-30" [formGroup]="form" (ngSubmit)="submit()">
     <div class="row">
       <div class="col-6 p-10">
-        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-          >Descrição</mat-label
-        >
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Descrição</mat-label>
         <mat-form-field appearance="outline" class="w-100">
-          <input
-            matInput
-            name="description"
-            formControlName="description"
-            type="text"
-            autocomplete="off"
-            maxlength="50"
-            minlength="4"
-          />
+          <input matInput name="description" formControlName="description" type="text" autocomplete="off" maxlength="50"
+            minlength="4" />
         </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['description']">
+        <small class="text-error" *ngIf="displayMessage['description']">
           <p [innerHTML]="displayMessage['description']"></p>
         </small>
       </div>
       <div class="col-6 p-10">
-        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-          >Valor</mat-label
-        >
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Valor</mat-label>
         <mat-form-field appearance="outline" class="w-100">
-          <input
-            [currencyMask]="{
+          <input [currencyMask]="{
               prefix: '',
               thousands: '.',
               decimal: ',',
               allowNegative: false,
               nullable: true
-            }"
-            matInput
-            name="amount"
-            formControlName="amount"
-            type="text"
-            autocomplete="off"
-            maxlength="50"
-            minlength="3"
-          />
+            }" matInput name="amount" formControlName="amount" type="text" autocomplete="off" maxlength="50"
+            minlength="3" />
         </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['amount']">
+        <small class="text-error" *ngIf="displayMessage['amount']">
           <p [innerHTML]="displayMessage['amount']"></p>
         </small>
-      </div>      
+      </div>
 
       <div class="col-6 p-10">
-        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-          >Categoria</mat-label
-        >
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Categoria</mat-label>
         <mat-form-field appearance="outline" class="w-100">
           <mat-select formControlName="categoryId" name="categoryId">
-            <mat-option
-              *ngFor="let category of categoryModel"
-              [value]="category.categoryId"
-            >
+            <mat-option *ngFor="let category of categoryModel" [value]="category.categoryId">
               {{ category.description }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['categoryId']">
+        <small class="text-error" *ngIf="displayMessage['categoryId']">
           <p [innerHTML]="displayMessage['categoryId']"></p>
         </small>
       </div>
       <div class="col-6 p-10">
-        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-          >Data</mat-label
-        >
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Data</mat-label>
         <mat-form-field appearance="outline" class="w-100">
-          <input matInput [matDatepicker]="picker" formControlName="transactionDate"/>
+          <input matInput [matDatepicker]="picker" formControlName="transactionDate" />
           <mat-hint>DD/MM/AAAA</mat-hint>
-          <mat-datepicker-toggle
-            matIconSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['transactionDate']">
+        <small class="text-error" *ngIf="displayMessage['transactionDate']">
           <p [innerHTML]="displayMessage['transactionDate']"></p>
         </small>
       </div>
 
     </div>
+    <mat-dialog-actions align="end">
+      <button type="button" mat-raised-button (click)="cancel()" color="secondary" cdkFocusInitial [disabled]="submitted">
+        Cancelar
+      </button>
+  
+      <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid || submitted">
+        <mat-icon class="rotating" *ngIf="submitted">loop</mat-icon>
+        Salvar
+      </button>
+    </mat-dialog-actions>
   </form>
-  <mat-dialog-actions align="end">
-    <button
-      mat-raised-button
-      (click)="cancel()"
-      color="secondary"
-      cdkFocusInitial
-    >
-      Cancelar
-    </button>
-
-    <button
-      mat-raised-button
-      color="primary"
-      [disabled]="!form.valid || submitted"
-      (click)="submit(); submitted = true"
-    >
-    Salvar
-    </button>
-  </mat-dialog-actions>
 </mat-dialog-content>
