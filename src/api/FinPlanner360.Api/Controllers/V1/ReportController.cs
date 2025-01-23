@@ -1,5 +1,8 @@
 ﻿using FastReport.Web;
 using FinPlanner360.Api.Extensions;
+using FinPlanner360.Api.Reports;
+using FinPlanner360.Api.Reports.Closed_Xml;
+using FinPlanner360.Api.Reports.Fast;
 using FinPlanner360.Api.ViewModels.Report;
 using FinPlanner360.Business.Extensions;
 using FinPlanner360.Business.Interfaces.Repositories;
@@ -34,7 +37,7 @@ public class ReportController : MainController
     {
         if (!IsValidDateRange(startDate, endDate)) { return GenerateResponse(); }
 
-        var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetBeginDate(), endDate.GetEndDate());
+        var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetStartDate(), endDate.GetEndDate());
 
         if (!ExistsTransactions(transactionsList)) { return GenerateResponse(); }
 
@@ -60,8 +63,8 @@ public class ReportController : MainController
         if (!IsValidDateRange(startDate, endDate)) { return GenerateResponse(); }
         if (!ValidateFileType(fileType)) { return GenerateResponse(); }
 
-        var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetBeginDate(), endDate.GetEndDate());
-
+        var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetStartDate(), endDate.GetEndDate());
+               
         if (!ExistsTransactions(transactionsList)) { return GenerateResponse(); }
 
         List<TransactionCategoyViewModel> transactionsReport = (from x in transactionsList
@@ -73,7 +76,8 @@ public class ReportController : MainController
                                                                     TotalAmount = g.Sum(x => x.Amount).ToString("C")
                                                                 }).ToList();
 
-        return GenerateReportToFile<TransactionCategoyViewModel>(fileType, "Category", transactionsReport);
+        var result = GenerateReportToFile.Generate<TransactionCategoyViewModel>(fileType, "Category", transactionsReport);
+        return File(result.FileBytes, result.ContentType, result.FileName);
     }
 
     [HttpGet("Transactions/AnalyticsByCategory")]
@@ -85,7 +89,7 @@ public class ReportController : MainController
     {
         if (!IsValidDateRange(startDate, endDate)) { return GenerateResponse(); }
 
-        var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetBeginDate(), endDate.GetEndDate());
+        var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetStartDate(), endDate.GetEndDate());
 
         if (!ExistsTransactions(transactionsList)) { return GenerateResponse(); }
 
@@ -120,7 +124,7 @@ public class ReportController : MainController
         if (!IsValidDateRange(startDate, endDate)) { return GenerateResponse(); }
         if (!ValidateFileType(fileType)) { return GenerateResponse(); }
 
-        ICollection<Business.Models.Transaction> transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetBeginDate(), endDate.GetEndDate());
+        ICollection<Business.Models.Transaction> transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetStartDate(), endDate.GetEndDate());
 
         if (!ExistsTransactions(transactionsList)) { return GenerateResponse(); }
 
@@ -136,7 +140,8 @@ public class ReportController : MainController
                                             .OrderBy(x => x.TransactionDate)
                                             .ToList();
 
-        return GenerateReportToFile<TransactionAnalyticsViewModel>(fileType, "CategoryAnalytics", transactionsReport);
+        var result = GenerateReportToFile.Generate<TransactionAnalyticsViewModel>(fileType, "CategoryAnalytics", transactionsReport);
+        return File(result.FileBytes, result.ContentType, result.FileName);
     }
 
     private bool IsValidDateRange(DateTime startDate, DateTime endDate)
@@ -168,29 +173,5 @@ public class ReportController : MainController
 
         Notify("Tipo de arquivo inválido. Use 'pdf' ou 'xlsx'.");
         return false;
-    }
-
-    private FileContentResult GenerateReportToFile<T>(string fileType, string reportName, IEnumerable<T> transactionsReport)
-    {
-        byte[] fileBytes = null;
-        string contentType = null;
-        string fileName = null;
-
-        switch (fileType.ToLower())
-        {
-            case "pdf":
-                fileBytes = Reports.Fast.ReportService.GenerateReportPDF(reportName, transactionsReport);
-                contentType = "application/pdf";
-                fileName = "Categorias.pdf";
-                break;
-
-            case "xlsx":
-                fileBytes = Reports.Closed_Xml.ReportService.GenerateXlsxBytes(reportName, transactionsReport);
-                contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                fileName = "Categorias.xlsx";
-                break;
-        }
-
-        return File(fileBytes, contentType, fileName);
     }
 }

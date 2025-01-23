@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace FinPlanner360.Api.Reports.Fast
 {
-    public static class ReportService
+    public static class PdfReportService
     {
         public static byte[] GenerateReportPDF(string reportFile, IEnumerable data)
         {

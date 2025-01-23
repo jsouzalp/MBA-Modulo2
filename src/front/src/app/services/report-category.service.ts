@@ -31,7 +31,7 @@ export class ReportCategoryService extends BaseService {
       param2 = this.formatDate(endDate);
     
     let response = this.http
-      .get(this.UrlServiceV1 + 'v1/Report/Transactions/AnalyticsByCategory?startDate=' +  param1 + '&endDate=' + param2,  this.getAuthHeaderJson())
+      .get(this.UrlServiceV1 + 'v1/report/transactions/analytics-by-category?startDate=' +  param1 + '&endDate=' + param2,  this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));
@@ -52,7 +52,7 @@ export class ReportCategoryService extends BaseService {
 
 
     let response = this.http
-      .get(this.UrlServiceV1 + 'v1/Report/Transactions/SummaryByCategory?startDate=' +  param1 + '&endDate=' + param2  ,  this.getAuthHeaderJson())
+      .get(this.UrlServiceV1 + 'v1/report/transactions/summary-by-category?startDate=' +  param1 + '&endDate=' + param2  ,  this.getAuthHeaderJson())
       .pipe(
         map(this.extractData),
         catchError(this.serviceError));
@@ -72,7 +72,7 @@ export class ReportCategoryService extends BaseService {
     if (endDate)
       param2 = this.formatDate(endDate);
 
-      return this.http.get(this.UrlServiceV1 + 'v1/Report/Transactions/SummaryByCategory/export-report?startDate=' +  param1 + '&endDate=' + param2 + '&fileType=pdf', { headers: this.getAuthHeaderOnly(), responseType: 'blob', observe: 'response' })
+      return this.http.get(this.UrlServiceV1 + 'v1/report/transactions/summary-by-category/export-report?startDate=' +  param1 + '&endDate=' + param2 + '&fileType=pdf', { headers: this.getAuthHeaderOnly(), responseType: 'blob', observe: 'response' })
 
   }
 
@@ -87,7 +87,7 @@ export class ReportCategoryService extends BaseService {
     if (endDate)
       param2 = this.formatDate(endDate);
 
-      return this.http.get(this.UrlServiceV1 + 'v1/Report/Transactions/SummaryByCategory/export-report?startDate=' +  param1 + '&endDate=' + param2 + '&fileType=xlsx', { headers: this.getAuthHeaderOnly(), responseType: 'blob', observe: 'response' })
+      return this.http.get(this.UrlServiceV1 + 'v1/report/transactions/summary-by-category/export-report?startDate=' +  param1 + '&endDate=' + param2 + '&fileType=xlsx', { headers: this.getAuthHeaderOnly(), responseType: 'blob', observe: 'response' })
 
   }
 
@@ -102,7 +102,7 @@ getPdfAnalytics(startDate?: Date | null , endDate?: Date | null) {
   if (endDate)
     param2 = this.formatDate(endDate);
 
-    return this.http.get(this.UrlServiceV1 + 'v1/Report/Transactions/AnalyticsByCategory/export-report?startDate=' +  param1 + '&endDate=' + param2 + '&fileType=pdf', { headers: this.getAuthHeaderOnly(), responseType: 'blob', observe: 'response' })
+    return this.http.get(this.UrlServiceV1 + 'v1/report/transactions/analytics-by-category/export-report?startDate=' +  param1 + '&endDate=' + param2 + '&fileType=pdf', { headers: this.getAuthHeaderOnly(), responseType: 'blob', observe: 'response' })
 
   }
 
@@ -117,7 +117,7 @@ getXlsxAnalytics(startDate?: Date | null , endDate?: Date | null) {
   if (endDate)
     param2 = this.formatDate(endDate);
 
-    return this.http.get(this.UrlServiceV1 + 'v1/Report/Transactions/AnalyticsByCategory/export-report?startDate=' +  param1 + '&endDate=' + param2 + '&fileType=xlsx', { headers: this.getAuthHeaderOnly(), responseType: 'blob', observe: 'response' })
+    return this.http.get(this.UrlServiceV1 + 'v1/report/transactions/analytics-by-category/export-report?startDate=' +  param1 + '&endDate=' + param2 + '&fileType=xlsx', { headers: this.getAuthHeaderOnly(), responseType: 'blob', observe: 'response' })
 
   }
 

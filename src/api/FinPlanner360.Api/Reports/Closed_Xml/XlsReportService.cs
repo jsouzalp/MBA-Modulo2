@@ -1,9 +1,10 @@
 ﻿using ClosedXML.Excel;
+using System.ComponentModel.DataAnnotations;
 using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace FinPlanner360.Api.Reports.Closed_Xml
 {
-    public static class ReportService
+    public static class XlsReportService
     {
         public static byte[] GenerateXlsxBytes<T>(string sheetName, IEnumerable<T> list)
         {
@@ -11,9 +12,13 @@ namespace FinPlanner360.Api.Reports.Closed_Xml
             var sheet = workbook.Worksheets.Add(sheetName);
 
             var properties = typeof(T).GetProperties();
+
             for (int i = 0; i < properties.Length; i++)
             {
-                sheet.Cell(1, i + 1).Value = properties[i].Name;
+                var displayAttribute = properties[i].GetCustomAttributes(typeof(DisplayAttribute), true)
+                                                    .FirstOrDefault() as DisplayAttribute;
+
+                sheet.Cell(1, i + 1).Value = displayAttribute?.Name ?? properties[i].Name;
             }
 
             int row = 2;
