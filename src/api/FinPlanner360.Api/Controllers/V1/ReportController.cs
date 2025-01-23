@@ -28,7 +28,7 @@ public class ReportController : MainController
         _transactionRepository = transactionRepository;
     }
 
-    [HttpGet("Transactions/SummaryByCategory")]
+    [HttpGet("transactions/summary-by-category")]
     [SwaggerOperation(Summary = "Sintético de transação por categoria", Description = "Responsável por devolver uma lista das transações por categoria em um intervalo de datas")]
     [ProducesResponseType(typeof(IEnumerable<TransactionCategoyViewModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -53,7 +53,7 @@ public class ReportController : MainController
         return GenerateResponse(transactionsReport, HttpStatusCode.OK);
     }
 
-    [HttpGet("Transactions/SummaryByCategory/export-report")]
+    [HttpGet("transactions/summary-by-category/export-report")]
     [SwaggerOperation(Summary = "Exporta um relatório de Transacoes por Categorias entre o peridodo Sintético ", Description = "Gera e exporta um relatório contendo informações dos usuários em formato PDF ou XLSX. O tipo de arquivo deve ser especificado no parâmetro `fileType`.")]
     [ProducesResponseType(typeof(TransactionAnalyticsViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -80,7 +80,7 @@ public class ReportController : MainController
         return File(result.FileBytes, result.ContentType, result.FileName);
     }
 
-    [HttpGet("Transactions/AnalyticsByCategory")]
+    [HttpGet("transactions/analytics-by-category")]
     [SwaggerOperation(Summary = "Analítico de transação por categoria", Description = "Responsável por devolver uma lista das transações analíticas por categoria em um intervalo de datas")]
     [ProducesResponseType(typeof(TransactionAnalyticsViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -114,7 +114,7 @@ public class ReportController : MainController
     }
 
 
-    [HttpGet("Transactions/AnalyticsByCategory/export-report")]
+    [HttpGet("transactions/analytics-by-category/export-report")]
     [SwaggerOperation(Summary = "Exporta um relatório de Transacoes por Categorias entre o peridodo Analítico", Description = "Gera e exporta um relatório contendo informações dos usuários em formato PDF ou XLSX.O tipo de arquivo deve ser especificado no parâmetro `fileType`.")]
     [ProducesResponseType(typeof(TransactionAnalyticsViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -162,16 +162,5 @@ public class ReportController : MainController
             return false;
         }
         return true;
-    }
-
-    private bool ValidateFileType(string fileType)
-    {
-        if (string.Equals(fileType, "pdf", StringComparison.OrdinalIgnoreCase) || string.Equals(fileType, "xlsx", StringComparison.OrdinalIgnoreCase))
-        {
-            return true;
-        }
-
-        Notify("Tipo de arquivo inválido. Use 'pdf' ou 'xlsx'.");
-        return false;
     }
 }

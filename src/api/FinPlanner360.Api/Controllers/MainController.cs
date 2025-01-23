@@ -79,4 +79,16 @@ public class MainController : ControllerBase
             Notify(error?.Exception?.Message ?? error?.ErrorMessage);
         }
     }
+
+    protected bool ValidateFileType(string fileType)
+    {
+        if (string.Equals(fileType, "pdf", StringComparison.OrdinalIgnoreCase) || string.Equals(fileType, "xlsx", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        Notify("Tipo de arquivo inválido. Use 'pdf' ou 'xlsx'.");
+        return false;
+    }
+
 }

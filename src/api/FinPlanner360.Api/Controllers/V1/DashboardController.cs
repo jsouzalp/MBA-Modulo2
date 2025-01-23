@@ -24,7 +24,7 @@ namespace FinPlanner360.Api.Controllers.V1
             _transactionRepository = transactionRepository;
         }
 
-        [HttpGet("Cards/{date:datetime?}")]
+        [HttpGet("cards/{date:datetime?}")]
         [SwaggerOperation(Summary = "Cards de dashboard", Description = "Retorna informações financeiras resumidas do usuário")]
         [ProducesResponseType(typeof(List<CardSumaryViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -57,7 +57,7 @@ namespace FinPlanner360.Api.Controllers.V1
             return GenerateResponse(cardSumary, HttpStatusCode.OK);
         }
 
-        [HttpGet("Transactions/{date:datetime?}")]
+        [HttpGet("transactions/{date:datetime?}")]
         [SwaggerOperation(Summary = "Resumo de transação por categoria", Description = "Responsável por devolver uma lista das transações por categoria")]
         [ProducesResponseType(typeof(IEnumerable<TransactionDashboardViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

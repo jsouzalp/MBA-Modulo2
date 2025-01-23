@@ -3,6 +3,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.align-right {
+  text-align: right;
+  margin-right: 8px; /* Ajuste para espaçamento */
+}
 
 .margin-xs { margin: 4px !important; }
 .margin-sm { margin: 8px !important; }

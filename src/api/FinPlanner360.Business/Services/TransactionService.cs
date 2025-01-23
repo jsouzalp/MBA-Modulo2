@@ -144,8 +144,8 @@ public class TransactionService : BaseService, ITransactionService
     {
         var balance = await _transactionRepository.GetBalanceByMonthYearAsync(transaction.TransactionDate);
         
-        decimal usedBudget = balance.Where(j => j.Category.Type == CategoryTypeEnum.Expense).Sum(j => j.Amount);
-        decimal incomingBalance = balance.Where(j => j.Category.Type == CategoryTypeEnum.Income).Sum(j => j.Amount) + originalAmount;
+        decimal usedBudget = balance.Where(j => j.Category.Type == CategoryTypeEnum.Expense).Sum(j => j.Amount) - originalAmount;
+        decimal incomingBalance = balance.Where(j => j.Category.Type == CategoryTypeEnum.Income).Sum(j => j.Amount);
 
         // Determine the budget amount
         decimal budgetAmount = generalBudget.Amount.GetValueOrDefault() > 0
@@ -173,8 +173,8 @@ public class TransactionService : BaseService, ITransactionService
     {
         var balance = await _transactionRepository.GetBalanceByMonthYearAsync(transaction.TransactionDate);
 
-        decimal usedBudgetGeneral = balance.Where(j => j.Category.Type == CategoryTypeEnum.Expense).Sum(j => j.Amount);
-        decimal incomingBalance = balance.Where(j => j.Category.Type == CategoryTypeEnum.Income).Sum(j => j.Amount) + originalAmount;
+        decimal usedBudgetGeneral = balance.Where(j => j.Category.Type == CategoryTypeEnum.Expense).Sum(j => j.Amount) - originalAmount;
+        decimal incomingBalance = balance.Where(j => j.Category.Type == CategoryTypeEnum.Income).Sum(j => j.Amount);
 
         decimal usedPercentageGeneral = ((usedBudgetGeneral + transaction.Amount) / incomingBalance) * 100;
         
