@@ -4,7 +4,7 @@ import { NotificationMessage } from '../models/notificationMessage.model';
 
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root', 
 })
 export class MessageService {
   private messages: NotificationMessage[] = [];

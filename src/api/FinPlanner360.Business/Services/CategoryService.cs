@@ -20,10 +20,10 @@ public class CategoryService : BaseService, ICategoryService
         _categoryRepository = categoryRepository;
     }
 
-    private async Task<bool> CategoryExistsWithSameNameAsync(Guid? userId, string description)
+    private async Task<bool> CategoryExistsWithSameNameAsync(Guid? userId, string description, Guid? categoryId = null)
     {
         var categories = await _categoryRepository
-            .FilterAsync(c => c.Description == description && (c.UserId == null || c.UserId == userId));
+            .FilterAsync(c => c.Description == description && (c.UserId == null || c.UserId == userId) && (!categoryId.HasValue || c.CategoryId != categoryId.Value));
 
         if (categories.Count != 0)
         {
@@ -54,7 +54,7 @@ public class CategoryService : BaseService, ICategoryService
         if (!await _validationFactory.ValidateAsync(category))
             return;
 
-        if (!await CategoryExistsWithSameNameAsync(category.UserId, category.Description))
+        if (!await CategoryExistsWithSameNameAsync(category.UserId, category.Description, category.CategoryId))
         {
             await _categoryRepository.UpdateAsync(category);
         }

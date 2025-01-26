@@ -22,8 +22,6 @@ import { TransactionModel } from './models/transaction.model';
   styleUrls: ['./transaction-list.component.scss'],
   providers: [CurrencyPipe]
 })
-
-
 export class TransactionListComponent implements OnInit, OnDestroy {
   transactionsModel: TransactionListModel[] = [];
   budgetModel: GeneralBudgetModel;
@@ -97,10 +95,11 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   }
 
   updateDialog(row: any) {
+
     let transaction: TransactionModel = {
       categoryId: row.categoryId,
       description: row.description,
-      transactionId: row.transactionId      ,
+      transactionId: row.transactionId,
       userId: row.userId,
       amount: row.amount,
       transactionDate: row.transactionDate,
@@ -123,9 +122,9 @@ export class TransactionListComponent implements OnInit, OnDestroy {
       })
   }
 
-  deleteTransaction(id: string) {
+  deleteTransaction(transaction: TransactionModel) {
 
-    const dialogData = new ConfirmDialogModel('Atenção', 'Confirma exclusão ?');
+    const dialogData = new ConfirmDialogModel('Atenção', `Confirma exclusão da transação <b>${transaction.description} [${transaction.amount}]</b>?`);
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
@@ -137,7 +136,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
       .subscribe(dialogResult => {
         if (!dialogResult) return;
 
-        this.transactionService.delete(id)
+        this.transactionService.delete(transaction.transactionId)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: () => {
@@ -169,11 +168,11 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   }
 
   getCategoryBalance(transaction: TransactionListModel): string {
-    if (transaction.type === CategoryTypeEnum.Income ) return "";
+    if (transaction.type === CategoryTypeEnum.Income) return "";
 
     if (transaction.categoryBalance < 0) return "Previsão orçamentária não configurada para essa categoria";
 
-    return `Saldo da categoria(${transaction.category}): ${this.currencyPipe.transform(transaction.categoryBalance)}`;
+    return `Saldo da categoria (${transaction.category}): ${this.currencyPipe.transform(transaction.categoryBalance)}`;
   }
 
   getGeneralBudgetBalance(): string {
