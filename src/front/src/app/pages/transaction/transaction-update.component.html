@@ -5,13 +5,8 @@
       <div class="col-6 p-10">
         <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Descrição</mat-label>
         <mat-form-field appearance="outline" class="w-100">
-          <input matInput
-                 name="description"
-                 formControlName="description"
-                 type="text"
-                 autocomplete="off"
-                 maxlength="50"
-                 minlength="4" />
+          <input matInput name="description" formControlName="description" type="text" autocomplete="off" maxlength="50"
+            minlength="4" />
         </mat-form-field>
         <small class="text-danger" *ngIf="displayMessage['description']">
           <p [innerHTML]="displayMessage['description']"></p>
@@ -27,7 +22,7 @@
             allowNegative: false,
             nullable :true
           }" matInput name="amount" formControlName="amount" type="text" autocomplete="off" maxlength="50"
-                 minlength="3" (keyup.enter)="submit()" />
+            minlength="3" (keyup.enter)="submit()" />
         </mat-form-field>
         <small class="text-error" *ngIf="displayMessage['amount']">
           <p [innerHTML]="displayMessage['amount']"></p>
@@ -38,8 +33,7 @@
         <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Categoria</mat-label>
         <mat-form-field appearance="outline" class="w-100">
           <mat-select formControlName="categoryId" name="categoryId">
-            <mat-option *ngFor="let category of categoryModel"
-                        [value]="category.categoryId">
+            <mat-option *ngFor="let category of categoryModel" [value]="category.categoryId">
               {{ category.description }}
             </mat-option>
           </mat-select>
@@ -53,8 +47,7 @@
         <mat-form-field appearance="outline" class="w-100">
           <input matInput [matDatepicker]="picker" formControlName="transactionDate" />
           <mat-hint>DD/MM/AAAA</mat-hint>
-          <mat-datepicker-toggle matIconSuffix
-                                 [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <small class="text-danger" *ngIf="displayMessage['transactionDate']">
@@ -63,7 +56,8 @@
       </div>
     </div>
     <mat-dialog-actions align="end">
-      <button type="button" mat-raised-button (click)="cancel()" color="secondary" cdkFocusInitial [disabled]="submitted">
+      <button type="button" mat-raised-button (click)="cancel()" color="secondary" cdkFocusInitial
+        [disabled]="submitted">
         Cancelar
       </button>
 
