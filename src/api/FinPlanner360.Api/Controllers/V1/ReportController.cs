@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using FastReport.Web;
 using FinPlanner360.Api.Extensions;
 using FinPlanner360.Api.ViewModels.Report;
+using FinPlanner360.Business.Extensions;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
-using FinPlanner360.Business.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -33,20 +32,31 @@ namespace FinPlanner360.Api.Controllers.V1
 
         }
 
+        /// <summary>
+        /// Sintético de transação por categoria
+        /// </summary>
+        /// <remarks>Rota responsável por devolver uma lista das transações por categoria em um intervalo de datas.</remarks>
+        /// <param name="dataInicio">Data inicio de emissão/atualização da transação. Formato: yyyy-MM-dd Ex: 2025-01-10 </param>
+        /// <param name="dataFim">Data fim de emissão/atualização da transação. Formato: yyyy-MM-dd Ex: 2025-01-13</param>
+        /// <response code="200">Sucesso na operação!</response>
+        /// <response code="204">Sucesso na operação, porém sem conteúdo de resposta.</response>
+        /// <response code="400">Dados inconsistentes na requisição ao listar as transações.</response>
+        /// <response code="401">Usuário não autenticado.</response>
+        /// <response code="500">Erro interno de servidor.</response>
         [HttpGet("Transactions/SummaryByCategory")]
-        [SwaggerOperation(Summary = "Sintético de transação por categoria", Description = "Responsável por devolver uma lista das transações por categoria em um intervalo de datas")]
+        [SwaggerOperation(Summary = "", Description = "")]
         [ProducesResponseType(typeof(IEnumerable<TransactionCategoyViewModel>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<IEnumerable<TransactionCategoyViewModel>>> GetCategoryTransactionSummaryAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate)
+        public async Task<ActionResult<IEnumerable<TransactionCategoyViewModel>>> GetCategoryTransactionSummaryAsync(
+           [Required(ErrorMessage = "O campo data inicial é obrigatório")] DateTime dataInicio,
+           [Required(ErrorMessage = "O campo Data final é obrigatório")] DateTime dataFim)
         {
-            if (startDate > endDate)
+            if (dataInicio > dataFim)
             {
                 Notify("A data de início não pode ser posterior à data de término.");
                 return GenerateResponse();
             }
 
-            var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
+            var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(dataInicio.GetStartDate(), dataFim.GetEndDate());
 
             if (transactionsList == null || transactionsList.Count == 0)
             {
@@ -66,21 +76,35 @@ namespace FinPlanner360.Api.Controllers.V1
             return GenerateResponse(transactionsReport, HttpStatusCode.OK);
         }
 
+        /// <summary>
+        /// Exporta um relatório de Transacoes por Categorias entre o peridodo Sintético
+        /// </summary>
+        /// <remarks>Gera e exporta um relatório contendo informações dos usuários em formato PDF ou XLSX.O tipo de arquivo deve ser especificado no parâmetro `tipoArquivo`.</remarks>
+        /// <param name="dataInicio">Data inicio de emissão da transação. Formato: yyyy-MM-dd Ex: 2025-01-10 </param>
+        /// <param name="dataFim">Data fim de emissão da transação. Formato: yyyy-MM-dd Ex: 2025-01-13</param>
+        /// <param name="tipoArquivo"></param>
+        /// <response code="200">Sucesso na operação!</response>
+        /// <response code="204">Sucesso na operação, porém sem conteúdo de resposta.</response>
+        /// <response code="400">Dados inconsistentes na requisição ao listar as transações.</response>
+        /// <response code="401">Usuário não autenticado.</response>
+        /// <response code="500">Erro interno de servidor.</response>  
         [HttpGet("Transactions/SummaryByCategory/export-report")]
-        [SwaggerOperation(Summary = "Exporta um relatório de Transacoes por Categorias entre o peridodo Sintético ", Description = "Gera e exporta um relatório contendo informações dos usuários em formato PDF ou XLSX. O tipo de arquivo deve ser especificado no parâmetro `fileType`.")]
+        [SwaggerOperation(Summary = "", Description = "")]
         [ProducesResponseType(typeof(TransactionAnalyticsViewModel), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> ExportReportCategoryTransactionSummaryAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate, [FromQuery][Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")][RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string fileType)
+        public async Task<IActionResult> ExportReportCategoryTransactionSummaryAsync(
+           [Required(ErrorMessage = "O campo data inicial é obrigatório")] DateTime dataInicio,
+           [Required(ErrorMessage = "O campo Data final é obrigatório")] DateTime dataFim,
+           [Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")]
+           [RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string tipoArquivo)
         {
-            if (startDate > endDate)
+            if (dataInicio > dataFim)
             {
                 Notify("A data de início não pode ser posterior à data de término.");
                 return GenerateResponse();
             }
 
 
-            var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
+            var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(dataInicio.GetStartDate(), dataFim.GetEndDate());
 
 
             if (transactionsList == null || !transactionsList.Any())
@@ -103,7 +127,7 @@ namespace FinPlanner360.Api.Controllers.V1
             string contentType;
             string fileName;
 
-            switch (fileType.ToLower())
+            switch (tipoArquivo.ToLower())
             {
                 case "pdf":
                     fileBytes = Reports.Fast.ReportService.GenerateReportPDF("Category", transactionsReport);
@@ -125,21 +149,31 @@ namespace FinPlanner360.Api.Controllers.V1
             return File(fileBytes, contentType, fileName);
         }
 
-
+        /// <summary>
+        /// Analítico de transação por categoria
+        /// </summary>
+        /// <remarks>Rota responsável por devolver uma lista das transações analíticas por categoria em um intervalo de datas</remarks>
+        /// <param name="dataInicio">Data inicio de emissão/atualização da transação. Formato: yyyy-MM-dd Ex: 2025-01-10 </param>
+        /// <param name="dataFim">Data fim de emissão/atualização da transação. Formato: yyyy-MM-dd Ex: 2025-01-13</param>
+        /// <response code="200">Sucesso na operação!</response>
+        /// <response code="204">Sucesso na operação, porém sem conteúdo de resposta.</response>
+        /// <response code="400">Dados inconsistentes na requisição ao listar as transações.</response>
+        /// <response code="401">Usuário não autenticado.</response>
+        /// <response code="500">Erro interno de servidor.</response>
         [HttpGet("Transactions/AnalyticsByCategory")]
-        [SwaggerOperation(Summary = "Analítico de transação por categoria", Description = "Responsável por devolver uma lista das transações analíticas por categoria em um intervalo de datas")]
+        [SwaggerOperation(Tags = new[] { "Transações" })]
         [ProducesResponseType(typeof(TransactionAnalyticsViewModel), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<TransactionAnalyticsViewModel>> GetCategoryTransactionAnalyticsAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate)
+        public async Task<ActionResult<TransactionAnalyticsViewModel>> GetCategoryTransactionAnalyticsAsync(
+           [Required(ErrorMessage = "O campo data inicial é obrigatório")] DateTime dataInicio,
+           [Required(ErrorMessage = "O campo Data final é obrigatório")] DateTime dataFim)
         {
-            if (startDate > endDate)
+            if (dataInicio > dataFim)
             {
                 Notify("A data de início não pode ser posterior à data de término.");
                 return GenerateResponse();
             }
 
-            var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
+            var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(dataInicio.GetStartDate(), dataFim.GetEndDate());
 
             if (transactionsList == null || !transactionsList.Any())
             {
@@ -168,21 +202,34 @@ namespace FinPlanner360.Api.Controllers.V1
             return GenerateResponse(groupedTransactionsReport, HttpStatusCode.OK);
         }
 
-        
+        /// <summary>
+        /// Exporta um relatório de Transacoes por Categorias entre o peridodo Analítico
+        /// </summary>
+        /// <remarks>Gera e exporta um relatório contendo informações dos usuários em formato PDF ou XLSX.O tipo de arquivo deve ser especificado no parâmetro `tipoArquivo`.</remarks>
+        /// <param name="dataInicio">Data inicio de emissão da transação. Formato: yyyy-MM-dd Ex: 2025-01-10 </param>
+        /// <param name="dataFim">Data fim de emissão da transação. Formato: yyyy-MM-dd Ex: 2025-01-13</param>
+        /// <param name="tipoArquivo"></param>
+        /// <response code="200">Sucesso na operação!</response>
+        /// <response code="204">Sucesso na operação, porém sem conteúdo de resposta.</response>
+        /// <response code="400">Dados inconsistentes na requisição ao listar as transações.</response>
+        /// <response code="401">Usuário não autenticado.</response>
+        /// <response code="500">Erro interno de servidor.</response>        
         [HttpGet("Transactions/AnalyticsByCategory/export-report")]
-        [SwaggerOperation(Summary = "Exporta um relatório de Transacoes por Categorias entre o peridodo Analítico", Description = "Gera e exporta um relatório contendo informações dos usuários em formato PDF ou XLSX.O tipo de arquivo deve ser especificado no parâmetro `fileType`.")]
+        [SwaggerOperation(Tags = new[] { "Transações" })]
         [ProducesResponseType(typeof(TransactionAnalyticsViewModel), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<TransactionAnalyticsViewModel>> ExportReportCategoryTransactionAnalyticsAsync([FromQuery][Required] DateTime startDate, [FromQuery][Required] DateTime endDate, [FromQuery][Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")][RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string fileType)
+        public async Task<ActionResult<TransactionAnalyticsViewModel>> ExportReportCategoryTransactionAnalyticsAsync(
+           [Required(ErrorMessage = "O campo data inicial é obrigatório")] DateTime dataInicio,
+           [Required(ErrorMessage = "O campo Data final é obrigatório")] DateTime dataFim,
+           [Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")]
+           [RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string tipoArquivo)
         {
-            if (startDate > endDate)
+            if (dataInicio > dataFim)
             {
                 Notify("A data de início não pode ser posterior à data de término.");
                 return GenerateResponse();
             }
 
-            ICollection<Business.Models.Transaction> transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate, endDate);
+            ICollection<Business.Models.Transaction> transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(dataInicio.GetStartDate(), dataFim.GetEndDate());
 
             if (transactionsList == null || !transactionsList.Any())
             {
@@ -209,7 +256,7 @@ namespace FinPlanner360.Api.Controllers.V1
             string contentType;
             string fileName;
 
-            switch (fileType.ToLower())
+            switch (tipoArquivo.ToLower())
             {
                 case "pdf":
                     fileBytes = Reports.Fast.ReportService.GenerateReportPDF("CategoryAnalytics", transactionsReport);
@@ -258,7 +305,7 @@ namespace FinPlanner360.Api.Controllers.V1
                 return GenerateResponse();
             }
 
-            var transactionsReportDto = await _transactionReportService.GetTransactionReportByTypeAsync(dataInicio, dataFim);
+            var transactionsReportDto = await _transactionReportService.GetTransactionReportByTypeAsync(dataInicio.GetStartDate(), dataFim.GetEndDate());
 
             if (transactionsReportDto == null || !transactionsReportDto.Any())
             {
@@ -271,7 +318,71 @@ namespace FinPlanner360.Api.Controllers.V1
             return GenerateResponse(transactionsReportViewModel, HttpStatusCode.OK);
         }
 
+        /// <summary>
+        /// Exporta um relatório de Transacoes por tipo entre o período inicial e final.
+        /// </summary>
+        /// <remarks>Gera e exporta um relatório contendo informações das transações por tipo em formato PDF ou XLSX. O tipo de arquivo deve ser especificado no parâmetro `tipoArquivo`.</remarks>
+        /// <param name="dataInicio">Data inicio de emissão/atualização da transação. Formato: yyyy-MM-dd Ex: 2025-01-10 </param>
+        /// <param name="dataFim">Data fim de emissão/atualização da transação. Formato: yyyy-MM-dd Ex: 2025-01-13</param>
+        /// <param name="tipoArquivo">O tipo de arquivo deve ser especificado como PDF ou XLSX</param>
+        /// <response code="200">Sucesso na operação!</response>
+        /// <response code="204">Sucesso na operação, porém sem conteúdo de resposta.</response>
+        /// <response code="400">Dados inconsistentes na requisição ao listar as transações.</response>
+        /// <response code="401">Usuário não autenticado.</response>
+        /// <response code="500">Erro interno de servidor.</response>
+        [HttpGet("Transactions/ByType/export-report")]
+        [SwaggerOperation(Tags = new[] { "Transações" })]
+        [ProducesResponseType(typeof(TransactionReportViewModel), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ExportReportTransactionByType(
+           [Required(ErrorMessage = "O campo data inicial é obrigatório")] DateTime dataInicio,
+           [Required(ErrorMessage = "O campo Data final é obrigatório")] DateTime dataFim,
+           [Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")]
+           [RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string tipoArquivo)
+        {
 
+            if (dataInicio > dataFim)
+            {
+                Notify("A data de início não pode ser posterior à data de término.");
+                return GenerateResponse();
+            }
+
+            var transactionsReportDto = await _transactionReportService.GetTransactionReportByTypeAsync(dataInicio.GetStartDate(), dataFim.GetEndDate());
+
+            if (transactionsReportDto == null || !transactionsReportDto.Any())
+            {
+                Notify("Nenhuma transação encontrada no intervalo de datas especificado.");
+                return GenerateResponse();
+            }
+
+            var transactionsReportViewModel = _mapper.Map<IEnumerable<TransactionReportViewModel>>(transactionsReportDto);
+
+
+
+            byte[] fileBytes;
+            string contentType;
+            string fileName;
+
+            switch (tipoArquivo.ToLower())
+            {
+                case "pdf":
+                    fileBytes = Reports.Fast.ReportService.GenerateReportPDF("TransactionByType", transactionsReportViewModel);
+                    contentType = "application/pdf";
+                    fileName = "TransacoesPorTipo.pdf";
+                    break;
+
+                case "xlsx":
+                    fileBytes = Reports.Closed_Xml.ReportService.GenerateXlsxBytes("TransactionByType", transactionsReportViewModel);
+                    contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    fileName = "TransacoesPorTipo.xlsx";
+                    break;
+
+                default:
+                    Notify("Tipo de arquivo inválido. Use 'pdf' ou 'xlsx'.");
+                    return GenerateResponse();
+            }
+
+            return File(fileBytes, contentType, fileName);
+        }
 
 
     }

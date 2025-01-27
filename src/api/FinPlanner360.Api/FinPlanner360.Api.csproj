@@ -44,6 +44,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Reports\Fast\Files\TransactionByType.frx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Reports\Fast\Files\CategoryAnalytics.frx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -93,11 +93,10 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
             .ToListAsync(); 
         
         var report = transactions
-            .GroupBy(x => new { x.Category.Type, x.Category.Description })
+            .GroupBy(x => new { x.Category.Type })
             .Select(g => new TransactionReportDTO 
             { 
-                Type = g.Key.Type, 
-                CategoryDescription = g.Key.Description, 
+                Type = g.Key.Type,                 
                 TotalAmount = g.Sum(x => x.Amount), 
                 TransactionCount = g.Count() 
             })
