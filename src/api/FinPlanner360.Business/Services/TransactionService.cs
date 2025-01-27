@@ -102,7 +102,7 @@ public class TransactionService : BaseService, ITransactionService
             return;
 
         if (await BudgetOkAsync(transaction, originalAmount))
-            await _transactionRepository.UpdateAsync(transaction);
+            await _transactionRepository.UpdateAsync(transaction.FillAttributes());
     }
 
     public async Task DeleteAsync(Guid transactionId)

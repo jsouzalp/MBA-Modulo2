@@ -45,14 +45,41 @@ namespace FinPlanner360.Api.Controllers.V1
             CardSumaryViewModel cardSumary = new CardSumaryViewModel
             {
                 WalletBalance = await _transactionRepository.GetWalletBalanceAsync(startDate),
-                TotalIncome = !isFuture ? transactions.Where(x => x.TransactionDate < date && x.Category.Type == CategoryTypeEnum.Income).Sum(x => x.Amount) : 0.00m,
-                TotalExpense = !isFuture ? transactions.Where(x => x.TransactionDate < date && x.Category.Type == CategoryTypeEnum.Expense).Sum(x => x.Amount) : 0.00m,
-                TotalBalance = !isFuture ? transactions.Where(x => x.TransactionDate < date).Sum(x => x.Category.Type == CategoryTypeEnum.Expense ? (x.Amount * -1.00m) : x.Amount) : 0.00m,
-                TotalIncomeToday = !isFuture && !isPast ? transactions.Where(x => x.TransactionDate == date && x.Category.Type == CategoryTypeEnum.Income).Sum(x => x.Amount) : 0.00m,
-                TotalExpenseToday = !isFuture && !isPast ? transactions.Where(x => x.TransactionDate == date && x.Category.Type == CategoryTypeEnum.Expense).Sum(x => x.Amount) : 0.00m,
-                FutureTotalIncome = isFuture ? transactions.Where(x => x.TransactionDate > date && x.Category.Type == CategoryTypeEnum.Income).Sum(x => x.Amount) : 0.00m,
-                FutureTotalExpense = isFuture ? transactions.Where(x => x.TransactionDate > date && x.Category.Type == CategoryTypeEnum.Expense).Sum(x => x.Amount) : 0.00m
             };
+
+            if (date.Value.Year == DateTime.Now.Year && date.Value.Month == DateTime.Now.Month)
+            {
+                cardSumary.TotalIncome = transactions.Where(x => x.TransactionDate < date && x.Category.Type == CategoryTypeEnum.Income).Sum(x => x.Amount);
+                cardSumary.TotalExpense = transactions.Where(x => x.TransactionDate < date && x.Category.Type == CategoryTypeEnum.Expense).Sum(x => x.Amount);
+                cardSumary.TotalIncomeToday = transactions.Where(x => x.TransactionDate == date && x.Category.Type == CategoryTypeEnum.Income).Sum(x => x.Amount);
+                cardSumary.TotalExpenseToday = transactions.Where(x => x.TransactionDate == date && x.Category.Type == CategoryTypeEnum.Expense).Sum(x => x.Amount);
+                cardSumary.TotalBalance = transactions.Where(x => x.TransactionDate <= date).Sum(x => x.Category.Type == CategoryTypeEnum.Expense ? (x.Amount * -1.00m) : x.Amount);
+                cardSumary.FutureTotalIncome = transactions.Where(x => x.TransactionDate > date && x.Category.Type == CategoryTypeEnum.Income).Sum(x => x.Amount);
+                cardSumary.FutureTotalExpense = transactions.Where(x => x.TransactionDate > date && x.Category.Type == CategoryTypeEnum.Expense).Sum(x => x.Amount);
+            }
+            else if (isFuture)
+            {
+                cardSumary.FutureTotalIncome = transactions.Where(x => x.Category.Type == CategoryTypeEnum.Income).Sum(x => x.Amount);
+                cardSumary.FutureTotalExpense = transactions.Where(x => x.Category.Type == CategoryTypeEnum.Expense).Sum(x => x.Amount);
+            }
+            else if (isPast)
+            {
+                cardSumary.TotalIncome = transactions.Where(x => x.Category.Type == CategoryTypeEnum.Income).Sum(x => x.Amount);
+                cardSumary.TotalExpense = transactions.Where(x => x.Category.Type == CategoryTypeEnum.Expense).Sum(x => x.Amount);
+                cardSumary.TotalBalance = transactions.Sum(x => x.Category.Type == CategoryTypeEnum.Expense ? (x.Amount * -1.00m) : x.Amount);
+            }
+
+            //CardSumaryViewModel cardSumary = new CardSumaryViewModel
+            //{
+            //    WalletBalance = await _transactionRepository.GetWalletBalanceAsync(startDate),
+            //    TotalIncome = !isFuture ? transactions.Where(x => x.TransactionDate < date && x.Category.Type == CategoryTypeEnum.Income).Sum(x => x.Amount) : 0.00m,
+            //    TotalExpense = !isFuture ? transactions.Where(x => x.TransactionDate < date && x.Category.Type == CategoryTypeEnum.Expense).Sum(x => x.Amount) : 0.00m,
+            //    TotalIncomeToday = !isFuture && !isPast ? transactions.Where(x => x.TransactionDate == date && x.Category.Type == CategoryTypeEnum.Income).Sum(x => x.Amount) : 0.00m,
+            //    TotalExpenseToday = !isFuture && !isPast ? transactions.Where(x => x.TransactionDate == date && x.Category.Type == CategoryTypeEnum.Expense).Sum(x => x.Amount) : 0.00m,
+            //    TotalBalance = !isFuture ? transactions.Where(x => x.TransactionDate <= date).Sum(x => x.Category.Type == CategoryTypeEnum.Expense ? (x.Amount * -1.00m) : x.Amount) : 0.00m,
+            //    FutureTotalIncome = isFuture ? transactions.Where(x => x.TransactionDate > date && x.Category.Type == CategoryTypeEnum.Income).Sum(x => x.Amount) : 0.00m,
+            //    FutureTotalExpense = isFuture ? transactions.Where(x => x.TransactionDate > date && x.Category.Type == CategoryTypeEnum.Expense).Sum(x => x.Amount) : 0.00m
+            //};
 
             return GenerateResponse(cardSumary, HttpStatusCode.OK);
         }
