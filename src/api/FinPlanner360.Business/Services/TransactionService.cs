@@ -85,13 +85,14 @@ public class TransactionService : BaseService, ITransactionService
         if (!await _validationFactory.ValidateAsync(transaction))
             return;
 
-        if (await BudgetOkAsync(transaction))
+        if (await BudgetOkAsync(transaction, 0.00m))
             await _transactionRepository.CreateAsync(transaction.FillAttributes());
     }
 
     public async Task UpdateAsync(Transaction transactionUpdate)
     {
         var transaction = await _transactionRepository.GetByIdAsync(transactionUpdate.TransactionId);
+        decimal originalAmount = transaction.Amount;
         transaction.Amount = transactionUpdate.Amount;
         transaction.CategoryId = transactionUpdate.CategoryId;
         transaction.Description = transactionUpdate.Description;
@@ -100,8 +101,8 @@ public class TransactionService : BaseService, ITransactionService
         if (!await _validationFactory.ValidateAsync(transaction))
             return;
 
-        if (await BudgetOkAsync(transaction))
-            await _transactionRepository.UpdateAsync(transaction);
+        if (await BudgetOkAsync(transaction, originalAmount))
+            await _transactionRepository.UpdateAsync(transaction.FillAttributes());
     }
 
     public async Task DeleteAsync(Guid transactionId)
@@ -116,17 +117,20 @@ public class TransactionService : BaseService, ITransactionService
         await _transactionRepository.RemoveAsync(transactionId);
     }
 
-    private async Task<bool> BudgetOkAsync(Transaction transaction)
+    private async Task<bool> BudgetOkAsync(Transaction transaction, decimal originalAmount)
     {
         if (await ItIsIncome(transaction))
             return true;
 
         var generalBudget = (await _generalBudgetRepository.GetAllAsync()).FirstOrDefault();
-
         if (generalBudget != null && (generalBudget.Percentage.HasValue || generalBudget.Amount.HasValue))
-            return await GeneralBudgetOkAsync(transaction, generalBudget);
+            return await GeneralBudgetOkAsync(transaction, generalBudget, originalAmount);
 
-        return await CategoryBudgetOkAsync(transaction);
+        var categoryBudget = await _budgetRepository.GetBudgetByCategoryId(transaction.CategoryId);
+        if (categoryBudget != null)
+            return await CategoryBudgetOkAsync(transaction, categoryBudget, originalAmount);
+
+        return await BudgetOnRevenuesOkAsync(transaction, originalAmount);
     }
 
     private async Task<bool> ItIsIncome(Transaction transaction)
@@ -136,12 +140,11 @@ public class TransactionService : BaseService, ITransactionService
         return category.Type == CategoryTypeEnum.Income;
     }
 
-    private async Task<bool> GeneralBudgetOkAsync(Transaction transaction, GeneralBudget generalBudget)
+    private async Task<bool> GeneralBudgetOkAsync(Transaction transaction, GeneralBudget generalBudget, decimal originalAmount)
     {
         var balance = await _transactionRepository.GetBalanceByMonthYearAsync(transaction.TransactionDate);
-        if (balance.Count == 0) return true;
-
-        decimal usedBudget = balance.Where(j => j.Category.Type == CategoryTypeEnum.Expense).Sum(j => j.Amount);
+        
+        decimal usedBudget = balance.Where(j => j.Category.Type == CategoryTypeEnum.Expense).Sum(j => j.Amount) - originalAmount;
         decimal incomingBalance = balance.Where(j => j.Category.Type == CategoryTypeEnum.Income).Sum(j => j.Amount);
 
         // Determine the budget amount
@@ -166,27 +169,29 @@ public class TransactionService : BaseService, ITransactionService
         return true;
     }
 
-    private async Task<bool> CategoryBudgetOkAsync(Transaction transaction)
+    private async Task<bool> CategoryBudgetOkAsync(Transaction transaction, Budget categoryBudget, decimal originalAmount)
     {
-        var categoryBudget = await _budgetRepository.GetBudgetByCategoryId(transaction.CategoryId);
-        if (categoryBudget == null)
+        var balance = await _transactionRepository.GetBalanceByMonthYearAsync(transaction.TransactionDate);
+
+        decimal usedBudgetGeneral = balance.Where(j => j.Category.Type == CategoryTypeEnum.Expense).Sum(j => j.Amount) - originalAmount;
+        decimal incomingBalance = balance.Where(j => j.Category.Type == CategoryTypeEnum.Income).Sum(j => j.Amount);
+
+        decimal usedPercentageGeneral = ((usedBudgetGeneral + transaction.Amount) / incomingBalance) * 100;
+        
+        if (usedPercentageGeneral > 100)
         {
-            Notify("É necessário um limite orçamentário para a categoria informada ou geral para realizar o lançamento.");
+            Notify($"O lançamento não pode ser realizado, pois não existem receitas para cobrir o lançamento.");
             return false;
         }
 
-        var balance = await _transactionRepository.GetBalanceByMonthYearAsync(transaction.TransactionDate);
-        if (balance.Count == 0) return true;
-
-        decimal usedBudget = balance.Where(j => j.Category.Type == CategoryTypeEnum.Expense && j.CategoryId == transaction.CategoryId).Sum(j => j.Amount);
-        decimal incomingBalance = balance.Where(j => j.Category.Type == CategoryTypeEnum.Income).Sum(j => j.Amount);
+        decimal usedBudgetFromCategory = balance.Where(j => j.Category.Type == CategoryTypeEnum.Expense && j.CategoryId == transaction.CategoryId).Sum(j => j.Amount) - originalAmount;
 
         // Calculate the used budget percentage
-        decimal usedPercentage = ((usedBudget + transaction.Amount) / categoryBudget.Amount) * 100;
-
+        decimal usedPercentage = ((usedBudgetFromCategory + transaction.Amount) / categoryBudget.Amount) * 100;
+        
         if (usedPercentage > 100)
         {
-            Notify("O lançamento não pode ser realizado, pois está acima do limite estabelecido.");
+            Notify($"O lançamento não pode ser realizado, pois está acima do limite estabelecido pelo orçamento da categoria.");
             return false;
         }
 
@@ -194,6 +199,37 @@ public class TransactionService : BaseService, ITransactionService
             Notify("O saldo dessa categoria está acima de 80%.", NotificationTypeEnum.Warning);
         else if (usedPercentage == 100)
             Notify("O saldo dessa categoria atingiu 100%.", NotificationTypeEnum.Warning);
+
+        return true;
+    }
+
+    private async Task<bool> BudgetOnRevenuesOkAsync(Transaction transaction, decimal originalAmount)
+    {
+        var balance = await _transactionRepository.GetBalanceByMonthYearAsync(transaction.TransactionDate);
+
+        decimal usedBudget = balance.Where(j => j.Category.Type == CategoryTypeEnum.Expense).Sum(j => j.Amount);
+        decimal incomingBalance = balance.Where(j => j.Category.Type == CategoryTypeEnum.Income).Sum(j => j.Amount) + originalAmount;
+
+        var budgetAmount = incomingBalance;
+        if (budgetAmount == 0)
+        {
+            Notify("O lançamento não pode ser realizado, pois não existem receitas para cobrir o lançamento.");
+            return false;
+        }
+
+        // Calculate the used budget percentage
+        decimal usedPercentage = ((usedBudget + transaction.Amount) / budgetAmount) * 100;
+
+        if (usedPercentage > 100)
+        {
+            Notify("O lançamento não pode ser realizado, pois está acima do valor de receitas.");
+            return false;
+        }
+
+        if (usedPercentage > 80 && usedPercentage < 100)
+            Notify("O saldo de despesa sobre as receitas está acima de 80%.", NotificationTypeEnum.Warning);
+        else if (usedPercentage == 100)
+            Notify("O saldo de despesa sobre as receitas atingiu 100%.", NotificationTypeEnum.Warning);
 
         return true;
     }

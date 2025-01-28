@@ -64,12 +64,12 @@ export class BalanceCardComponent implements OnInit, OnDestroy {
 
           // https://fonts.google.com/icons
           this.cardSummaryItems = [
-            { title: 'Saldo da Carteira', value: this.cardSumaryModel.walletBalance, icon: 'attach_money' },
-            { title: 'Saldo no Mês', value: this.cardSumaryModel.totalBalance, icon: 'account_balance_wallet' },
+            { title: 'Saldo Acumulado Anterior', value: this.cardSumaryModel.walletBalance, icon: 'attach_money' },
             { title: 'Receitas Realizadas', value: this.cardSumaryModel.totalIncome, icon: 'trending_up' },
             { title: 'Despesas Realizadas', value: this.cardSumaryModel.totalExpense, icon: 'trending_down' },
             { title: 'Receitas Hoje', value: this.cardSumaryModel.totalIncomeToday, icon: 'today' },
             { title: 'Despesas Hoje', value: this.cardSumaryModel.totalExpenseToday, icon: 'today' },
+            { title: 'Saldo Realizado no Mês', value: this.cardSumaryModel.totalBalance, icon: 'account_balance_wallet' },
             { title: 'Receitas Futuras', value: this.cardSumaryModel.futureTotalIncome, icon: 'forward' },
             { title: 'Despesas Futuras', value: this.cardSumaryModel.futureTotalExpense, icon: 'forward' },
           ];      

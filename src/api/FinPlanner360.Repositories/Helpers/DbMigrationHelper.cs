@@ -190,7 +190,7 @@ public static class DbMigrationHelper
             {
                 BudgetId = transportBudgetId,
                 UserId = userId,
-                Amount = 1000.00m,
+                Amount = 2000.00m,
                 CategoryId = categories.TransportId,
                 CreatedDate = DateTime.Now
             };
@@ -210,7 +210,7 @@ public static class DbMigrationHelper
             {
                 BudgetId = foodBudgetId,
                 UserId = userId,
-                Amount = 500.00m,
+                Amount = 2000.00m,
                 CategoryId = categories.FoodId,
                 CreatedDate = DateTime.Now
             };
@@ -233,130 +233,130 @@ public static class DbMigrationHelper
                 Transactions = new List<Transaction>()
                 {
                     // -12 meses
-                    CreateTransaction(userId, "Recebimento de Salário Mensal", 5000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-12).Date),
-                    CreateTransaction(userId, "Pagamento de Aluguel", 5000.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-12).Date),
-                    CreateTransaction(userId, "Uber", 100.00m, categories.TransportId, baseDate.AddMonths(-12).Date),
-                    CreateTransaction(userId, "Metro", 100.00m, categories.TransportId, baseDate.AddMonths(-12).Date),
+                    CreateTransaction(userId, "Recebimento de Salário Mensal", 7000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-12).Date),
+                    CreateTransaction(userId, "Pagamento de Aluguel", 1200.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-12).Date),
+                    CreateTransaction(userId, "Uber", GetRange(), categories.TransportId, baseDate.AddMonths(-12).Date),
+                    CreateTransaction(userId, "Metro", GetRange(), categories.TransportId, baseDate.AddMonths(-12).Date),
                     CreateTransaction(userId, "MBA Desenvolvedor.io", 1000.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-12).Date),
-                    CreateTransaction(userId, "IFood", 300.00m, categories.FoodId, baseDate.AddDays(20).AddMonths(-12).Date),
-                    CreateTransaction(userId, "Cinema", 500.00m, categories.LeisureId, baseDate.AddDays(7).AddMonths(-12).Date),
+                    CreateTransaction(userId, "IFood", GetRange(), categories.FoodId, baseDate.AddDays(20).AddMonths(-12).Date),
+                    CreateTransaction(userId, "Cinema", GetRange(), categories.LeisureId, baseDate.AddDays(7).AddMonths(-12).Date),
 
                     // -11 meses
                     CreateTransaction(userId, "Recebimento de Salário Mensal", 8000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-11).Date),
-                    CreateTransaction(userId, "Pagamento de Aluguel", 5500.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-11).Date),
-                    CreateTransaction(userId, "Uber", 150.00m, categories.TransportId, baseDate.AddMonths(-11).Date),
-                    CreateTransaction(userId, "Metro", 150.00m, categories.TransportId, baseDate.AddMonths(-11).Date),
+                    CreateTransaction(userId, "Pagamento de Aluguel", 1500.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-11).Date),
+                    CreateTransaction(userId, "Uber", GetRange(), categories.TransportId, baseDate.AddMonths(-11).Date),
+                    CreateTransaction(userId, "Metro", GetRange(), categories.TransportId, baseDate.AddMonths(-11).Date),
                     CreateTransaction(userId, "MBA Desenvolvedor.io", 1500.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-11).Date),
-                    CreateTransaction(userId, "IFood", 350.00m, categories.FoodId, baseDate.AddDays(20).AddMonths(-11).Date),
-                    CreateTransaction(userId, "Cinema", 550.00m, categories.LeisureId, baseDate.AddDays(7).AddMonths(-11).Date),
+                    CreateTransaction(userId, "IFood", GetRange(), categories.FoodId, baseDate.AddDays(20).AddMonths(-11).Date),
+                    CreateTransaction(userId, "Cinema", GetRange(), categories.LeisureId, baseDate.AddDays(7).AddMonths(-11).Date),
 
                     // -10 meses
                     CreateTransaction(userId, "Recebimento de Salário Mensal", 10000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-10).Date),
-                    CreateTransaction(userId, "Pagamento de Aluguel", 5000.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-10).Date),
-                    CreateTransaction(userId, "Uber", 100.00m, categories.TransportId, baseDate.AddMonths(-10).Date),
-                    CreateTransaction(userId, "Metro", 100.00m, categories.TransportId, baseDate.AddMonths(-10).Date),
-                    CreateTransaction(userId, "MBA Desenvolvedor.io", 1200.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-10).Date),
-                    CreateTransaction(userId, "IFood", 300.00m, categories.FoodId, baseDate.AddDays(20).AddMonths(-10).Date),
-                    CreateTransaction(userId, "Cinema", 500.00m, categories.LeisureId, baseDate.AddDays(7).AddMonths(-10).Date),
+                    CreateTransaction(userId, "Pagamento de Aluguel", 1000.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-10).Date),
+                    CreateTransaction(userId, "Uber", GetRange(), categories.TransportId, baseDate.AddMonths(-10).Date),
+                    CreateTransaction(userId, "Metro", GetRange(), categories.TransportId, baseDate.AddMonths(-10).Date),
+                    CreateTransaction(userId, "MBA Desenvolvedor.io", 1000.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-10).Date),
+                    CreateTransaction(userId, "IFood", GetRange(), categories.FoodId, baseDate.AddDays(20).AddMonths(-10).Date),
+                    CreateTransaction(userId, "Cinema", GetRange(), categories.LeisureId, baseDate.AddDays(7).AddMonths(-10).Date),
 
                     // -9 meses
-                    CreateTransaction(userId, "Recebimento de Salário Mensal", 12000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-9).Date),
-                    CreateTransaction(userId, "Pagamento de Aluguel", 5500.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-9).Date),
-                    CreateTransaction(userId, "Uber", 150.00m, categories.TransportId, baseDate.AddMonths(-9).Date),
-                    CreateTransaction(userId, "Metro", 150.00m, categories.TransportId, baseDate.AddMonths(-9).Date),
-                    CreateTransaction(userId, "MBA Desenvolvedor.io", 1500.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-9).Date),
-                    CreateTransaction(userId, "IFood", 350.00m, categories.FoodId, baseDate.AddDays(20).AddMonths(-9).Date),
-                    CreateTransaction(userId, "Cinema", 550.00m, categories.LeisureId, baseDate.AddDays(7).AddMonths(-9).Date),
+                    CreateTransaction(userId, "Recebimento de Salário Mensal", 8000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-9).Date),
+                    CreateTransaction(userId, "Pagamento de Aluguel", 1200.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-9).Date),
+                    CreateTransaction(userId, "Uber", GetRange(), categories.TransportId, baseDate.AddMonths(-9).Date),
+                    CreateTransaction(userId, "Metro", GetRange(), categories.TransportId, baseDate.AddMonths(-9).Date),
+                    CreateTransaction(userId, "MBA Desenvolvedor.io", 1200.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-9).Date),
+                    CreateTransaction(userId, "IFood", GetRange(), categories.FoodId, baseDate.AddDays(20).AddMonths(-9).Date),
+                    CreateTransaction(userId, "Cinema", GetRange(), categories.LeisureId, baseDate.AddDays(7).AddMonths(-9).Date),
 
                     // -8 meses
                     CreateTransaction(userId, "Recebimento de Salário Mensal", 10000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-8).Date),
-                    CreateTransaction(userId, "Pagamento de Aluguel", 5000.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-8).Date),
-                    CreateTransaction(userId, "Uber", 100.00m, categories.TransportId, baseDate.AddMonths(-8).Date),
-                    CreateTransaction(userId, "Metro", 100.00m, categories.TransportId, baseDate.AddMonths(-8).Date),
-                    CreateTransaction(userId, "MBA Desenvolvedor.io", 1200.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-8).Date),
-                    CreateTransaction(userId, "IFood", 300.00m, categories.FoodId, baseDate.AddDays(20).AddMonths(-8).Date),
-                    CreateTransaction(userId, "Cinema", 500.00m, categories.LeisureId, baseDate.AddDays(7).AddMonths(-8).Date),
+                    CreateTransaction(userId, "Pagamento de Aluguel", 1500.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-8).Date),
+                    CreateTransaction(userId, "Uber", GetRange(), categories.TransportId, baseDate.AddMonths(-8).Date),
+                    CreateTransaction(userId, "Metro", GetRange(), categories.TransportId, baseDate.AddMonths(-8).Date),
+                    CreateTransaction(userId, "MBA Desenvolvedor.io", 1500.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-8).Date),
+                    CreateTransaction(userId, "IFood", GetRange(), categories.FoodId, baseDate.AddDays(20).AddMonths(-8).Date),
+                    CreateTransaction(userId, "Cinema", GetRange(), categories.LeisureId, baseDate.AddDays(7).AddMonths(-8).Date),
 
                     // -7 meses
-                    CreateTransaction(userId, "Recebimento de Salário Mensal", 12000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-7).Date),
-                    CreateTransaction(userId, "Pagamento de Aluguel", 1500.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-7).Date),
-                    CreateTransaction(userId, "Uber", 150.00m, categories.TransportId, baseDate.AddMonths(-7).Date),
-                    CreateTransaction(userId, "Metro", 150.00m, categories.TransportId, baseDate.AddMonths(-7).Date),
-                    CreateTransaction(userId, "MBA Desenvolvedor.io", 1500.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-7).Date),
-                    CreateTransaction(userId, "IFood", 350.00m, categories.FoodId, baseDate.AddDays(20).AddMonths(-7).Date),
-                    CreateTransaction(userId, "Cinema", 550.00m, categories.LeisureId, baseDate.AddDays(7).AddMonths(-7).Date),
+                    CreateTransaction(userId, "Recebimento de Salário Mensal", 9000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-7).Date),
+                    CreateTransaction(userId, "Pagamento de Aluguel", 1000.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-7).Date),
+                    CreateTransaction(userId, "Uber", GetRange(), categories.TransportId, baseDate.AddMonths(-7).Date),
+                    CreateTransaction(userId, "Metro", GetRange(), categories.TransportId, baseDate.AddMonths(-7).Date),
+                    CreateTransaction(userId, "MBA Desenvolvedor.io", 1000.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-7).Date),
+                    CreateTransaction(userId, "IFood", GetRange(), categories.FoodId, baseDate.AddDays(20).AddMonths(-7).Date),
+                    CreateTransaction(userId, "Cinema", GetRange(), categories.LeisureId, baseDate.AddDays(7).AddMonths(-7).Date),
 
                     // -6 meses
                     CreateTransaction(userId, "Recebimento de Salário Mensal", 10000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-6).Date),
-                    CreateTransaction(userId, "Pagamento de Aluguel", 1000.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-6).Date),
-                    CreateTransaction(userId, "Uber", 100.00m, categories.TransportId, baseDate.AddMonths(-6).Date),
-                    CreateTransaction(userId, "Metro", 100.00m, categories.TransportId, baseDate.AddMonths(-6).Date),
+                    CreateTransaction(userId, "Pagamento de Aluguel", 1200.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-6).Date),
+                    CreateTransaction(userId, "Uber", GetRange(), categories.TransportId, baseDate.AddMonths(-6).Date),
+                    CreateTransaction(userId, "Metro", GetRange(), categories.TransportId, baseDate.AddMonths(-6).Date),
                     CreateTransaction(userId, "MBA Desenvolvedor.io", 1200.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-6).Date),
-                    CreateTransaction(userId, "IFood", 300.00m, categories.FoodId, baseDate.AddDays(20).AddMonths(-6).Date),
-                    CreateTransaction(userId, "Cinema", 500.00m, categories.LeisureId, baseDate.AddDays(7).AddMonths(-6).Date),
+                    CreateTransaction(userId, "IFood", GetRange(), categories.FoodId, baseDate.AddDays(20).AddMonths(-6).Date),
+                    CreateTransaction(userId, "Cinema", GetRange(), categories.LeisureId, baseDate.AddDays(7).AddMonths(-6).Date),
 
                     // -5 meses
                     CreateTransaction(userId, "Recebimento de Salário Mensal", 15000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-5).Date),
                     CreateTransaction(userId, "Pagamento de Aluguel", 3500.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-5).Date),
-                    CreateTransaction(userId, "Uber", 1500.00m, categories.TransportId, baseDate.AddMonths(-5).Date),
-                    CreateTransaction(userId, "Metro", 150.00m, categories.TransportId, baseDate.AddMonths(-5).Date),
+                    CreateTransaction(userId, "Uber", GetRange(), categories.TransportId, baseDate.AddMonths(-5).Date),
+                    CreateTransaction(userId, "Metro", GetRange(), categories.TransportId, baseDate.AddMonths(-5).Date),
                     CreateTransaction(userId, "MBA Desenvolvedor.io", 1500.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-5).Date),
-                    CreateTransaction(userId, "IFood", 350.00m, categories.FoodId, baseDate.AddDays(20).AddMonths(-5).Date),
-                    CreateTransaction(userId, "Cinema", 550.00m, categories.LeisureId, baseDate.AddDays(7).AddMonths(-5).Date),
+                    CreateTransaction(userId, "IFood", GetRange(), categories.FoodId, baseDate.AddDays(20).AddMonths(-5).Date),
+                    CreateTransaction(userId, "Cinema", GetRange(), categories.LeisureId, baseDate.AddDays(7).AddMonths(-5).Date),
 
                     // -4 meses
                     CreateTransaction(userId, "Recebimento de Salário Mensal", 10000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-4).Date),
                     CreateTransaction(userId, "Pagamento de Aluguel", 2000.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-4).Date),
-                    CreateTransaction(userId, "Uber", 1000.00m, categories.TransportId, baseDate.AddMonths(-4).Date),
-                    CreateTransaction(userId, "Metro", 100.00m, categories.TransportId, baseDate.AddMonths(-4).Date),
+                    CreateTransaction(userId, "Uber", GetRange(), categories.TransportId, baseDate.AddMonths(-4).Date),
+                    CreateTransaction(userId, "Metro", GetRange(), categories.TransportId, baseDate.AddMonths(-4).Date),
                     CreateTransaction(userId, "MBA Desenvolvedor.io", 1200.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-4).Date),
-                    CreateTransaction(userId, "IFood", 300.00m, categories.FoodId, baseDate.AddDays(20).AddMonths(-4).Date),
-                    CreateTransaction(userId, "Cinema", 500.00m, categories.LeisureId, baseDate.AddDays(7).AddMonths(-4).Date),
+                    CreateTransaction(userId, "IFood", GetRange(), categories.FoodId, baseDate.AddDays(20).AddMonths(-4).Date),
+                    CreateTransaction(userId, "Cinema", GetRange(), categories.LeisureId, baseDate.AddDays(7).AddMonths(-4).Date),
 
                     // -3 meses
-                    CreateTransaction(userId, "Recebimento de Salário Mensal", 15000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-3).Date),
-                    CreateTransaction(userId, "Pagamento de Aluguel", 1500.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-3).Date),
-                    CreateTransaction(userId, "Uber", 150.00m, categories.TransportId, baseDate.AddMonths(-3).Date),
-                    CreateTransaction(userId, "Metro", 150.00m, categories.TransportId, baseDate.AddMonths(-3).Date),
-                    CreateTransaction(userId, "MBA Desenvolvedor.io", 1500.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-3).Date),
-                    CreateTransaction(userId, "IFood", 350.00m, categories.FoodId, baseDate.AddDays(20).AddMonths(-3).Date),
-                    CreateTransaction(userId, "Cinema", 550.00m, categories.LeisureId, baseDate.AddDays(7).AddMonths(-3).Date),
+                    CreateTransaction(userId, "Recebimento de Salário Mensal", 9000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-3).Date),
+                    CreateTransaction(userId, "Pagamento de Aluguel", 1200.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-3).Date),
+                    CreateTransaction(userId, "Uber", GetRange(), categories.TransportId, baseDate.AddMonths(-3).Date),
+                    CreateTransaction(userId, "Metro", GetRange(), categories.TransportId, baseDate.AddMonths(-3).Date),
+                    CreateTransaction(userId, "MBA Desenvolvedor.io", 1200.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-3).Date),
+                    CreateTransaction(userId, "IFood", GetRange(), categories.FoodId, baseDate.AddDays(20).AddMonths(-3).Date),
+                    CreateTransaction(userId, "Cinema", GetRange(), categories.LeisureId, baseDate.AddDays(7).AddMonths(-3).Date),
 
                     // -2 meses
                     CreateTransaction(userId, "Recebimento de Salário Mensal", 10000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-2).Date),
                     CreateTransaction(userId, "Pagamento de Aluguel", 1000.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-2).Date),
-                    CreateTransaction(userId, "Uber", 100.00m, categories.TransportId, baseDate.AddMonths(-2).Date),
-                    CreateTransaction(userId, "Metro", 100.00m, categories.TransportId, baseDate.AddMonths(-2).Date),
-                    CreateTransaction(userId, "MBA Desenvolvedor.io", 1200.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-2).Date),
-                    CreateTransaction(userId, "IFood", 300.00m, categories.FoodId, baseDate.AddDays(20).AddMonths(-2).Date),
-                    CreateTransaction(userId, "Cinema", 500.00m, categories.LeisureId, baseDate.AddDays(7).AddMonths(-2).Date),
+                    CreateTransaction(userId, "Uber", GetRange(), categories.TransportId, baseDate.AddMonths(-2).Date),
+                    CreateTransaction(userId, "Metro", GetRange(), categories.TransportId, baseDate.AddMonths(-2).Date),
+                    CreateTransaction(userId, "MBA Desenvolvedor.io", 1000.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-2).Date),
+                    CreateTransaction(userId, "IFood", GetRange(), categories.FoodId, baseDate.AddDays(20).AddMonths(-2).Date),
+                    CreateTransaction(userId, "Cinema", GetRange(), categories.LeisureId, baseDate.AddDays(7).AddMonths(-2).Date),
 
                     // -1 meses
-                    CreateTransaction(userId, "Recebimento de Salário Mensal", 15000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-1).Date),
+                    CreateTransaction(userId, "Recebimento de Salário Mensal", 11000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(-1).Date),
                     CreateTransaction(userId, "Pagamento de Aluguel", 1500.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(-1).Date),
-                    CreateTransaction(userId, "Uber", 150.00m, categories.TransportId, baseDate.AddMonths(-1).Date),
-                    CreateTransaction(userId, "Metro", 150.00m, categories.TransportId, baseDate.AddMonths(-1).Date),
+                    CreateTransaction(userId, "Uber", GetRange(), categories.TransportId, baseDate.AddMonths(-1).Date),
+                    CreateTransaction(userId, "Metro", GetRange(), categories.TransportId, baseDate.AddMonths(-1).Date),
                     CreateTransaction(userId, "MBA Desenvolvedor.io", 1500.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(-1).Date),
-                    CreateTransaction(userId, "IFood", 350.00m, categories.FoodId, baseDate.AddDays(20).AddMonths(-1).Date),
-                    CreateTransaction(userId, "Cinema", 550.00m, categories.LeisureId, baseDate.AddDays(7).AddMonths(-1).Date),
+                    CreateTransaction(userId, "IFood", GetRange(), categories.FoodId, baseDate.AddDays(20).AddMonths(-1).Date),
+                    CreateTransaction(userId, "Cinema", GetRange(), categories.LeisureId, baseDate.AddDays(7).AddMonths(-1).Date),
 
                     // Mês Atual
                     CreateTransaction(userId, "Recebimento de Salário Mensal", 10000.00m, categories.SalaryId, baseDate.AddDays(10).Date),
                     CreateTransaction(userId, "Pagamento de Aluguel", 1000.00m, categories.HabitationId, baseDate.AddDays(15).Date),
-                    CreateTransaction(userId, "Uber", 100.00m, categories.TransportId, baseDate.Date),
-                    CreateTransaction(userId, "Metro", 100.00m, categories.TransportId, baseDate.Date),
+                    CreateTransaction(userId, "Uber", GetRange(), categories.TransportId, baseDate.Date),
+                    CreateTransaction(userId, "Metro", GetRange(), categories.TransportId, baseDate.Date),
                     CreateTransaction(userId, "MBA Desenvolvedor.io", 1200.00m, categories.EducationId, baseDate.AddDays(15).Date),
-                    CreateTransaction(userId, "IFood", 300.00m, categories.FoodId, baseDate.AddDays(20).Date),
-                    CreateTransaction(userId, "Cinema", 500.00m, categories.LeisureId, baseDate.AddDays(7).Date),
+                    CreateTransaction(userId, "IFood", GetRange(), categories.FoodId, baseDate.AddDays(20).Date),
+                    CreateTransaction(userId, "Cinema", GetRange(), categories.LeisureId, baseDate.AddDays(7).Date),
 
                     // +1 mes
-                    CreateTransaction(userId, "Recebimento de Salário Mensal", 15000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(1).Date),
+                    CreateTransaction(userId, "Recebimento de Salário Mensal", 12000.00m, categories.SalaryId, baseDate.AddDays(10).AddMonths(1).Date),
                     CreateTransaction(userId, "Pagamento de Aluguel", 1500.00m, categories.HabitationId, baseDate.AddDays(15).AddMonths(1).Date),
-                    CreateTransaction(userId, "Uber", 150.00m, categories.TransportId, baseDate.AddMonths(1).Date),
-                    CreateTransaction(userId, "Metro", 150.00m, categories.TransportId, baseDate.AddMonths(1).Date),
+                    CreateTransaction(userId, "Uber", GetRange(), categories.TransportId, baseDate.AddMonths(1).Date),
+                    CreateTransaction(userId, "Metro", GetRange(), categories.TransportId, baseDate.AddMonths(1).Date),
                     CreateTransaction(userId, "MBA Desenvolvedor.io", 1500.00m, categories.EducationId, baseDate.AddDays(15).AddMonths(1).Date),
-                    CreateTransaction(userId, "IFood", 350.00m, categories.FoodId, baseDate.AddDays(20).AddMonths(1).Date),
-                    CreateTransaction(userId, "Cinema", 550.00m, categories.LeisureId, baseDate.AddDays(7).AddMonths(1).Date),
+                    CreateTransaction(userId, "IFood", GetRange(), categories.FoodId, baseDate.AddDays(20).AddMonths(1).Date),
+                    CreateTransaction(userId, "Cinema", GetRange(), categories.LeisureId, baseDate.AddDays(7).AddMonths(1).Date),
                 }
             };
 
@@ -381,4 +381,10 @@ public static class DbMigrationHelper
             TransactionDate = transactionDate,
             CreatedDate = DateTime.Now
         };
+
+    private static decimal GetRange()
+    {
+        Random random = new();
+        return random.Next(800, 1000);
+    }
 }

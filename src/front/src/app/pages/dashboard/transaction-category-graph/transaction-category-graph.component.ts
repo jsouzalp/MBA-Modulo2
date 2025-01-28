@@ -165,9 +165,13 @@ export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
 
           let maxIncome:number = Math.max(...this.transactionEvolutionModel.map(item => item.totalIncome)) + 1000;
           let minExpense:number = Math.min(...this.transactionEvolutionModel.map(item => item.totalExpense));
-          let minBalance:number = Math.max(...this.transactionEvolutionModel.map(item => item.totalBalance));
-
+          let minBalance:number = Math.min(...this.transactionEvolutionModel.map(item => item.totalBalance));
           let minimalValue:number = (minExpense < minBalance ? minExpense : minBalance) - 1000;
+
+          console.log(maxIncome);
+          console.log(minExpense);
+          console.log(minBalance);
+          console.log(minimalValue);
 
           this.evolutionYearChart = {
             series: [

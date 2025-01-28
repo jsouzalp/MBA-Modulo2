@@ -20,20 +20,6 @@ public class CategoryService : BaseService, ICategoryService
         _categoryRepository = categoryRepository;
     }
 
-    private async Task<bool> CategoryExistsWithSameNameAsync(Guid? userId, string description, Guid? categoryId = null)
-    {
-        var categories = await _categoryRepository
-            .FilterAsync(c => c.Description == description && (c.UserId == null || c.UserId == userId) && (!categoryId.HasValue || c.CategoryId != categoryId.Value));
-
-        if (categories.Count != 0)
-        {
-            Notify("Já existe uma categoria com essa descrição.");
-            return true;
-        }
-
-        return false;
-    }
-
     public async Task CreateAsync(Category category)
     {
         if (!await _validationFactory.ValidateAsync(category))
@@ -83,4 +69,19 @@ public class CategoryService : BaseService, ICategoryService
 
         await _categoryRepository.RemoveAsync(categoryId);
     }
+
+    private async Task<bool> CategoryExistsWithSameNameAsync(Guid? userId, string description, Guid? categoryId = null)
+    {
+        var categories = await _categoryRepository
+            .FilterAsync(c => c.Description == description && (c.UserId == null || c.UserId == userId) && (!categoryId.HasValue || c.CategoryId != categoryId.Value));
+
+        if (categories.Count != 0)
+        {
+            Notify("Já existe uma categoria com essa descrição.");
+            return true;
+        }
+
+        return false;
+    }
+
 }

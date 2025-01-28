@@ -18,7 +18,7 @@
     <DataBand Name="Data1" Top="69.06" Width="718.2" Height="28.35" CanGrow="true" DataSource="Category">
       <LineObject Name="Line1" Top="28.35" Width="718.2" Border.Color="Gainsboro" Border.Width="3"/>
       <TextObject Name="Text43" Left="189" Top="3.78" Width="292.95" Height="18.9" Text="[Category.CategoryDescription]" VertAlign="Center" Font="Consolas, 8pt"/>
-      <TextObject Name="Text45" Left="519.75" Top="3.78" Width="189" Height="18.9" Text="[Category.TotalAmount]" VertAlign="Center" Font="Consolas, 8pt"/>
+      <TextObject Name="Text45" Left="519.75" Top="3.78" Width="189" Height="18.9" Text="[Category.TotalAmount]" VertAlign="Center" HorzAlign="Right" Font="Consolas, 8pt"/>
       <TextObject Name="Text47" Left="7.45" Top="4.45" Width="170.1" Height="18.9" Text="[Category.Type]" VertAlign="Center" Font="Consolas, 6pt"/>
     </DataBand>
     <ReportSummaryBand Name="ReportSummary1" Top="98.86" Width="718.2" Height="15.12">

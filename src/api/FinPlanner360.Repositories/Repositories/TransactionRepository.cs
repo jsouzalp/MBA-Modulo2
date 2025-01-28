@@ -73,7 +73,8 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
             return null;
         }
 
-        return await _dbSet.AsNoTracking()
+        return await _dbSet
+            .AsNoTracking()
             .Include(x => x.Category)
             .Where(x => x.UserId == UserId.Value && x.TransactionDate >= startDate && x.TransactionDate <= endDate)
             .ToListAsync();

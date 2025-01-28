@@ -109,7 +109,7 @@ export class TransactionUpdateComponent extends FormBaseComponent implements OnI
             return;
           }
 
-          this.toastr.success('Lançamento efetuado com sucesso.');
+          this.toastr.success('Lançamento alterado com sucesso.');
           this.updated = true;
           this.cancel();
         },
