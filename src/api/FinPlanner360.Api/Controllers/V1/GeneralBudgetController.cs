@@ -49,13 +49,19 @@ public class GeneralBudgetController : MainController
     [ProducesResponseType(typeof(GeneralBudgetViewModel), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<GeneralBudgetViewModel>> Create(GeneralBudgetViewModel generalBudgetViewModel)
+    public async Task<ActionResult<GeneralBudgetViewModel>> Create(GeneralBudgetViewModel generalBudgetViewModel, [FromServices] IBudgetRepository _budgetRepository)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
 
         var budget = _mapper.Map<GeneralBudget>(generalBudgetViewModel);
         budget.UserId = UserId;
         await _budgetService.CreateAsync(budget);
+
+        if (ValidOperation())
+        {
+            if (await _budgetRepository.ExistsAsync())
+                Notify("Os orçamentos por categoria configurados serão ignorados, pois agora será considerado apenas o orçamento geral.", Business.Models.Enums.NotificationTypeEnum.Warning);
+        }
 
         return GenerateResponse(generalBudgetViewModel, HttpStatusCode.Created);
     }
@@ -94,6 +100,14 @@ public class GeneralBudgetController : MainController
 
         return GenerateResponse(HttpStatusCode.NoContent);
     }
+
+
+    [HttpGet("exists")]
+    [SwaggerOperation(Summary = "Informa se existe orçamento geral já cadastrado", Description = "Retorna status OK quando já houver orçamento cadastrado no sistema.")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> Exists() => await _budgetRepository.ExistsAsync() ? Ok() : NotFound();
 
     private async Task<GeneralBudget> GetGeneralBudgetByIdAsync(Guid id) => await _budgetRepository.GetByIdAsync(id);
 }

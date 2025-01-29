@@ -10,26 +10,33 @@ import { BudgetService } from 'src/app/services/budget.service';
 import { CategoryTypeEnum } from '../../category/enums/category-type.enum';
 import { BudgetByCategoryAddComponent } from './budget-by-category-add.component';
 import { BudgetUpdateComponent } from './budget-by-category-update.component';
+import { GeneralBudgetService } from 'src/app/services/general-budget.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-budget-list',
   standalone: true,
-  imports: [CommonModule, MaterialModule],
+  imports: [CommonModule, MaterialModule, RouterModule],
   templateUrl: './budget-by-category-list.component.html',
+  styleUrls: ['./budget-by-category-list.component.scss']
 })
 export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
+
+  existsGeneralBudget: boolean = false;
 
   budgetModel: BudgetModel[] = [];
   displayedColumns: string[] = ['description', 'amount', 'Menu'];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private budgetSevice: BudgetService,
+    private generalBudgetSevice: GeneralBudgetService,
     private toastr: ToastrService,
     public dialog: MatDialog) { }
 
 
   ngOnInit(): void {
     this.getBudgeties();
+    this.checkExistsGeneralBudget();
   }
 
   getBudgeties() {
@@ -43,6 +50,11 @@ export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
           this.toastr.error(fail.error.errors);
         }
       });
+  }
+
+  checkExistsGeneralBudget() {
+    this.generalBudgetSevice.exists()
+      .subscribe({ next: () => { this.existsGeneralBudget = true; } })
   }
 
   getDescription(type: CategoryTypeEnum): string {
