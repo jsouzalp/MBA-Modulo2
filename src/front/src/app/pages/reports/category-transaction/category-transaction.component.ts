@@ -8,18 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import * as _moment from 'moment';
 import 'moment/locale/pt-br'; 
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import { MY_DATE_FORMATS } from 'src/app/shared/constants';
 
-export const MY_DATE_FORMATS = {
-  parse: {
-    dateInput: 'DD/MM/YYYY', 
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY', 
-    monthYearLabel: 'MMMM YYYY', 
-    dateA11yLabel: 'DD/MM/YYYY', 
-    monthYearA11yLabel: 'MMMM YYYY', 
-  },
-};
 
 @Component({
   selector: 'app-category-transaction',
@@ -46,8 +36,8 @@ export class CategoryTransactionComponent implements OnInit {
 
   ngOnInit(): void {
     const currentDate = new Date();
-    this.startDateValue = currentDate;
-    this.endDateValue = currentDate;
+    // this.startDateValue = currentDate;
+    // this.endDateValue = currentDate;
   }
 
   startDateValue: Date;

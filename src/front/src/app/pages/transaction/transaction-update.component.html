@@ -42,18 +42,20 @@
           <p [innerHTML]="displayMessage['categoryId']"></p>
         </small>
       </div>
+      
       <div class="col-6 p-10">
-        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Data</mat-label>
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Data Inicial</mat-label>
         <mat-form-field appearance="outline" class="w-100">
-          <input matInput [matDatepicker]="picker" formControlName="transactionDate" />
+          <input matInput [matDatepicker]="picker" formControlName="transactionDate">
           <mat-hint>DD/MM/AAAA</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-        <small class="text-danger" *ngIf="displayMessage['transactionDate']">
+        <small class="text-error" *ngIf="displayMessage['transactionDate']">
           <p [innerHTML]="displayMessage['transactionDate']"></p>
         </small>
       </div>
+
     </div>
     <mat-dialog-actions align="end">
       <button type="button" mat-raised-button (click)="cancel()" color="secondary" cdkFocusInitial

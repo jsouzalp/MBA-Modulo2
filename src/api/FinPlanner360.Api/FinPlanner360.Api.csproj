@@ -48,9 +48,6 @@
     <None Update="Reports\Fast\Files\Category.frx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Reports\Fast\Files\Users.frx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
