@@ -49,15 +49,15 @@ A estrutura do projeto é organizada da seguinte forma:
 ```
   src/
     ├── API/
-      ├── FinPlanner360.Api/       - API RESTfull
-      ├── FinPlanner360.Business/  - Models, Services, Extensions
-      ├── Blog.Repositories/       - Modelos de Dados, config EF Core
+        ├── FinPlanner360.Api/       - API RESTfull
+        ├── FinPlanner360.Business/  - Models, Services, Extensions
+        ├── Blog.Repositories/       - Repositories, Migrations, config EF Core
     ├── FRONT/
-      ├── node_modules/   - bibliotecas do projeto
-      ├── src/                     
-        ├── app/          - pasta principal, contém código da aplicação 
-        ├── assets/       - Armazena arquivos extras, como imagens
-        ├── environments/ - Contém arquivos relacionados ao ambiente
+        ├── node_modules/   - bibliotecas do projeto
+        ├── src/                     
+            ├── app/          - pasta principal, contém código da aplicação 
+            ├── assets/       - Armazena arquivos extras, como imagens
+            ├── environments/ - Contém arquivos relacionados ao ambiente
   README.md               - Arquivo de Documentação do Projeto
   FEEDBACK.md             - Arquivo para Consolidação dos Feedbacks
   .gitignore              - Arquivo de Ignoração do Git
@@ -85,7 +85,7 @@ A estrutura do projeto é organizada da seguinte forma:
 1. **Clone o Repositório:**
    
    ```bash
-   git clone https://github.com/jsouzalp/MBA-Modulo2.git
+   git clone -b develop https://github.com/jsouzalp/MBA-Modulo2.git
    cd MBA-Modulo2
    ```
    
