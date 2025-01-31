@@ -1,4 +1,5 @@
 ﻿using FinPlanner360.Api.Settings;
+using FinPlanner360.Api.ViewModels.Report;
 using FinPlanner360.Api.ViewModels.User;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
@@ -45,12 +46,16 @@ public class UserController : MainController
     }
 
 
-
+    /// <summary>
+    /// Registra um novo usuário.
+    /// </summary>
+    /// <remarks>Cria um novo usuário com os dados fornecidos e retorna um token JWT.</remarks>
+    /// <response code="200">Sucesso na operação!</response>
+    /// <response code="400">Dados inconsistentes na requisição ao criar um novo usuário.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [AllowAnonymous]
     [HttpPost]
-    [SwaggerOperation(Summary = "Registra um novo usuário", Description = "Cria um novo usuário com os dados fornecidos e retorna um token JWT.")]
-    [ProducesResponseType(typeof(LoginOutputViewModel), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(LoginOutputViewModel), 200)]
     public async Task<ActionResult> RegisterAsync(RegisterViewModel registerViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
@@ -108,11 +113,16 @@ public class UserController : MainController
     }
 
 
+    /// <summary>
+    /// Realiza o login do usuário.
+    /// </summary>
+    /// <remarks>Autentica o usuário e retorna um token JWT.</remarks>
+    /// <response code="200">Sucesso na operação!</response>
+    /// <response code="400">Dados inconsistentes na requisição ao logar o usuário.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [AllowAnonymous]
-    [HttpPost("login")]
-    [SwaggerOperation(Summary = "Realiza o login do usuário", Description = "Autentica o usuário e retorna um token JWT.")]
-    [ProducesResponseType(typeof(LoginOutputViewModel), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [HttpPost("login")]    
+    [ProducesResponseType(typeof(LoginOutputViewModel), 200)]    
     public async Task<ActionResult> LoginAsync(LoginViewModel loginViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
@@ -141,15 +151,25 @@ public class UserController : MainController
         return GenerateResponse();
     }
 
+    /// <summary>
+    /// Exporta um relatório de usuários.
+    /// </summary>
+    /// <remarks>Gera e exporta um relatório contendo informações dos usuários em formato PDF ou XLSX. O tipo de arquivo deve ser especificado no parâmetro `tipoArquivo`.</remarks>
+    /// <param name="tipoArquivo">O tipo de arquivo deve ser especificado como PDF ou XLSX</param>
+    /// <response code="200">Sucesso na operação!</response>
+    /// <response code="204">Sucesso na operação, porém sem conteúdo de resposta.</response>
+    /// <response code="400">Dados inconsistentes na requisição ao listar os usuários.</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [AllowAnonymous]
     [HttpGet("export-report")]
-    [SwaggerOperation(
-    Summary = "Exporta um relatório de usuários",
-    Description = "Gera e exporta um relatório contendo informações dos usuários em formato PDF ou XLSX. O tipo de arquivo deve ser especificado no parâmetro `fileType`."
-    )]
-    [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK)]
-    public async Task<IActionResult> ExportReport([FromQuery][Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")][RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string fileType)
+    [SwaggerOperation(Tags = new[] { "Transações" })]
+    [ProducesResponseType(typeof(TransactionReportViewModel), 200)]
+    public async Task<IActionResult> ExportReport(
+       [Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")]
+           [RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string tipoArquivo)
     {
+    
         var users = (await _userRepository.FilterAsync(p => true)).Select(p => new
         {
             p.UserId,
@@ -161,7 +181,7 @@ public class UserController : MainController
         string contentType;
         string fileName;
 
-        switch (fileType.ToLower())
+        switch (tipoArquivo.ToLower())
         {
             case "pdf":
                 fileBytes = Reports.Fast.ReportService.GenerateReportPDF("Users", users);
@@ -181,8 +201,6 @@ public class UserController : MainController
 
         return File(fileBytes, contentType, fileName);
     }
-
-
 
 
     private async Task<string> GenerateJwt(string email)

@@ -25,12 +25,16 @@ public class TransactionController : MainController
         _mapper = mapper;
         _transactionService = transactionService;
     }
-
+    
+    /// <summary>
+    /// </summary>
+    /// <remarks></remarks>
+    /// <response code="200">Sucesso na operação!</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="404">Página não encontrada.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpGet("get-balance-by-month-year")]
-    [SwaggerOperation(Summary = "", Description = "")]
-    [ProducesResponseType(typeof(List<BalanceViewModel>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(List<BalanceViewModel>), 200)]
     public async Task<ActionResult<IEnumerable<BalanceViewModel>>> GetBalanceByMonthYear([FromQuery] DateTime date)
     {
         var transactions = _mapper.Map<IEnumerable<BalanceViewModel>>(await _transactionService.GetBalanceByMonthYearAsync(date));
@@ -38,11 +42,15 @@ public class TransactionController : MainController
         return GenerateResponse(transactions, HttpStatusCode.OK);
     }
 
+    /// <summary>
+    /// </summary>
+    /// <remarks></remarks>
+    /// <response code="201">Sucesso na operação!</response>
+    /// <response code="400">Dados inconsistentes na requisição ao criar uma transação.</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpPost]
-    [SwaggerOperation(Summary = "", Description = "")]
-    [ProducesResponseType(typeof(TransactionViewModel), StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(TransactionViewModel), 201)]
     public async Task<ActionResult<TransactionViewModel>> Create(TransactionViewModel transactionViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
@@ -53,12 +61,16 @@ public class TransactionController : MainController
         return GenerateResponse(transactionViewModel, HttpStatusCode.Created);
     }
 
+    /// <summary>
+    /// </summary>
+    /// <remarks></remarks>
+    /// <response code="200">Sucesso na operação!</response>
+    /// <response code="400">Dados inconsistentes na requisição ao atualizar a transação.</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="404">Página não encontrada.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpPut("{id:guid}")]
-    [SwaggerOperation(Summary = "", Description = "")]
-    [ProducesResponseType(typeof(TransactionUpdateViewModel), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(TransactionUpdateViewModel), 200)]
     public async Task<ActionResult<TransactionUpdateViewModel>> Update(Guid id, [FromBody] TransactionUpdateViewModel transactionViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
@@ -72,12 +84,15 @@ public class TransactionController : MainController
         return GenerateResponse(transactionViewModel, HttpStatusCode.OK);
     }
 
-    [HttpDelete("{id:guid}")]
-    [SwaggerOperation(Summary = "", Description = "")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    /// <summary>
+    /// </summary>
+    /// <remarks></remarks>
+    /// <response code="204">Sucesso na operação, porém sem conteúdo de resposta.</response>
+    /// <response code="400">Dados inconsistentes na requisição ao deletar uma transação.</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="404">Página não encontrada.</response>
+    /// <response code="500">Erro interno de servidor.</response>
+    [HttpDelete("{id:guid}")]    
     public async Task<ActionResult> Delete(Guid id)
     {
         if (id == Guid.Empty) return GenerateResponse(ModelState, HttpStatusCode.BadRequest);

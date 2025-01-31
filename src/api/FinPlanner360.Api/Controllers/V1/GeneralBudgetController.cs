@@ -30,12 +30,16 @@ public class GeneralBudgetController : MainController
         _budgetRepository = budgetRepository;
     }
 
-
+    /// <summary>
+    /// Obtém todos os orçamentos gerais.
+    /// </summary>
+    /// <remarks>Retorna uma lista de orçamentos gerais cadastrados no sistema.</remarks>
+    /// <response code="200">Sucesso na operação!</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="404">Página não encontrada.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpGet]
-    [SwaggerOperation(Summary = "Obtém todos os orçamentos gerais", Description = "Retorna uma lista de orçamentos gerais cadastrados no sistema.")]
-    [ProducesResponseType(typeof(IEnumerable<GeneralBudgetViewModel>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(IEnumerable<GeneralBudgetViewModel>), 200)]
     public async Task<ActionResult<IEnumerable<GeneralBudgetViewModel>>> GetAll()
     {
         var budgets = _mapper.Map<IEnumerable<GeneralBudgetViewModel>>(await _budgetRepository.GetAllAsync());
@@ -43,12 +47,16 @@ public class GeneralBudgetController : MainController
         return GenerateResponse(budgets, HttpStatusCode.OK);
     }
 
-
+    /// <summary>
+    /// Cria um novo orçamento geral.
+    /// </summary>
+    /// <remarks>Cria um novo orçamento geral baseado nas informações fornecidas no corpo da requisição.</remarks>
+    /// <response code="201">Sucesso na operação!</response>
+    /// <response code="400">Dados inconsistentes na requisição ao criar um novo orçamento geral.</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpPost]
-    [SwaggerOperation( Summary = "Cria um novo orçamento geral", Description = "Cria um novo orçamento geral baseado nas informações fornecidas no corpo da requisição.")]
-    [ProducesResponseType(typeof(GeneralBudgetViewModel), StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(GeneralBudgetViewModel), 201)]
     public async Task<ActionResult<GeneralBudgetViewModel>> Create(GeneralBudgetViewModel generalBudgetViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
@@ -60,13 +68,17 @@ public class GeneralBudgetController : MainController
         return GenerateResponse(generalBudgetViewModel, HttpStatusCode.Created);
     }
 
-
+    /// <summary>
+    /// Atualiza um orçamento geral existente.
+    /// </summary>
+    /// <remarks>Atualiza as informações de um orçamento geral baseado no ID fornecido.</remarks>
+    /// <response code="200">Sucesso na operação!</response>
+    /// <response code="400">Dados inconsistentes na requisição ao atualizar o orçamento geral.</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="404">Página não encontrada.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpPut("{id:guid}")]
-    [SwaggerOperation(Summary = "Atualiza um orçamento geral existente",Description = "Atualiza as informações de um orçamento geral baseado no ID fornecido.")]
-    [ProducesResponseType(typeof(GeneralBudgetViewModel), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(GeneralBudgetViewModel), 200)]
     public async Task<ActionResult<GeneralBudgetViewModel>> Update(Guid id, [FromBody] GeneralBudgetViewModel generalBudgetViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
@@ -79,12 +91,16 @@ public class GeneralBudgetController : MainController
     }
 
 
+    /// <summary>
+    /// Exclui um orçamento geral.
+    /// </summary>
+    /// <remarks>Exclui um orçamento geral com base no ID fornecido.</remarks>
+    /// <response code="204">Sucesso na operação, porém sem conteúdo de resposta.</response>
+    /// <response code="400">Dados inconsistentes na requisição ao deletar um orçamento geral.</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="404">Página não encontrada.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpDelete("{id:guid}")]
-    [SwaggerOperation(Summary = "Exclui um orçamento geral", Description = "Exclui um orçamento geral com base no ID fornecido.")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult> Delete(Guid id)
     {
         if (id == Guid.Empty) return GenerateResponse(ModelState, HttpStatusCode.BadRequest);

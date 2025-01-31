@@ -6,6 +6,7 @@ using FinPlanner360.Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 
 namespace FinPlanner360.Api.Controllers.V1;
@@ -30,11 +31,16 @@ public class BudgetController : MainController
         _budgetRepository = budgetRepository;
     }
 
+    /// <summary>
+    /// Obtém todas as entradas de orçamento.
+    /// </summary>
+    /// <remarks>Busca todos os orçamentos cadastrados no banco de dados.</remarks>
+    /// <response code="200">Sucesso na operação!</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="404">Página não encontrada.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpGet]
-    [SwaggerOperation(Summary = "Obtém todas as entradas de orçamento.", Description = "Busca todos os orçamentos cadastrados no banco de dados.")]
-    [ProducesResponseType(typeof(List<BudgetViewModel>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(List<BudgetViewModel>), 200)]
     public async Task<ActionResult<IEnumerable<BudgetViewModel>>> GetAll()
     {
         var budgets = _mapper.Map<IEnumerable<BudgetViewModel>>(await _budgetRepository.GetAllAsync());
@@ -42,11 +48,16 @@ public class BudgetController : MainController
         return GenerateResponse(budgets, HttpStatusCode.OK);
     }
 
+    /// <summary>
+    /// Cria uma nova entrada de orçamento.
+    /// </summary>
+    /// <remarks>Registra um novo orçamento no banco de dados.</remarks>
+    /// <response code="201">Sucesso na operação!</response>
+    /// <response code="400">Dados inconsistentes na requisição ao criar o orçamento.</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpPost]
-    [SwaggerOperation(Summary = "Cria uma nova entrada de orçamento.",Description = "Registra um novo orçamento no banco de dados.")]
-    [ProducesResponseType(typeof(BudgetViewModel), StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(BudgetViewModel), 201)]
     public async Task<ActionResult<BudgetViewModel>> Create(BudgetViewModel budgetViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
@@ -57,12 +68,17 @@ public class BudgetController : MainController
         return GenerateResponse(budgetViewModel, HttpStatusCode.Created);
     }
 
+    /// <summary>
+    /// Atualiza uma entrada de orçamento.
+    /// </summary>
+    /// <remarks>Atualiza os dados de um orçamento já existente.</remarks>
+    /// <response code="200">Sucesso na operação!</response>
+    /// <response code="400">Dados inconsistentes na requisição ao atualizar o orçamento.</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="404">Página não encontrada.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpPut("{id:guid}")]
-    [SwaggerOperation(Summary = "Atualiza uma entrada de orçamento.", Description = "Atualiza os dados de um orçamento já existente.")]
-    [ProducesResponseType(typeof(BudgetUpdateViewModel), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(BudgetUpdateViewModel), 200)]
     public async Task<ActionResult<BudgetUpdateViewModel>> Update(Guid id, [FromBody] BudgetUpdateViewModel budgetViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
@@ -74,12 +90,16 @@ public class BudgetController : MainController
         return GenerateResponse(budgetViewModel, HttpStatusCode.OK);
     }
 
+    /// <summary>
+    /// Exclui uma entrada de orçamento.
+    /// </summary>
+    /// <remarks>Remove um orçamento do banco de dados pelo seu ID.</remarks>
+    /// <response code="204">Sucesso na operação, porém sem conteúdo de resposta.</response>
+    /// <response code="400">Dados inconsistentes na requisição ao deletar o orçamento.</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="404">Página não encontrada.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpDelete("{id:guid}")]
-    [SwaggerOperation(Summary = "Exclui uma entrada de orçamento.", Description = "Remove um orçamento do banco de dados pelo seu ID.")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> Delete(Guid id)
     {
         if (id == Guid.Empty) return GenerateResponse(ModelState, HttpStatusCode.BadRequest);

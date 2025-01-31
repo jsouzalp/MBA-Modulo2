@@ -24,10 +24,16 @@ namespace FinPlanner360.Api.Controllers.V1
             _transactionRepository = transactionRepository;
         }
 
+        /// <summary>
+        /// Cards de dashboard.
+        /// </summary>
+        /// <remarks>Retorna informações financeiras resumidas do usuário</remarks>
+        /// <response code="200">Sucesso na operação!</response>
+        /// <response code="401">Usuário não autenticado.</response>
+        /// <response code="500">Erro interno de servidor.</response>
         [HttpGet("Cards/{date:datetime?}")]
-        [SwaggerOperation(Summary = "Cards de dashboard", Description = "Retorna informações financeiras resumidas do usuário")]
-        [ProducesResponseType(typeof(List<CardSumaryViewModel>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [SwaggerOperation(Summary = "", Description = "")]
+        [ProducesResponseType(typeof(List<CardSumaryViewModel>), 200)]        
         public async Task<ActionResult<CardSumaryViewModel>> GetSumaryCardsAsync(DateTime? date)
         {
             date = date.HasValue && date.Value != DateTime.MinValue && date.Value != DateTime.MaxValue
@@ -57,11 +63,16 @@ namespace FinPlanner360.Api.Controllers.V1
             return GenerateResponse(cardSumary, HttpStatusCode.OK);
         }
 
+        /// <summary>
+        /// Resumo de transação por categoria.
+        /// </summary>
+        /// <remarks>Responsável por devolver uma lista das transações por categoria.</remarks>
+        /// <response code="200">Sucesso na operação!</response>
+        /// <response code="401">Usuário não autenticado.</response>
+        /// <response code="404">Página não encontrada.</response>
+        /// <response code="500">Erro interno de servidor.</response>
         [HttpGet("Transactions/{date:datetime?}")]
-        [SwaggerOperation(Summary = "Resumo de transação por categoria", Description = "Responsável por devolver uma lista das transações por categoria")]
-        [ProducesResponseType(typeof(IEnumerable<TransactionDashboardViewModel>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(IEnumerable<TransactionDashboardViewModel>), 200)]
         public async Task<ActionResult<IEnumerable<TransactionDashboardViewModel>>> GetCategoryTransactionGraphAsync(DateTime? date)
         {
             date = date.HasValue && date.Value != DateTime.MinValue && date.Value != DateTime.MaxValue
@@ -84,11 +95,16 @@ namespace FinPlanner360.Api.Controllers.V1
             return GenerateResponse(transactionsDashboard, HttpStatusCode.OK);
         }
 
+        /// <summary>
+        /// Evolução do Saldo disponível.
+        /// </summary>
+        /// <remarks>Responsável uma projeção de saldo disponível nos últimos 12 meses.</remarks>
+        /// <response code="200">Sucesso na operação!</response>
+        /// <response code="401">Usuário não autenticado.</response>
+        /// <response code="404">Página não encontrada.</response>
+        /// <response code="500">Erro interno de servidor.</response>
         [HttpGet("evolution/{date:datetime?}")]
-        [SwaggerOperation(Summary = "Evolução do Saldo disponível", Description = "Responsável uma projeção de saldo disponível nos últimos 12 meses")]
-        [ProducesResponseType(typeof(IEnumerable<TransactionDashboardViewModel>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(IEnumerable<TransactionDashboardViewModel>), 200)]
         public async Task<ActionResult<IEnumerable<TransactionDashboardViewModel>>> GetBalanceAsync(DateTime? date)
         {
             date = date.HasValue && date.Value != DateTime.MinValue && date.Value != DateTime.MaxValue

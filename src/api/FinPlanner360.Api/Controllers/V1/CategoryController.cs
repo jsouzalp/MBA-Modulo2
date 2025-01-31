@@ -30,12 +30,16 @@ public class CategoryController : MainController
         _categoryRepository = categoryRepository;
     }
 
-
-    [HttpGet]
-    [SwaggerOperation(Summary = "Obtém todas as categorias.", Description = "Busca todas as categorias cadastradas no banco de dados.")]
-    [ProducesResponseType(typeof(List<CategoryViewModel>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    /// <summary>
+    /// Obtém todas as categorias.
+    /// </summary>
+    /// <remarks>Busca todas as categorias cadastradas no banco de dados.</remarks>
+    /// <response code="200">Sucesso na operação!</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="404">Página não encontrada.</response>
+    /// <response code="500">Erro interno de servidor.</response>
+    [HttpGet]   
+    [ProducesResponseType(typeof(List<CategoryViewModel>), 200)]
     public async Task<ActionResult<IEnumerable<CategoryViewModel>>> GetAll()
     {
         var categories = _mapper.Map<IEnumerable<CategoryViewModel>>(await _categoryRepository.GetAllAsync());
@@ -43,12 +47,16 @@ public class CategoryController : MainController
         return GenerateResponse(categories, HttpStatusCode.OK);
     }
 
-
+    /// <summary>
+    /// Cria uma nova categoria.
+    /// </summary>
+    /// <remarks>Registra uma nova categoria no banco de dados.</remarks>
+    /// <response code="201">Sucesso na operação!</response>
+    /// <response code="400">Dados inconsistentes na requisição ao criar a categoria.</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpPost]
-    [SwaggerOperation(Summary = "Cria uma nova categoria.", Description = "Registra uma nova categoria no banco de dados.")]
-    [ProducesResponseType(typeof(CategoryViewModel), StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(CategoryViewModel), 201)]
     public async Task<ActionResult<CategoryViewModel>> Create(CategoryViewModel categoryViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
@@ -59,13 +67,17 @@ public class CategoryController : MainController
         return GenerateResponse(categoryViewModel, HttpStatusCode.Created);
     }
 
-
+    /// <summary>
+    /// Atualiza uma categoria existente.
+    /// </summary>
+    /// <remarks>Atualiza os dados de uma categoria já cadastrada no banco de dados.</remarks>
+    /// <response code="200">Sucesso na operação!</response>
+    /// <response code="400">Dados inconsistentes na requisição ao atualizar o orçamento.</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="404">Página não encontrada.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpPut("{id:guid}")]
-    [SwaggerOperation(Summary = "Atualiza uma categoria existente.", Description = "Atualiza os dados de uma categoria já cadastrada no banco de dados.")]
-    [ProducesResponseType(typeof(CategoryViewModel), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(CategoryViewModel), 200)]
     public async Task<ActionResult<CategoryUpdateViewModel>> Update(Guid id, [FromBody] CategoryUpdateViewModel categoryViewModel)
     {
         if (!ModelState.IsValid) return GenerateResponse(ModelState);
@@ -77,13 +89,16 @@ public class CategoryController : MainController
         return GenerateResponse(categoryViewModel, HttpStatusCode.OK);
     }
 
-
+    /// <summary>
+    /// Exclui uma categoria.
+    /// </summary>
+    /// <remarks>Remove uma categoria do banco de dados pelo seu ID.</remarks>    
+    /// <response code="204">Sucesso na operação, porém sem conteúdo de resposta.</response>
+    /// <response code="400">Dados inconsistentes na requisição ao deletar uma categoria.</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="404">Página não encontrada.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpDelete("{id:guid}")]
-    [SwaggerOperation(Summary = "Exclui uma categoria.", Description = "Remove uma categoria do banco de dados pelo seu ID.")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> Delete(Guid id)
     {
         if (id == Guid.Empty) return GenerateResponse(ModelState, HttpStatusCode.BadRequest);

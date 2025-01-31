@@ -44,8 +44,7 @@ namespace FinPlanner360.Api.Controllers.V1
         /// <response code="401">Usuário não autenticado.</response>
         /// <response code="500">Erro interno de servidor.</response>
         [HttpGet("Transactions/SummaryByCategory")]
-        [SwaggerOperation(Summary = "", Description = "")]
-        [ProducesResponseType(typeof(IEnumerable<TransactionCategoyViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<TransactionCategoyViewModel>),200)]
         public async Task<ActionResult<IEnumerable<TransactionCategoyViewModel>>> GetCategoryTransactionSummaryAsync(
            [Required(ErrorMessage = "O campo data inicial é obrigatório")] DateTime dataInicio,
            [Required(ErrorMessage = "O campo Data final é obrigatório")] DateTime dataFim)
@@ -89,8 +88,7 @@ namespace FinPlanner360.Api.Controllers.V1
         /// <response code="401">Usuário não autenticado.</response>
         /// <response code="500">Erro interno de servidor.</response>  
         [HttpGet("Transactions/SummaryByCategory/export-report")]
-        [SwaggerOperation(Summary = "", Description = "")]
-        [ProducesResponseType(typeof(TransactionAnalyticsViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TransactionAnalyticsViewModel), 200)]
         public async Task<IActionResult> ExportReportCategoryTransactionSummaryAsync(
            [Required(ErrorMessage = "O campo data inicial é obrigatório")] DateTime dataInicio,
            [Required(ErrorMessage = "O campo Data final é obrigatório")] DateTime dataFim,
@@ -162,7 +160,7 @@ namespace FinPlanner360.Api.Controllers.V1
         /// <response code="500">Erro interno de servidor.</response>
         [HttpGet("Transactions/AnalyticsByCategory")]
         [SwaggerOperation(Tags = new[] { "Transações" })]
-        [ProducesResponseType(typeof(TransactionAnalyticsViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TransactionAnalyticsViewModel), 200)]
         public async Task<ActionResult<TransactionAnalyticsViewModel>> GetCategoryTransactionAnalyticsAsync(
            [Required(ErrorMessage = "O campo data inicial é obrigatório")] DateTime dataInicio,
            [Required(ErrorMessage = "O campo Data final é obrigatório")] DateTime dataFim)
@@ -216,7 +214,7 @@ namespace FinPlanner360.Api.Controllers.V1
         /// <response code="500">Erro interno de servidor.</response>        
         [HttpGet("Transactions/AnalyticsByCategory/export-report")]
         [SwaggerOperation(Tags = new[] { "Transações" })]
-        [ProducesResponseType(typeof(TransactionAnalyticsViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TransactionAnalyticsViewModel), 200)]
         public async Task<ActionResult<TransactionAnalyticsViewModel>> ExportReportCategoryTransactionAnalyticsAsync(
            [Required(ErrorMessage = "O campo data inicial é obrigatório")] DateTime dataInicio,
            [Required(ErrorMessage = "O campo Data final é obrigatório")] DateTime dataFim,
@@ -292,7 +290,7 @@ namespace FinPlanner360.Api.Controllers.V1
         /// <response code="500">Erro interno de servidor.</response>
         [HttpGet("Transactions/ByType")]
         [SwaggerOperation(Tags = new[] { "Transações" })]
-        [ProducesResponseType(typeof(IEnumerable<TransactionReportViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<TransactionReportViewModel>), 200)]
         public async Task<ActionResult<IEnumerable<TransactionReportViewModel>>> GetTransactionByType(
            [Required(ErrorMessage = "O campo data inicial é obrigatório")] DateTime dataInicio,
            [Required(ErrorMessage = "O campo Data final é obrigatório")] DateTime dataFim)
@@ -332,7 +330,7 @@ namespace FinPlanner360.Api.Controllers.V1
         /// <response code="500">Erro interno de servidor.</response>
         [HttpGet("Transactions/ByType/export-report")]
         [SwaggerOperation(Tags = new[] { "Transações" })]
-        [ProducesResponseType(typeof(TransactionReportViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TransactionReportViewModel), 200)]
         public async Task<IActionResult> ExportReportTransactionByType(
            [Required(ErrorMessage = "O campo data inicial é obrigatório")] DateTime dataInicio,
            [Required(ErrorMessage = "O campo Data final é obrigatório")] DateTime dataFim,
