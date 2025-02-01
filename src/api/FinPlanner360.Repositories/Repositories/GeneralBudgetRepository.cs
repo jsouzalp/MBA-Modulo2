@@ -21,4 +21,13 @@ public class GeneralBudgetRepository : BaseRepository<GeneralBudget>, IGeneralBu
             .Where(c => c.UserId == userId)
             .ToListAsync();
     }
+
+    public async Task<bool> ExistsAsync()
+    {
+        Guid? userId = _appIdentityUser != null ? _appIdentityUser.GetUserId() : null;
+        return await _dbSet
+            .AsNoTracking()
+            .Where(c => c.UserId == userId)
+            .AnyAsync();
+    }
 }

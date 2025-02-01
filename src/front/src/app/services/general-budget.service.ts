@@ -53,4 +53,11 @@ export class GeneralBudgetService extends BaseService {
     return response;
   }
 
+  exists(): Observable<any> {
+    let response = this.http
+      .get(this.UrlServiceV1 + 'v1/generalbudget/exists', this.getAuthHeaderJson());
+
+    return response;
+  }
+
 }

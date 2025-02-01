@@ -1,5 +1,6 @@
 ﻿using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
+using FinPlanner360.Business.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Net;
@@ -24,7 +25,7 @@ public class MainController : ControllerBase
 
     protected ActionResult GenerateResponse(object result = null, HttpStatusCode statusCode = HttpStatusCode.OK)
     {
-        if (!_notificationService.HasNotification() || !_notificationService.HasError())
+        if (ValidOperation())
         {
             return new JsonResult(result)
             {
@@ -59,15 +60,20 @@ public class MainController : ControllerBase
         }
     }
 
+    protected bool ValidOperation()
+    {
+        return !_notificationService.HasError();
+    }
+
     protected ActionResult GenerateResponse(ModelStateDictionary modelState)
     {
         if (!modelState.IsValid) NotifyInvalidModel(modelState);
         return GenerateResponse();
     }
 
-    protected void Notify(string message)
+    protected void Notify(string message, NotificationTypeEnum type = NotificationTypeEnum.Error)
     {
-        _notificationService.Handle(new Notification(message));
+        _notificationService.Handle(new Notification(message, type));
     }
 
     protected void NotifyInvalidModel(ModelStateDictionary modelState)

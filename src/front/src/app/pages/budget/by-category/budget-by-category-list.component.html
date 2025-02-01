@@ -1,3 +1,11 @@
+<mat-card appearance="raised" *ngIf="existsGeneralBudget" class="mat-alert">
+  <mat-card-content>
+    <a [routerLink]="['/pages/budget/general']">
+      Existe orçamento geral configurado, portanto, os orçamentos por categoria configurados aqui serão ignorados.
+    </a>
+  </mat-card-content>
+</mat-card>
+
 <mat-card class="cardWithShadow">
   <mat-card-content>
     <mat-card-title>Limite orçamentário por categoria</mat-card-title>

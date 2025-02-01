@@ -34,7 +34,7 @@
         <mat-form-field appearance="outline" class="w-100">
           <mat-select formControlName="categoryId" name="categoryId">
             <mat-option *ngFor="let category of categoryModel" [value]="category.categoryId">
-              {{ category.description }}
+              {{ category.descriptionWithType }}
             </mat-option>
           </mat-select>
         </mat-form-field>

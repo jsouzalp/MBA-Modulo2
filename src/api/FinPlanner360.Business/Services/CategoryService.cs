@@ -4,6 +4,7 @@ using FinPlanner360.Business.Extensions;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
+using FinPlanner360.Business.Models.Enums;
 
 namespace FinPlanner360.Business.Services;
 
@@ -25,7 +26,7 @@ public class CategoryService : BaseService, ICategoryService
         if (!await _validationFactory.ValidateAsync(category))
             return;
 
-        if (!await CategoryExistsWithSameNameAsync(category.UserId, category.Description))
+        if (!await CategoryExistsWithSameNameAsync(category.UserId, category.Description, category.Type))
         {
             await _categoryRepository.CreateAsync(category.FillAttributes());
         }
@@ -40,7 +41,7 @@ public class CategoryService : BaseService, ICategoryService
         if (!await _validationFactory.ValidateAsync(category))
             return;
 
-        if (!await CategoryExistsWithSameNameAsync(category.UserId, category.Description, category.CategoryId))
+        if (!await CategoryExistsWithSameNameAsync(category.UserId, category.Description, category.Type, category.CategoryId))
         {
             await _categoryRepository.UpdateAsync(category);
         }
@@ -70,10 +71,10 @@ public class CategoryService : BaseService, ICategoryService
         await _categoryRepository.RemoveAsync(categoryId);
     }
 
-    private async Task<bool> CategoryExistsWithSameNameAsync(Guid? userId, string description, Guid? categoryId = null)
+    private async Task<bool> CategoryExistsWithSameNameAsync(Guid? userId, string description, CategoryTypeEnum type, Guid? categoryId = null)
     {
         var categories = await _categoryRepository
-            .FilterAsync(c => c.Description == description && (c.UserId == null || c.UserId == userId) && (!categoryId.HasValue || c.CategoryId != categoryId.Value));
+            .FilterAsync(c => c.Description == description && c.Type == type && (c.UserId == null || c.UserId == userId) && (!categoryId.HasValue || c.CategoryId != categoryId.Value));
 
         if (categories.Count != 0)
         {

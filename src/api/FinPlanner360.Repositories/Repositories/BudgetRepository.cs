@@ -32,4 +32,12 @@ public class BudgetRepository : BaseRepository<Budget>, IBudgetRepository
             .Where(c => c.CategoryId == id && c.UserId == UserId)
             .FirstOrDefaultAsync();
     }
+
+    public async Task<bool> ExistsAsync()
+    {
+        return await _dbSet
+            .AsNoTracking()
+            .Where(c => c.UserId == UserId)
+            .AnyAsync();
+    }
 }
