@@ -1,4 +1,5 @@
-﻿using FinPlanner360.Business.Models.Enums;
+﻿using FinPlanner360.Api.Extensions;
+using FinPlanner360.Business.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinPlanner360.Api.ViewModels.Category;
@@ -16,4 +17,6 @@ public class CategoryViewModel
     public string Description { get; set; }
 
     public CategoryTypeEnum Type { get; set; }
+
+    public string DescriptionWithType => $"{Description} [{Type.GetDescription()}]";
 }

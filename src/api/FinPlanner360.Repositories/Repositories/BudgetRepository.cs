@@ -27,9 +27,17 @@ public class BudgetRepository : BaseRepository<Budget>, IBudgetRepository
 
     public async Task<Budget> GetBudgetByCategoryId(Guid id)
     {
-        return await _context.Budgets
+        return await _dbSet
             .AsNoTracking()
             .Where(c => c.CategoryId == id && c.UserId == UserId)
             .FirstOrDefaultAsync();
+    }
+
+    public async Task<bool> ExistsAsync()
+    {
+        return await _dbSet
+            .AsNoTracking()
+            .Where(c => c.UserId == UserId)
+            .AnyAsync();
     }
 }

@@ -96,12 +96,13 @@ export class TransactionListComponent implements OnInit, OnDestroy {
 
   updateDialog(row: any) {
 
+    const amount = row.amount < 0 ? row.amount * -1 : row.amount;
     let transaction: TransactionModel = {
       categoryId: row.categoryId,
       description: row.description,
       transactionId: row.transactionId,
       userId: row.userId,
-      amount: row.amount,
+      amount: amount,
       transactionDate: row.transactionDate,
       type: row.type,
     };

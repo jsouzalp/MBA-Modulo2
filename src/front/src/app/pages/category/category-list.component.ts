@@ -75,7 +75,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
       categoryId: row.categoryId,
       description: row.description,
       userId: row.userId,
-      type: row.type
+      type: row.type      
     };
 
     const dialogRef = this.dialog.open(CategoryUpdateComponent, {

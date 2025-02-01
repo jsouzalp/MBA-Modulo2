@@ -1,4 +1,5 @@
-﻿using FinPlanner360.Api.Settings;
+﻿using FinPlanner360.Api.Reports;
+using FinPlanner360.Api.Settings;
 using FinPlanner360.Api.ViewModels.Report;
 using FinPlanner360.Api.ViewModels.User;
 using FinPlanner360.Business.Interfaces.Repositories;
@@ -163,45 +164,23 @@ public class UserController : MainController
     /// <response code="500">Erro interno de servidor.</response>
     [AllowAnonymous]
     [HttpGet("export-report")]
-    [SwaggerOperation(Tags = new[] { "Transações" })]
-    [ProducesResponseType(typeof(TransactionReportViewModel), 200)]
-    public async Task<IActionResult> ExportReport(
-       [Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")]
-           [RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string tipoArquivo)
+    [SwaggerOperation(Summary = "Exporta um relatório de usuários", Description = "Gera e exporta um relatório contendo informações dos usuários em formato PDF ou XLSX. O tipo de arquivo deve ser especificado no parâmetro `fileType`.")]
+    [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK)]
+    public async Task<IActionResult> ExportReport([FromQuery][Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")][RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string fileType)
     {
-    
-        var users = (await _userRepository.FilterAsync(p => true)).Select(p => new
-        {
-            p.UserId,
-            p.Name,
-            p.Email,
-        }).ToArray();
+        if (!ValidateFileType(fileType)) { return GenerateResponse(); }
 
-        byte[] fileBytes;
-        string contentType;
-        string fileName;
+        User[] users = (await _userRepository.FilterAsync(p => true))
+            .Select(p => new User()
+            {
+                UserId = p.UserId,
+                Name = p.Name,
+                Email = p.Email
+            }).ToArray();
 
-        switch (tipoArquivo.ToLower())
-        {
-            case "pdf":
-                fileBytes = Reports.Fast.ReportService.GenerateReportPDF("Users", users);
-                contentType = "application/pdf";
-                fileName = "Usuarios.pdf";
-                break;
-
-            case "xlsx":
-                fileBytes = Reports.Closed_Xml.ReportService.GenerateXlsxBytes("Categoria", users);
-                contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                fileName = "Usuarios.xlsx";
-                break;
-
-            default:
-                return BadRequest("Tipo de arquivo inválido. Use 'pdf' ou 'xlsx'.");
-        }
-
-        return File(fileBytes, contentType, fileName);
+        var result = GenerateReportToFile.Generate<User>(fileType, "Usuarios", users);
+        return File(result.FileBytes, result.ContentType, result.FileName);
     }
-
 
     private async Task<string> GenerateJwt(string email)
     {

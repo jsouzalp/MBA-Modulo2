@@ -1,14 +1,14 @@
-# **Plataforma de Controle Financeiro Pessoal - Aplicação de Controle Financeiro com SPA e API RESTful**
+# 🎓 **Plataforma de Controle Financeiro Pessoal - Aplicação com SPA e API RESTful**
 
-## **1. Apresentação**
-!!!!!!!!!!!!!!!!!!! Revisar
 
-Seja bem-vindo ao repositório do projeto **Controle Financeiro Pessoal** chamado **FinPlanner360**. Este projeto é uma entrega do MBA DevXpert Full Stack .NET e é referente ao módulo **MÓDULO 2 - Desenvolvimento Full-Stack Avançado com ASP.NET Core**.
-O objetivo deste projeto é oferecer uma solução de controle financeiro de receitas e despesas para um melhor controle da vida financeira do usuário
-Inicialmente esta solução está desenvolvida em Angular 19 (front-end) e .Net 8 (api RESTful)
 
-### **Autores**
-- **André Cesconetto**
+## **1. Apresentação** 
+
+Bem-vindo ao repositório do projeto **FinPlanner360**. Este projeto é uma entrega do MBA DevXpert Full Stack .NET e é referente ao módulo **MÓDULO 2 - Desenvolvimento Full-Stack Avançado com ASP.NET Core**.
+O objetivo deste projeto é oferecer uma solução de controle financeiro de receitas e despesas para um melhor controle da vida financeira do usuário.
+Solução foi desenvolvida em Angular 19 e .Net 8 (api RESTful).
+
+### **Autor(es)**
 - **Hugo Domynique Ribeiro Nunes**
 - **Jairo Azevedo de Souza**
 - **Jason Santos do Amaral**
@@ -16,133 +16,120 @@ Inicialmente esta solução está desenvolvida em Angular 19 (front-end) e .Net 
 - **Pedro Otávio Gutierres**
 
 ## **2. Proposta do Projeto**
-!!!!!!!!!!!!!!!!!!! Revisar de acordo com a evolução
+
 O projeto consiste em:
 
-- **Projeto.Camada:** Descrição
+- **FrontEnd Angular:** Interface web para interação do usuário.
+- **API RESTful:** Exposição dos recursos do controle financeiro para integração com outras aplicações ou desenvolvimento de front-ends alternativos.
+- **Autenticação e Autorização:** Implementação de controle de acesso, diferenciando administradores e usuários comuns.
+- **Acesso a Dados:** Implementação de acesso ao banco de dados através de ORM.
 
 ## **3. Tecnologias Utilizadas**
-!!!!!!!!!!!!!!!!!!! Revisar
-- **Linguagem de Programação:** 
-  - C# (.Net 8)
+
+- **Linguagem de Programação:** C#
 - **Frameworks:**
   - Angular
   - ASP.NET Core Web API
   - Entity Framework Core
-  - AutoMapper
-  - FluentValidations
 - **Banco de Dados:** 
   - SQLite
 - **Autenticação e Autorização:**
   - ASP.NET Core Identity
   - JWT (JSON Web Token) para autenticação na API
 - **Front-end:**
-  - Angular
+  - Angular 19
   - HTML/CSS para estilização básica
 - **Documentação da API:** 
-  - Swagger (Apenas em ambiente de desenvolvimento)
+  - Swagger
 
 ## **4. Estrutura do Projeto**
-!!!!!!!!!!!!!!!!!!! Revisar Estrutura de acordo com a evolução
 
 A estrutura do projeto é organizada da seguinte forma:
 
-- data/
-- docs/
-- scripts/
-- src/
-  - Pasta.Projeto/ 
-- readme.md - Arquivo de Documentação do Projeto
-- feedback.md - Arquivo para Consolidação dos Feedbacks
-- .gitignore - Arquivo de "ignores" do Git
+```
+  src/
+    ├── API/
+        ├── FinPlanner360.Api/       - API RESTfull
+        ├── FinPlanner360.Business/  - Models, Services, Extensions
+        ├── Blog.Repositories/       - Repositories, Migrations, config EF Core
+    ├── FRONT/
+        ├── node_modules/   - bibliotecas do projeto
+        ├── src/                     
+            ├── app/          - pasta principal, contém código da aplicação 
+            ├── assets/       - Armazena arquivos extras, como imagens
+            ├── environments/ - Contém arquivos relacionados ao ambiente
+  README.md               - Arquivo de Documentação do Projeto
+  FEEDBACK.md             - Arquivo para Consolidação dos Feedbacks
+  .gitignore              - Arquivo de Ignoração do Git
+```
 
-## **5. Funcionalidades Implementadas**
-!!!!!!!!!!!!!!!!!!! Revisar
+## **5. Funcionalidades**
 
-- **CRUD para Entrada de Informações:** Permite criar, editar, visualizar e excluir informações de usuário, categorias de lançamentos e lançamentos propriamente dito
-- **API RESTful:** Exposição de endpoints para operações via API.
+- **CRUD para Categorias e Transações:** Permite criar, editar, visualizar e excluir categorias e transações.
+- **Autenticação e Autorização:** Diferenciação entre usuários comuns e administradores.
+- **API RESTful:** Exposição de endpoints para operações CRUD via API.
 - **Documentação da API:** Documentação automática dos endpoints da API utilizando Swagger.
 
 ## **6. Como Executar o Projeto**
-!!!!!!!!!!!!!!!!!!! Revisar
-
-Para criação da estrutura de dados, é necessário localizar o arquivo *DatabaseSettings.json* e configurar nele a string de conexão. Após configurado, deve ser executado o migrations para criação da estrutura de tabelas:
-Como esta aplicação está usando o SQLite, um database será criado automaticamente quando em ambiente de desenvolvimento e executada a aplicação (API).
-Deverá existir uma pasta ./data e caso não exista, a mesma será criada automaticamente
-
-## **Extensions do Visual Studio**
-- Para visualização dos dados na base de dados criada (verifique a pasta ".\data") pelo Visual Studio, é necessária a instalação da extension "SQLite/SQL Server Compact Toolbox"
-- Para um "deep-clean" dos arquivos temporários da solução, recomendo a instalação da extension "Open Command Line". Esta extension facilitará o uso do pacote ClearBinObj.cmd (veja em .helpers)
 
 ### **Pré-requisitos**
-!!!!!!!!!!!!!!!!!!! Revisar Pré-Reqs
 
 - .NET SDK 8.0 ou superior
-- Angular 
+- Angular (instalar o Node.js e o Angular CLI)
 - SQLite
-- Visual Studio 2022
+- Visual Studio 2022 ou superior (ou qualquer IDE de sua preferência)
 - Git
 
 ### **Passos para Execução**
-!!!!!!!!!!!!!!!!!!! Revisar o passo a passo
+
 1. **Clone o Repositório:**
-   - `git clone https://github.com/jsouzalp/MBA-Modulo2.git`
-
-2. **Configuração do Banco de Dados:**
-   - No arquivo `databaseSettings.json`, configure a string de conexão do SQLite para o database *ConnectionStringApplication*.
-   - Rode o projeto para que a configuração do Seed crie o banco e popule com os dados básicos na pasta .\data
-   - Instalar o dotnet ef (caso não tenha feito ainda):
-     - dotnet tool install --global dotnet-ef
-   - Para executar o migration:
-     - dotnet ef migrations add InitialMigration --project .\FinPlanner360.Repositories --startup-project .\FinPlanner360.Api --context FinPlanner360DbContext --output-dir Migrations\FinPlanner360Db
-   - Para remover o migration:
-     - dotnet ef migrations remove --project .\FinPlanner360.Repositories --startup-project .\FinPlanner360.Api --context FinPlanner360DbContext
-   - Para ver o script que será gerado:
-     - dotnet ef migrations script --no-build
-   - Para sincronizar com o BD:
-     - dotnet ef database update --project .\FinPlanner360.Api --context FinPlanner360DbContext
-
-2. **Configuração do Banco de Dados de Autenticação (Identity):**
-   - No arquivo `DatabaseSettings.json`, configure a string de conexão do SQLite para o database *ConnectionStringIdentity*.
-   - Instalar o dotnet ef (caso não tenha feito ainda):
-     - dotnet tool install --global dotnet-ef
-   - Navegar para a pasta do projeto .\FinPlanner360.Api
-   - Para executar o migration do *Identity*:
-     - dotnet ef migrations add InitialMigration --project .\FinPlanner360.Repositories --startup-project .\FinPlanner360.Api --context ApplicationDbContext --output-dir Migrations\IdentityDb
-   - Para remover o migration:
-     - dotnet ef migrations remove --project .\FinPlanner360.Repositories --startup-project .\FinPlanner360.Api --context ApplicationDbContext
-   - Para ver o script que será gerado:
-     - dotnet ef migrations script --no-build
-   - Para sincronizar com o BD:
-     - dotnet ef database update --project .\FinPlanner360.Api --context ApplicationDbContext
-
-
-3. **Executar a Aplicação MVC:**
-   - `cd src/Blog.Mvc/`
-   - `dotnet run`
-   - Acesse a aplicação em: http://localhost:5000
-
-4. **Executar a API:**
-   - `cd src/Blog.Api/`
-   - `dotnet run`
-   - Acesse a documentação da API em: http://localhost:5001/swagger
-
-5. **Primeira Execução**
-   Quando se tratar de uma primeira execução em ambiente de desenvolvimento, serão executados os Migrations e em seguida serão criados os usuários "jsouza.lp@gmail.com" e "cath.lp@gmail.com" com a password inicial "123" de forma automática já com algumas postagens e comentários para uma melhor experiência com a utilização da solução.
    
+   ```bash
+   git clone -b develop https://github.com/jsouzalp/MBA-Modulo2.git
+   cd MBA-Modulo2
+   ```
+   
+2. **Configuração do Banco de Dados:**
+   
+   - No arquivo `appsettings.json`, configure a string de conexão do SQLite.
+   - Rode o projeto para que a configuração do Seed crie o banco e popule com os dados básicos
+
+3. **Executar a API:**
+   
+   ```bash
+   cd src/FinPlanner360.Api/
+   dotnet run
+   ```
+   
+   - Acesse a documentação da API em: http://localhost:5001/swagger
+   
+4. **Executar a Aplicação Angular:**
+   
+   ```bash
+   cd src/FRONT/
+   
+   npm install
+   
+   ng serve
+   ```
+   
+   - Acesse a aplicação em: http://localhost:4200
+
+
 ## **7. Instruções de Configuração**
-- **JWT para API:** As chaves de configuração do JWT estão no `jwtSettings.json`.
+
+- **JWT para API:** As chaves de configuração do JWT estão no `appsettings.json`.
+- **Migrações do Banco de Dados:** As migrações são gerenciadas pelo Entity Framework Core. Não é necessário aplicar devido a configuração do Seed de dados.
 
 ## **8. Documentação da API**
-A documentação da API está disponível através do Swagger. Após iniciar a API, acesse a documentação em: http://localhost:5001/swagger
 
-## **9. Testes da API**
-!!!!!!!!!!!!!!!!!!! Revisar
+A documentação da API está disponível através do Swagger. Após iniciar a API, acesse a documentação em:
 
-Na pasta .\docs existe o arquivo "?????????.json" que pode ser importado para o Postman e executados os endpoints de acordo com a sua necessidade.
-Para os endpoints que necessitam de autorização, recomendo que seja feito primeiro um login ou novo registro (pasta Authentication).
+http://localhost:5001/swagger
 
-## **10. Avaliação**
+## **9. Avaliação**
+
 - Este projeto é parte de um curso acadêmico e não aceita contribuições externas. 
 - Para feedbacks ou dúvidas utilize o recurso de Issues
 - O arquivo `FEEDBACK.md` é um resumo das avaliações do instrutor e deverá ser modificado apenas por ele.
+

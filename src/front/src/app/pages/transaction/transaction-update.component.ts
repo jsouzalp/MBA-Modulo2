@@ -68,10 +68,10 @@ export class TransactionUpdateComponent extends FormBaseComponent implements OnI
   ngOnInit(): void {
     this.getCategories();
     this.form = new FormGroup({
-      description: new FormControl(this.transactionModel.description, [Validators.required, Validators.minLength(4), Validators.maxLength(100)]),
+      description: new FormControl<string>(this.transactionModel.description, [Validators.required, Validators.minLength(4), Validators.maxLength(100)]),
       amount: new FormControl<number>(this.transactionModel.amount, [Validators.required, Validators.min(0.01)]),
-      categoryId: new FormControl(this.transactionModel.categoryId, [Validators.required]),
-      transactionDate: new FormControl(this.transactionModel.transactionDate, [Validators.required]),
+      categoryId: new FormControl<string>(this.transactionModel.categoryId, [Validators.required]),
+      transactionDate: new FormControl<Date>(this.transactionModel.transactionDate, [Validators.required]),
     });
   }
 
@@ -109,7 +109,7 @@ export class TransactionUpdateComponent extends FormBaseComponent implements OnI
             return;
           }
 
-          this.toastr.success('Lançamento efetuado com sucesso.');
+          this.toastr.success('Lançamento alterado com sucesso.');
           this.updated = true;
           this.cancel();
         },
@@ -121,7 +121,7 @@ export class TransactionUpdateComponent extends FormBaseComponent implements OnI
   }
 
   cancel() {
-    this.dialogRef.close({ inserted: this.updated });
+    this.dialogRef.close({ updated: this.updated });
   }
 
   ngOnDestroy(): void {

@@ -10,6 +10,7 @@ public static class TransactionExtension
         if (transaction.TransactionDate == DateTime.MinValue || transaction.TransactionDate == DateTime.MaxValue) { transaction.TransactionDate = DateTime.Now; }
         if (transaction.CreatedDate == DateTime.MinValue || transaction.CreatedDate == DateTime.MaxValue) { transaction.CreatedDate = DateTime.Now; }
 
+        transaction.TransactionDate = transaction.TransactionDate.Date;
         return transaction;
     }
 }

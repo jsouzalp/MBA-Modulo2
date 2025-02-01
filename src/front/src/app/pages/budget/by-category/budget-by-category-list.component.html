@@ -1,3 +1,11 @@
+<mat-card appearance="raised" *ngIf="existsGeneralBudget" class="mat-alert">
+  <mat-card-content>
+    <a [routerLink]="['/pages/budget/general']">
+      Existe orçamento geral configurado, portanto, os orçamentos por categoria configurados aqui serão ignorados.
+    </a>
+  </mat-card-content>
+</mat-card>
+
 <mat-card class="cardWithShadow">
   <mat-card-content>
     <mat-card-title>Limite orçamentário por categoria</mat-card-title>
@@ -22,9 +30,9 @@
             Valor
           </th>
           <td mat-cell *matCellDef="let element" class="p-l-0">
-            <div class="d-flex align-items-center">
+            <div class="align-items-center">
               <div class="m-l-16">
-                <h6 class="mat-subtitle-1 f-s-14 f-w-600">
+                <h6 class="mat-subtitle-1 f-s-14 f-w-600 align-right">
                   {{ element.amount | currency }}
                 </h6>
               </div>

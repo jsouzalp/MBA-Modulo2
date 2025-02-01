@@ -75,13 +75,13 @@
 
         <!-- Amount Column -->
         <ng-container matColumnDef="amount">
-          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-l-0">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-l-0 align-right">
             Valor
           </th>
           <td mat-cell *matCellDef="let element" class="p-l-0">
-            <div class="d-flex align-items-center">
+            <div class="align-items-center">
               <div class="m-l-16">
-                <h6 class="mat-subtitle-1 f-s-14 f-w-600" [ngClass]="element.type == 1 ? 'text-success' : 'text-error'">
+                <h6 class="mat-subtitle-1 f-s-14 f-w-600 align-right" [ngClass]="element.type == 1 ? 'text-success' : 'text-error'">
                   {{ element.amount | currency }}
                 </h6>
               </div>
