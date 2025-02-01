@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report ScriptLanguage="CSharp" ReportInfo.Created="06/20/2009 23:03:47" ReportInfo.Modified="01/20/2025 14:52:49" ReportInfo.CreatorVersion="2025.1.0.0">
   <Dictionary>
-    <BusinessObjectDataSource Name="TransactionByType" ReferenceName="TransactionByType" DataType="System.Int32" Enabled="true">      
+    <BusinessObjectDataSource Name="TransactionByType" ReferenceName="TransactionByType" DataType="System.Int32" Enabled="true">
       <Column Name="Type" DataType="System.String"/>
       <Column Name="TotalAmount" DataType="System.String"/>
       <Column Name="TransactionCount" DataType="System.String"/>
@@ -11,9 +11,9 @@
 
     <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="56.7">
       <ShapeObject Name="Shape1" Left="9.45" Top="9.45" Width="699.3" Height="47.25"/>
-      <TextObject Name="Text2" Left="18.9" Top="18.9" Width="680.4" Height="28.35" Text="Por Tipo&#13;&#10;" HorzAlign="Center" VertAlign="Center" Font="Segoe UI, 12pt, style=Bold"/>
+      <TextObject Name="Text2" Left="18.9" Top="18.9" Width="680.4" Height="28.35" Text="Total de Transações Por Tipo&#13;&#10;" HorzAlign="Center" VertAlign="Center" Font="Segoe UI, 12pt, style=Bold"/>
     </ReportTitleBand>
-    
+
     <PageHeaderBand Name="PageHeader1" Top="58.15" Width="718.2" Height="18.9" CanShrink="true">
       <LineObject Name="Line2" Top="18.9" Width="718.2" Border.Color="Gainsboro" Border.Width="5"/>
     </PageHeaderBand>
@@ -21,7 +21,7 @@
     <DataBand Name="Data1" Top="105.86" Width="718.2" Height="28.35" CanGrow="true" DataSource="TransactionByType">
       <LineObject Name="Line1" Top="28.35" Width="718.2" Border.Color="Gainsboro" Border.Width="3"/>
       <TextObject Name="Text47" Left="0" Top="4.45" Width="239.4" Height="18.9" Text="[TransactionByType.Type]" HorzAlign="Left" VertAlign="Center" Font="Consolas, 6pt"/>
-      <TextObject Name="Text43" Left="239.4" Top="4.45" Width="239.4" Height="18.9" Text="[TransactionByType.TotalAmount]" HorzAlign="Center" VertAlign="Center" Font="Consolas, 8pt"/>
+      <TextObject Name="Text43" Left="239.4" Top="4.45" Width="239.4" Height="18.9" Text="[TransactionByType.FormattedTotalAmount]" HorzAlign="Center" VertAlign="Center" Font="Consolas, 8pt"/>
       <TextObject Name="Text45" Left="478.8" Top="4.45" Width="239.4" Height="18.9" Text="[TransactionByType.TransactionCount]" HorzAlign="Center" VertAlign="Center" Font="Consolas, 8pt"/>
     </DataBand>
 

@@ -1,6 +1,5 @@
 ﻿using FinPlanner360.Api.Reports.Closed_Xml;
 using FinPlanner360.Api.Reports.Fast;
-using Microsoft.AspNetCore.Mvc;
 
 namespace FinPlanner360.Api.Reports
 {

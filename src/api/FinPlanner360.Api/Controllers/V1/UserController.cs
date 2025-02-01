@@ -156,17 +156,18 @@ public class UserController : MainController
     /// Exporta um relatório de usuários.
     /// </summary>
     /// <remarks>Gera e exporta um relatório contendo informações dos usuários em formato PDF ou XLSX. O tipo de arquivo deve ser especificado no parâmetro `tipoArquivo`.</remarks>
-    /// <param name="tipoArquivo">O tipo de arquivo deve ser especificado como PDF ou XLSX</param>
+    /// <param name="fileType">O tipo de arquivo deve ser especificado como PDF ou XLSX</param>
     /// <response code="200">Sucesso na operação!</response>
-    /// <response code="204">Sucesso na operação, porém sem conteúdo de resposta.</response>
     /// <response code="400">Dados inconsistentes na requisição ao listar os usuários.</response>
     /// <response code="401">Usuário não autenticado.</response>
     /// <response code="500">Erro interno de servidor.</response>
     [AllowAnonymous]
     [HttpGet("export-report")]
     [SwaggerOperation(Summary = "Exporta um relatório de usuários", Description = "Gera e exporta um relatório contendo informações dos usuários em formato PDF ou XLSX. O tipo de arquivo deve ser especificado no parâmetro `fileType`.")]
-    [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK)]
-    public async Task<IActionResult> ExportReport([FromQuery][Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")][RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string fileType)
+    [ProducesResponseType(typeof(FileStreamResult), 200)]
+    public async Task<IActionResult> ExportReport(
+        [FromQuery][Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")]
+        [RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string fileType)
     {
         if (!ValidateFileType(fileType)) { return GenerateResponse(); }
 

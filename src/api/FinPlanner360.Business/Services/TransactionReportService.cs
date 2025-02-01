@@ -19,6 +19,14 @@ namespace FinPlanner360.Business.Services
             
             return reportDto;
         }
+
+        public async Task<IEnumerable<TransactionStatementDTO>> GetTransactionStatementAsync(DateTime startDate, DateTime endDate)
+        {
+            var reportDto = await _transactionRepository.GetTransactionStatementAsync(startDate, endDate);
+
+            return reportDto;
+        }
+
     }
 
 }

@@ -105,4 +105,30 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
         
         return report; 
     }
+
+    public async Task<ICollection<TransactionStatementDTO>> GetTransactionStatementAsync(DateTime startDate, DateTime endDate)
+    {
+        if (!UserId.HasValue)
+        {
+            return null;
+        }
+
+        var transactions = await _dbSet.AsNoTracking()
+            .Include(x => x.Category)
+            .Where(x => x.UserId == UserId.Value && x.TransactionDate >= startDate && x.TransactionDate <= endDate)
+            .ToListAsync();
+
+        var statement = transactions.Select(t => new TransactionStatementDTO
+        {
+            TransactionId = t.TransactionId,
+            Description = t.Description,
+            Amount = t.Amount,
+            Category = t.Category.Description,
+            TransactionDate = t.TransactionDate
+        }).ToList();
+
+        return statement;
+    }
+
+
 }

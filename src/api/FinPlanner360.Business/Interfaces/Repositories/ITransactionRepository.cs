@@ -16,6 +16,7 @@ public interface ITransactionRepository : IRepository<Transaction>
     Task<ICollection<Transaction>> GetTransactionsWithCategoryByRangeAsync(DateTime startDate, DateTime endDate);
 
     Task<ICollection<TransactionReportDTO>> GetTransactionReportByTypeAsync(DateTime startDate, DateTime endDate);
-
+    
+    Task<ICollection<TransactionStatementDTO>> GetTransactionStatementAsync(DateTime startDate, DateTime endDate);
 
 }

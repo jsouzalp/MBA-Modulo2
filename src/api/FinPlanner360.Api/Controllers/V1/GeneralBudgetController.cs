@@ -120,12 +120,15 @@ public class GeneralBudgetController : MainController
         return GenerateResponse(HttpStatusCode.NoContent);
     }
 
-
+    /// <summary>
+    /// Informa se existe orçamento geral já cadastrado.
+    /// </summary>
+    /// <remarks>Retorna status OK quando já houver orçamento cadastrado no sistema.</remarks>
+    /// <response code="200">Sucesso na operação.</response>
+    /// <response code="401">Usuário não autenticado.</response>
+    /// <response code="404">Página não encontrada.</response>
+    /// <response code="500">Erro interno de servidor.</response>
     [HttpGet("exists")]
-    [SwaggerOperation(Summary = "Informa se existe orçamento geral já cadastrado", Description = "Retorna status OK quando já houver orçamento cadastrado no sistema.")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Exists() => await _budgetRepository.ExistsAsync() ? Ok() : NotFound();
 
     private async Task<GeneralBudget> GetGeneralBudgetByIdAsync(Guid id) => await _budgetRepository.GetByIdAsync(id);
