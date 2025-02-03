@@ -143,26 +143,6 @@ public class UserController : MainController
         return GenerateResponse();
     }
 
-    [AllowAnonymous]
-    [HttpGet("export-report")]
-    [SwaggerOperation(Summary = "Exporta um relatório de usuários", Description = "Gera e exporta um relatório contendo informações dos usuários em formato PDF ou XLSX. O tipo de arquivo deve ser especificado no parâmetro `fileType`.")]
-    [ProducesResponseType(typeof(FileStreamResult), StatusCodes.Status200OK)]
-    public async Task<IActionResult> ExportReport([FromQuery][Required(ErrorMessage = "O arquivo deve ser informado como tipo PDF ou XLSX")][RegularExpression(@"^(pdf|Pdf|PDF|xlsx|Xlsx|XLSX)$", ErrorMessage = "O arquivo deve ser do tipo PDF ou XLSX.")] string fileType)
-    {
-        if (!ValidateFileType(fileType)) { return GenerateResponse(); }
-
-        User[] users = (await _userRepository.FilterAsync(p => true))
-            .Select(p => new User()
-            {
-                UserId = p.UserId,
-                Name = p.Name,
-                Email = p.Email
-            }).ToArray();
-
-        var result = GenerateReportToFile.Generate<User>(fileType, "Usuarios", users);
-        return File(result.FileBytes, result.ContentType, result.FileName);
-    }
-
     private async Task<string> GenerateJwt(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);

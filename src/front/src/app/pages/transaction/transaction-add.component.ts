@@ -12,8 +12,12 @@ import { NgxCurrencyDirective } from 'ngx-currency';
 import { CategoryModel } from '../category/models/category.model';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { TransactionModel } from './models/transaction.model';
-import { provideNativeDateAdapter } from '@angular/material/core';
 import { MessageService } from 'src/app/services/message.service ';
+import * as _moment from 'moment';
+import 'moment/locale/pt-br'; 
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import { MY_DATE_FORMATS } from 'src/app/shared/constants';
+
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +27,7 @@ import { MessageService } from 'src/app/services/message.service ';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule, MatButtonModule, NgxCurrencyDirective],
   templateUrl: './transaction-add.component.html',
-  providers: [CurrencyPipe, provideNativeDateAdapter()]
+  providers: [CurrencyPipe, provideMomentDateAdapter(MY_DATE_FORMATS)]
 })
 
 export class TransactionAddComponent extends FormBaseComponent implements OnInit, OnDestroy {

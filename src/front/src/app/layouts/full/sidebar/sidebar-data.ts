@@ -54,19 +54,5 @@ export const navItems: NavItem[] = [
     displayName: 'Gastos por Categoria',
     iconName: 'material-symbols-light:date-range-outline',
     route: 'pages/report/category',
-  },
-   {
-    navCap: 'Auth',
-    divider: true
-  },
-  {
-    displayName: 'Login',
-    iconName: 'solar:login-3-line-duotone',
-    route: '/authentication/login',
-  },
-  {
-    displayName: 'Register',
-    iconName: 'solar:user-plus-rounded-line-duotone',
-    route: '/authentication/register',
   }
 ];
