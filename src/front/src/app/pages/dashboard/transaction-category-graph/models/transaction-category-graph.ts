@@ -1,8 +1,7 @@
 import { CategoryTypeEnum } from "src/app/pages/category/enums/category-type.enum";
 
 export interface CategoryTransactionGraphModel {
-    categoryDescription : string;
-    totalAmount : number;
-    quantity : number;
-    //TransactionTypeEnum : CategoryTypeEnum;  // Precisa ser refatorado isso. Tem que usar o enum de transação mas por enquanto é isso
+    categoryDescription: string;
+    totalAmount: number;
+    quantity: number;
 }

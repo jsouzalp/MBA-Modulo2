@@ -1,8 +1,5 @@
-﻿using FastReport.Web;
-using FinPlanner360.Api.Extensions;
+﻿using FinPlanner360.Api.Extensions;
 using FinPlanner360.Api.Reports;
-using FinPlanner360.Api.Reports.Closed_Xml;
-using FinPlanner360.Api.Reports.Fast;
 using FinPlanner360.Api.ViewModels.Report;
 using FinPlanner360.Business.Extensions;
 using FinPlanner360.Business.Interfaces.Repositories;
@@ -21,6 +18,7 @@ namespace FinPlanner360.Api.Controllers.V1;
 public class ReportController : MainController
 {
     private readonly ITransactionRepository _transactionRepository;
+
     public ReportController(ITransactionRepository transactionRepository,
                             IAppIdentityUser appIdentityUser,
                             INotificationService notificationService) : base(appIdentityUser, notificationService)
@@ -64,7 +62,7 @@ public class ReportController : MainController
         if (!ValidateFileType(fileType)) { return GenerateResponse(); }
 
         var transactionsList = await _transactionRepository.GetTransactionsWithCategoryByRangeAsync(startDate.GetStartDate(), endDate.GetEndDate());
-               
+
         if (!ExistsTransactions(transactionsList)) { return GenerateResponse(); }
 
         List<TransactionCategoyViewModel> transactionsReport = (from x in transactionsList
@@ -112,7 +110,6 @@ public class ReportController : MainController
 
         return GenerateResponse(groupedTransactionsReport, HttpStatusCode.OK);
     }
-
 
     [HttpGet("transactions/analytics-by-category/export-report")]
     [SwaggerOperation(Summary = "Exporta um relatório de Transacoes por Categorias entre o peridodo Analítico", Description = "Gera e exporta um relatório contendo informações dos usuários em formato PDF ou XLSX.O tipo de arquivo deve ser especificado no parâmetro `fileType`.")]

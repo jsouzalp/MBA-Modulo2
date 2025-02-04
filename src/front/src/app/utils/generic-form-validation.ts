@@ -1,6 +1,4 @@
 import { UntypedFormArray, UntypedFormGroup } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-
 export class GenericValidator {
     constructor(private validationMessages: ValidationMessages) { }
 
@@ -14,7 +12,7 @@ export class GenericValidator {
                 if (c instanceof UntypedFormGroup) {
                     let childMessages = this.processarMensagens(c);
                     Object.assign(messages, childMessages);
-                } 
+                }
                 else if (c instanceof UntypedFormArray) {
                     let childMessages = this.processarMensagensArray(c);
                     Object.assign(messages, childMessages);
@@ -26,7 +24,7 @@ export class GenericValidator {
                             Object.keys(c.errors).map(messageKey => {
                                 if (this.validationMessages[controlKey][messageKey]) {
 
-                                        messages[controlKey] += this.validationMessages[controlKey][messageKey] ;
+                                    messages[controlKey] += this.validationMessages[controlKey][messageKey];
 
                                 }
                             });
@@ -64,7 +62,7 @@ export class GenericValidator {
         }
 
         return messages;
-    }    
+    }
 }
 
 export interface DisplayMessage {

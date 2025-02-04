@@ -67,14 +67,14 @@ export abstract class FormBaseComponent {
     protected passwordsMatch(group: FormGroup) {
         const password = group.get('password')?.value;
         const confirmPasswordControl = group.get('confirmPassword');
-        
+
         if (password !== confirmPasswordControl?.value) {
-          confirmPasswordControl?.setErrors({ notMatching: true });
+            confirmPasswordControl?.setErrors({ notMatching: true });
         } else {
-          confirmPasswordControl?.setErrors(null);
+            confirmPasswordControl?.setErrors(null);
         }
-    
+
         return password === confirmPasswordControl?.value ? null : { notMatching: true };
-      }
+    }
 
 }

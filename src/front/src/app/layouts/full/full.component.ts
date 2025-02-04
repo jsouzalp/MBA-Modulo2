@@ -1,8 +1,7 @@
 import { BreakpointObserver, MediaMatcher } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
-import { NavigationEnd, Router } from '@angular/router';
+import { MatSidenav } from '@angular/material/sidenav';
 import { navItems } from './sidebar/sidebar-data';
 import { NavService } from '../../services/nav.service';
 import { AppNavItemComponent } from './sidebar/nav-item/nav-item.component';
@@ -17,7 +16,6 @@ import { HeaderComponent } from './header/header.component';
 const MOBILE_VIEW = 'screen and (max-width: 768px)';
 const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
 const MONITOR_VIEW = 'screen and (min-width: 1024px)';
-const BELOWMONITOR = 'screen and (max-width: 1023px)';
 
 
 @Component({
@@ -57,7 +55,7 @@ export class FullComponent implements OnInit {
   }
 
   constructor(private breakpointObserver: BreakpointObserver, private navService: NavService) {
-    
+
     this.htmlElement = document.querySelector('html')!;
     this.htmlElement.classList.add('light-theme');
     this.layoutChangesSubscription = this.breakpointObserver
@@ -71,7 +69,7 @@ export class FullComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngOnDestroy() {
     this.layoutChangesSubscription.unsubscribe();

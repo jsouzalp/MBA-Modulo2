@@ -4,7 +4,7 @@ import { NotificationMessage } from '../models/notificationMessage.model';
 
 
 @Injectable({
-  providedIn: 'root', 
+  providedIn: 'root',
 })
 export class MessageService {
   private messages: NotificationMessage[] = [];
@@ -23,12 +23,6 @@ export class MessageService {
     this.messagesSubject.next(this.messages);
     return id;
   }
-
-  // getMessages(): Observable<string[]> {
-
-  //   return of(this.messages.map(message => message.message));
-
-  // }
 
   getMessages(): NotificationMessage[] {
     return this.messages;

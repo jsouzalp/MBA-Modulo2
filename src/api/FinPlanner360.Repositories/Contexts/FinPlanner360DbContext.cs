@@ -15,8 +15,6 @@ public class FinPlanner360DbContext : DbContext
     public FinPlanner360DbContext(DbContextOptions<FinPlanner360DbContext> options)
         : base(options)
     {
-        //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-        //ChangeTracker.AutoDetectChangesEnabled = false;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

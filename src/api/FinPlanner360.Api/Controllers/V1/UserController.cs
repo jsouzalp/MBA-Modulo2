@@ -1,6 +1,4 @@
-﻿using FinPlanner360.Api.Reports;
-using FinPlanner360.Api.Settings;
-using FinPlanner360.Api.ViewModels.Report;
+﻿using FinPlanner360.Api.Settings;
 using FinPlanner360.Api.ViewModels.User;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
@@ -11,9 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Annotations;
-using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net.Mime;
 using System.Security.Claims;
 using System.Text;
 
@@ -45,8 +41,6 @@ public class UserController : MainController
         _userRepository = userRepository;
         _appSettings = appSettings.Value;
     }
-
-
 
     [AllowAnonymous]
     [HttpPost]
@@ -108,7 +102,6 @@ public class UserController : MainController
 
         return GenerateResponse();
     }
-
 
     [AllowAnonymous]
     [HttpPost("login")]

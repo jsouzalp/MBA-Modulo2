@@ -43,7 +43,7 @@ public class BudgetController : MainController
     }
 
     [HttpPost]
-    [SwaggerOperation(Summary = "Cria uma nova entrada de orçamento.",Description = "Registra um novo orçamento no banco de dados.")]
+    [SwaggerOperation(Summary = "Cria uma nova entrada de orçamento.", Description = "Registra um novo orçamento no banco de dados.")]
     [ProducesResponseType(typeof(BudgetViewModel), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

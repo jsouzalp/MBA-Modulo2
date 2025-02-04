@@ -78,10 +78,7 @@ export class RestorePasswordComponent extends FormBaseComponent implements OnIni
 
   }
 
-
-
   ngOnDestroy(): void {
-
   }
 
 }

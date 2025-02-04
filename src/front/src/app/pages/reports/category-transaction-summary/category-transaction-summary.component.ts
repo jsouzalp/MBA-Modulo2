@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
@@ -19,12 +19,12 @@ export class CategoryTransactionSummaryComponent implements OnInit, OnDestroy {
 
   @Input() startDate!: Date | null;
   @Input() endDate!: Date | null;
- 
+
   reportcategoryModel: ReportCategory[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   desktop: boolean = true;
-  showContent: boolean = false; 
+  showContent: boolean = false;
 
   constructor(
     private reportcategoryService: ReportCategoryService,

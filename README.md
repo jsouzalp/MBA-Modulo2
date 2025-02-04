@@ -6,7 +6,7 @@
 
 Bem-vindo ao repositório do projeto **FinPlanner360**. Este projeto é uma entrega do MBA DevXpert Full Stack .NET e é referente ao módulo **MÓDULO 2 - Desenvolvimento Full-Stack Avançado com ASP.NET Core**.
 O objetivo deste projeto é oferecer uma solução de controle financeiro de receitas e despesas para um melhor controle da vida financeira do usuário.
-Solução foi desenvolvida em Angular 19 e .Net 8 (api RESTful).
+Solução foi desenvolvida em Angular 18 e .Net 8 (api RESTful).
 
 ### **Autor(es)**
 - **Hugo Domynique Ribeiro Nunes**
@@ -29,7 +29,7 @@ O projeto consiste em:
 - **Linguagem de Programação:** C#
 - **Frameworks:**
   - Angular
-  - ASP.NET Core Web API
+  - ASP.NET Web API
   - Entity Framework Core
 - **Banco de Dados:** 
   - SQLite
@@ -37,7 +37,7 @@ O projeto consiste em:
   - ASP.NET Core Identity
   - JWT (JSON Web Token) para autenticação na API
 - **Front-end:**
-  - Angular 19
+  - Angular 18
   - HTML/CSS para estilização básica
 - **Documentação da API:** 
   - Swagger
@@ -77,7 +77,6 @@ A estrutura do projeto é organizada da seguinte forma:
 - .NET SDK 8.0 ou superior
 - Angular (instalar o Node.js e o Angular CLI)
 - SQLite
-- Visual Studio 2022 ou superior (ou qualquer IDE de sua preferência)
 - Git
 
 ### **Passos para Execução**

@@ -12,7 +12,7 @@ public class MainController : ControllerBase
 {
     private readonly IAppIdentityUser _appIdentityUser;
     private readonly INotificationService _notificationService;
-    
+
     public Guid UserId => _appIdentityUser.GetUserId();
     public bool IsAuthenticated => _appIdentityUser.IsAuthenticated();
     public string UserEmail => _appIdentityUser.GetUserEmail();
@@ -34,7 +34,7 @@ public class MainController : ControllerBase
                 {
                     success = true,
                     result,
-                    notifications = _notificationService.GetNotifications().ToList()//.Select(n => n.Message)
+                    notifications = _notificationService.GetNotifications().ToList()
                 }
             };
         }
@@ -96,5 +96,4 @@ public class MainController : ControllerBase
         Notify("Tipo de arquivo inválido. Use 'pdf' ou 'xlsx'.");
         return false;
     }
-
 }

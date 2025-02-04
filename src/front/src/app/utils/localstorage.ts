@@ -1,8 +1,6 @@
 import { environment } from "src/environments/environment";
-
 import { AES, enc } from "crypto-js";
 import { UserTokenModel } from "../pages/user/models/user-token.model";
-
 
 export class LocalStorageUtils {
     private _key = environment.aesKey;

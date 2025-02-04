@@ -1,10 +1,9 @@
-import { Injectable } from "@angular/core";
 import { MonthModel } from "../models/month-model";
 
 export class GenerateMontsToFilter {
     monthModel: MonthModel[];
 
-    fillMonthsToFilter(nowDate: Date): MonthModel[]{
+    fillMonthsToFilter(nowDate: Date): MonthModel[] {
         this.monthModel = [];
 
         for (let i = -2; i < 12; i++) {

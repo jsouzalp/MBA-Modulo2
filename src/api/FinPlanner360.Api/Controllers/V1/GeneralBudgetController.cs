@@ -45,7 +45,7 @@ public class GeneralBudgetController : MainController
 
 
     [HttpPost]
-    [SwaggerOperation( Summary = "Cria um novo orçamento geral", Description = "Cria um novo orçamento geral baseado nas informações fornecidas no corpo da requisição.")]
+    [SwaggerOperation(Summary = "Cria um novo orçamento geral", Description = "Cria um novo orçamento geral baseado nas informações fornecidas no corpo da requisição.")]
     [ProducesResponseType(typeof(GeneralBudgetViewModel), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -68,7 +68,7 @@ public class GeneralBudgetController : MainController
 
 
     [HttpPut("{id:guid}")]
-    [SwaggerOperation(Summary = "Atualiza um orçamento geral existente",Description = "Atualiza as informações de um orçamento geral baseado no ID fornecido.")]
+    [SwaggerOperation(Summary = "Atualiza um orçamento geral existente", Description = "Atualiza as informações de um orçamento geral baseado no ID fornecido.")]
     [ProducesResponseType(typeof(GeneralBudgetViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

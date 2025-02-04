@@ -14,29 +14,24 @@ import { HttpResponse } from '@angular/common/http';
   templateUrl: './category-transaction-analytics.component.html',
   styleUrl: './category-transaction-analytics.component.scss'
 })
-export class CategoryTransactionAnalyticsComponent implements OnInit, OnDestroy {
+export class CategoryTransactionAnalyticsComponent implements OnDestroy {
 
 
   @Input() startDate!: Date | null;
   @Input() endDate!: Date | null;
 
-    
+
   reportcategoryModel: ReportCategoryAnalytics[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   desktop: boolean = true;
-  showContent: boolean = false; 
+  showContent: boolean = false;
 
   constructor(
     private reportcategoryService: ReportCategoryService,
     private toastr: ToastrService) { }
 
-    displayedColumns: string[] = ['transactionDate', 'description', 'totalAmount', 'type'];
-
-
-  ngOnInit(): void {
-    // this.getCategoriesReport();
-  }
+  displayedColumns: string[] = ['transactionDate', 'description', 'totalAmount', 'type'];
 
 
   getCategoriesReport(startDt: Date, endDt: Date) {
@@ -55,7 +50,7 @@ export class CategoryTransactionAnalyticsComponent implements OnInit, OnDestroy 
         }
       });
   }
-  
+
   generatePDF(): void {
     this.reportcategoryService.getPdfAnalytics(this.startDate, this.endDate)
       .subscribe({

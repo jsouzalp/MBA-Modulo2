@@ -78,7 +78,6 @@ public static class DbMigrationHelper
     {
         Category salary = new()
         {
-            //UserId = Guid.Empty,
             CategoryId = Guid.NewGuid(),
             Description = "Salário",
             Type = CategoryTypeEnum.Income,
@@ -88,7 +87,6 @@ public static class DbMigrationHelper
 
         Category habitation = new()
         {
-            //UserId = Guid.Empty,
             CategoryId = Guid.NewGuid(),
             Description = "Moradia",
             Type = CategoryTypeEnum.Expense,
@@ -98,7 +96,6 @@ public static class DbMigrationHelper
 
         Category transport = new()
         {
-            //UserId = Guid.Empty,
             CategoryId = Guid.NewGuid(),
             Description = "Transporte",
             Type = CategoryTypeEnum.Expense,
@@ -108,7 +105,6 @@ public static class DbMigrationHelper
 
         Category education = new()
         {
-            //UserId = Guid.Empty,
             CategoryId = Guid.NewGuid(),
             Description = "Educação",
             Type = CategoryTypeEnum.Expense,
@@ -118,7 +114,6 @@ public static class DbMigrationHelper
 
         Category food = new()
         {
-            //UserId = Guid.Empty,
             CategoryId = Guid.NewGuid(),
             Description = "Alimentação",
             Type = CategoryTypeEnum.Expense,
@@ -128,7 +123,6 @@ public static class DbMigrationHelper
 
         Category leisure = new()
         {
-            //UserId = Guid.Empty,
             CategoryId = Guid.NewGuid(),
             Description = "Lazer",
             Type = CategoryTypeEnum.Expense,

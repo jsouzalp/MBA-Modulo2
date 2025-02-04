@@ -72,7 +72,7 @@ export class LoginComponent extends FormBaseComponent implements OnInit, AfterVi
     });
 
     this.route.queryParams.subscribe((params: any) => {
-     if (params?.returnUrl) {
+      if (params?.returnUrl) {
         this.returnUrl = params.returnUrl;
       }
     });

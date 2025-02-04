@@ -4,6 +4,5 @@ export interface CategoryModel {
     userId: string;
     description: string;
     type: number;
-    
     descriptionWithType?: string;
 }

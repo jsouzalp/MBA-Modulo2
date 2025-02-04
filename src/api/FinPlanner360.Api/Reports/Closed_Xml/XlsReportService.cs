@@ -1,6 +1,5 @@
 ﻿using ClosedXML.Excel;
 using System.ComponentModel.DataAnnotations;
-using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace FinPlanner360.Api.Reports.Closed_Xml
 {
@@ -45,13 +44,12 @@ namespace FinPlanner360.Api.Reports.Closed_Xml
 
         private static bool IsNumeric(Type type)
         {
-            return type == typeof(decimal) || 
+            return type == typeof(decimal) ||
                 type == typeof(double) ||
                 type == typeof(byte) ||
                 type == typeof(short) ||
                 type == typeof(int) ||
                 type == typeof(long);
         }
-
     }
 }

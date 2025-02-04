@@ -4,7 +4,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
 import { CategoryService } from 'src/app/services/category.service';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
 import { FormBaseComponent } from 'src/app/components/base-components/form-base.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormControlName, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -57,12 +56,12 @@ export class CategoryUpdateComponent extends FormBaseComponent implements OnInit
 
   submit() {
     if (!this.form.valid) return;
-    
+
     this.submitted = true
     this.categoryModel = this.form.value;
     this.categoryModel.categoryId = this.data.categoryId;
     this.categoryModel.type = this.data.type;
-    
+
     this.categorySevice.update(this.categoryModel)
       .pipe(takeUntil(this.destroy$))
       .subscribe({

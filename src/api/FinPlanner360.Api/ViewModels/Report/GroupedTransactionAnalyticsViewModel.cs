@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace FinPlanner360.Api.ViewModels.Report
+﻿namespace FinPlanner360.Api.ViewModels.Report
 {
     public class GroupedTransactionAnalyticsViewModel
     {

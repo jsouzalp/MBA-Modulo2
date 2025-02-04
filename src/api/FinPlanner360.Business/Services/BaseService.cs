@@ -26,16 +26,9 @@ public class BaseService
     {
         _notificationService.Handle(new Notification(message, NotificationTypeEnum.Error));
     }
+
     protected void Notify(string message, NotificationTypeEnum type)
     {
         _notificationService.Handle(new Notification(message, type));
     }
-
-    //protected bool IsValid<TV, TE>(TV validacao, TE entidade) where TV : AbstractValidator<TE> where TE : Entity
-    //{
-    //    var validator = validacao.Validate(entidade);
-    //    if (validator.IsValid) return true;
-    //    Notify(validator);
-    //    return false;
-    //}
 }

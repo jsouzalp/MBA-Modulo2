@@ -57,10 +57,6 @@ export class BudgetByCategoryListComponent implements OnInit, OnDestroy {
       .subscribe({ next: () => { this.existsGeneralBudget = true; } })
   }
 
-  getDescription(type: CategoryTypeEnum): string {
-    // return CategoryTypeDescriptions[type] || 'Unknown';
-    return '';
-  }
 
   addDialog() {
     const dialogRef = this.dialog.open(BudgetByCategoryAddComponent, {
