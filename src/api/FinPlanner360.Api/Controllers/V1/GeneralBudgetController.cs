@@ -12,7 +12,7 @@ namespace FinPlanner360.Api.Controllers.V1;
 
 [Authorize(Roles = "USER")]
 [ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/[Controller]")]
+[Route("api/v{version:apiVersion}/general-budget")]
 public class GeneralBudgetController : MainController
 {
     private readonly IMapper _mapper;
