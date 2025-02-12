@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FinPlanner360.Business\FinPlanner360.Business.csproj" />
-    <ProjectReference Include="..\FinPlanner360.Repositories\FinPlanner360.Repositories.csproj" />
+    <ProjectReference Include="..\FinPlanner360.Data\FinPlanner360.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

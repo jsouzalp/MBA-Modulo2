@@ -1,6 +1,6 @@
 ﻿using FinPlanner360.Business.Models;
 using FinPlanner360.Business.Models.Enums;
-using FinPlanner360.Repositories.Contexts;
+using FinPlanner360.Data.Contexts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace FinPlanner360.Repositories.Helpers;
+namespace FinPlanner360.Data.Helpers;
 
 public static class DbMigrationHelper
 {

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using FinPlanner360.Business.Models;
 
-namespace FinPlanner360.Repositories.Configurations;
+namespace FinPlanner360.Data.Configurations;
 
 public class BudgetConfiguration : IEntityTypeConfiguration<Budget>
 {
