@@ -3,8 +3,10 @@ using FinPlanner360.Api.ViewModels.User;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
+using FinPlanner360.Repositories.Contexts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -26,6 +28,7 @@ public class UserController : MainController
     private readonly IUserRepository _userRepository;
     private readonly AppSettings _appSettings;
     private readonly ILogger _logger;
+    private readonly ApplicationDbContext _identityContext;
 
     public UserController(ILogger<UserController> logger,
                           SignInManager<IdentityUser> signInManager,
@@ -33,6 +36,7 @@ public class UserController : MainController
                           IOptions<AppSettings> appSettings,
                           IUserRepository userRepository,
                           IAppIdentityUser appIdentityUser,
+                          ApplicationDbContext identityContext,
                           INotificationService notificationService) : base(appIdentityUser, notificationService)
     {
         _logger = logger;
@@ -40,6 +44,7 @@ public class UserController : MainController
         _userManager = userManager;
         _userRepository = userRepository;
         _appSettings = appSettings.Value;
+        _identityContext = identityContext;
     }
 
     [AllowAnonymous]
@@ -62,16 +67,31 @@ public class UserController : MainController
 
         if (registerResult.Succeeded)
         {
-            var user = new User
-            {
-                UserId = Guid.Parse(identitiyUser.Id),
-                Email = registerViewModel.Email,
-                Name = registerViewModel.Name,
-                AuthenticationId = Guid.Parse(identitiyUser.Id)
-            };
-
             try
             {
+                #region Roles
+                IdentityRole role = _identityContext.Roles.FirstOrDefault(x => x.Name == "USER");
+                if (role != null)
+                {
+                    _identityContext.UserRoles.Add(new IdentityUserRole<string>()
+                    {
+                        RoleId = role.Id,
+                        UserId = identitiyUser.Id
+                    });
+
+                    await _identityContext.SaveChangesAsync();
+                }
+                #endregion
+
+                #region User
+                var user = new User
+                {
+                    UserId = Guid.Parse(identitiyUser.Id),
+                    Email = registerViewModel.Email,
+                    Name = registerViewModel.Name,
+                    AuthenticationId = Guid.Parse(identitiyUser.Id)
+                };
+
                 await _userRepository.CreateAsync(user);
 
                 var loginOutput = new LoginOutputViewModel
@@ -81,6 +101,7 @@ public class UserController : MainController
                     Email = user.Email,
                     AccessToken = await GenerateJwt(user.Email)
                 };
+                #endregion
 
                 return GenerateResponse(loginOutput);
             }
