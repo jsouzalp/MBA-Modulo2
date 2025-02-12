@@ -14,8 +14,7 @@ namespace FinPlanner360.Api.Controllers.V1;
 
 [Authorize(Roles = "USER")]
 [ApiVersion("1.0")]
-[Area("report")]
-[Route("api/v{version:apiVersion}/[Area]")]
+[Route("api/v{version:apiVersion}/report")]
 public class ReportController : MainController
 {
     private readonly ITransactionRepository _transactionRepository;

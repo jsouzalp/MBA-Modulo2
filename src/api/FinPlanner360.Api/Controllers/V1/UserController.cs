@@ -18,8 +18,7 @@ namespace FinPlanner360.Api.Controllers.V1;
 [Authorize(Roles = "USER")]
 [ApiController]
 [ApiVersion("1.0")]
-[Area("user")]
-[Route("api/v{version:apiVersion}/[Area]")]
+[Route("api/v{version:apiVersion}/user")]
 public class UserController : MainController
 {
     private readonly SignInManager<IdentityUser> _signInManager;

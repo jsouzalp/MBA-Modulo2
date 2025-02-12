@@ -11,8 +11,7 @@ namespace FinPlanner360.Api.Controllers.V1;
 
 [Authorize(Roles = "USER")]
 [ApiVersion("1.0")]
-[Area("transaction")]
-[Route("api/v{version:apiVersion}/[Area]")]
+[Route("api/v{version:apiVersion}/transaction")]
 public class TransactionController : MainController
 {
     private readonly IMapper _mapper;
