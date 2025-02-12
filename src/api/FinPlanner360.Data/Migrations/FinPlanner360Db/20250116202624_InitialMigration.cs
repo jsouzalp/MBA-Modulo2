@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace FinPlanner360.Repositories.Migrations.FinPlanner360Db
+namespace FinPlanner360.Data.Migrations.FinPlanner360Db
 {
     /// <inheritdoc />
     public partial class InitialMigration : Migration

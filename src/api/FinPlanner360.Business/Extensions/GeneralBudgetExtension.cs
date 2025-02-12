@@ -1,6 +1,6 @@
 ﻿using FinPlanner360.Business.Models;
 
-namespace FinPlanner360.Repositories.Extensions;
+namespace FinPlanner360.Data.Extensions;
 
 public static class GeneralBudgetExtension
 {

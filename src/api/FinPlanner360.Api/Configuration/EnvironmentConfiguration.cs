@@ -1,5 +1,5 @@
 ﻿using FinPlanner360.Api.Configuration.Swagger;
-using FinPlanner360.Repositories.Helpers;
+using FinPlanner360.Data.Helpers;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace FinPlanner360.Api.Configuration;

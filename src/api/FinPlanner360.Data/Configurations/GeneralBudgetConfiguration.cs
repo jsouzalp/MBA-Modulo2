@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FinPlanner360.Repositories.Configurations;
+namespace FinPlanner360.Data.Configurations;
 
 public class GeneralBudgetConfiguration : IEntityTypeConfiguration<GeneralBudget>
 {

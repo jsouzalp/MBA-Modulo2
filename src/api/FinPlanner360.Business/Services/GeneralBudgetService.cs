@@ -4,7 +4,7 @@ using FinPlanner360.Business.Extensions;
 using FinPlanner360.Business.Interfaces.Repositories;
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
-using FinPlanner360.Repositories.Extensions;
+using FinPlanner360.Data.Extensions;
 
 namespace FinPlanner360.Business.Services;
 

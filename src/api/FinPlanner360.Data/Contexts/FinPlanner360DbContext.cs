@@ -1,8 +1,8 @@
 ﻿using FinPlanner360.Business.Models;
-using FinPlanner360.Repositories.Configurations;
+using FinPlanner360.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinPlanner360.Repositories.Contexts;
+namespace FinPlanner360.Data.Contexts;
 
 public class FinPlanner360DbContext : DbContext
 {
