@@ -15,7 +15,7 @@ export class GeneralBudgetService extends BaseService {
 
   getAll(): Observable<GeneralBudgetModel[]> {
     let response = this.http
-      .get(this.UrlServiceV1 + 'v1/generalbudget', this.getAuthHeaderJson())
+      .get(this.UrlServiceV1 + 'v1/general-budget', this.getAuthHeaderJson())
       .pipe(
         map(response => this.extractData(response)),
         catchError(error => this.serviceError(error)));
@@ -25,7 +25,7 @@ export class GeneralBudgetService extends BaseService {
 
   create(budget: GeneralBudgetModel): Observable<GeneralBudgetModel> {
     let response = this.http
-      .post(this.UrlServiceV1 + 'v1/generalbudget', budget, this.getAuthHeaderJson())
+      .post(this.UrlServiceV1 + 'v1/general-budget', budget, this.getAuthHeaderJson())
       .pipe(
         map(response => this.extractData(response)),
         catchError(error => this.serviceError(error)));
@@ -35,7 +35,7 @@ export class GeneralBudgetService extends BaseService {
 
   update(budget: GeneralBudgetModel): Observable<GeneralBudgetModel> {
     let response = this.http
-      .put(this.UrlServiceV1 + 'v1/generalbudget/' + budget.generalBudgetId, budget, this.getAuthHeaderJson())
+      .put(this.UrlServiceV1 + 'v1/general-budget/' + budget.generalBudgetId, budget, this.getAuthHeaderJson())
       .pipe(
         map(response => this.extractData(response)),
         catchError(error => this.serviceError(error)));
@@ -45,7 +45,7 @@ export class GeneralBudgetService extends BaseService {
 
   delete(budgetId: string): Observable<void> {
     let response = this.http
-      .delete(this.UrlServiceV1 + `v1/generalbudget/${budgetId}`, this.getAuthHeaderJson())
+      .delete(this.UrlServiceV1 + `v1/general-budget/${budgetId}`, this.getAuthHeaderJson())
       .pipe(
         map(response => this.extractData(response)),
         catchError(error => this.serviceError(error)));
@@ -55,7 +55,7 @@ export class GeneralBudgetService extends BaseService {
 
   exists(): Observable<any> {
     let response = this.http
-      .get(this.UrlServiceV1 + 'v1/generalbudget/exists', this.getAuthHeaderJson());
+      .get(this.UrlServiceV1 + 'v1/general-budget/exists', this.getAuthHeaderJson());
 
     return response;
   }
