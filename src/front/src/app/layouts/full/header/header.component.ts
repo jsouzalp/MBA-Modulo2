@@ -66,7 +66,7 @@ export class HeaderComponent implements OnInit {
 
   openMessages() {
     this.dialog.open(MessagesComponent, {
-      width: '1000px',
+      width: '1070px',
       height: '600px',
       disableClose: true
     });
