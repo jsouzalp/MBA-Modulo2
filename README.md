@@ -113,6 +113,7 @@ A estrutura do projeto é organizada da seguinte forma:
    ```
    
    - Acesse a aplicação em: http://localhost:4200
+   - Para acessar com os usuários previamente cadastrados, utilizar a senha: Password@2024
 
 
 ## **7. Instruções de Configuração**
