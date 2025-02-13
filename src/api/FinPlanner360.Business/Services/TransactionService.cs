@@ -162,9 +162,9 @@ public class TransactionService : BaseService, ITransactionService
         }
 
         if (usedPercentage > 80 && usedPercentage < 100)
-            Notify("O saldo está acima de 80%.", NotificationTypeEnum.Warning);
+            Notify("O saldo está acima de 80% do seu Budget.", NotificationTypeEnum.Warning);
         else if (usedPercentage == 100)
-            Notify("O saldo atingiu 100%.", NotificationTypeEnum.Warning);
+            Notify("O saldo atingiu 100% seu Budget.", NotificationTypeEnum.Warning);
 
         return true;
     }
@@ -196,9 +196,9 @@ public class TransactionService : BaseService, ITransactionService
         }
 
         if (usedPercentage > 80 && usedPercentage < 100)
-            Notify("O saldo dessa categoria está acima de 80%.", NotificationTypeEnum.Warning);
+            Notify("O saldo dessa categoria está acima de 80% seu Budget.", NotificationTypeEnum.Warning);
         else if (usedPercentage == 100)
-            Notify("O saldo dessa categoria atingiu 100%.", NotificationTypeEnum.Warning);
+            Notify("O saldo dessa categoria atingiu 100% seu Budget.", NotificationTypeEnum.Warning);
 
         return true;
     }
