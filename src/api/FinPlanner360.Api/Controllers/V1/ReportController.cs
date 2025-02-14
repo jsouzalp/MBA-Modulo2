@@ -92,21 +92,21 @@ public class ReportController : MainController
         if (!ExistsTransactions(transactionsList)) { return GenerateResponse(); }
 
         var groupedTransactionsReport = transactionsList
-                .Select(x => new TransactionAnalyticsViewModel
-                {
-                    TransactionDate = x.TransactionDate.ToString("dd/MM/yyyy"),
-                    Type = x.Category.Type.GetDescription(),
-                    Description = x.Description,
-                    CategoryDescription = x.Category.Description,
-                    TotalAmount = x.Amount.ToString("C"),
-                })
-                .GroupBy(x => x.CategoryDescription)
-                .Select(group => new GroupedTransactionAnalyticsViewModel
-                {
-                    CategoryDescription = group.Key,
-                    Transactions = group.OrderBy(x => x.TransactionDate).ToList()
-                })
-                .ToList();
+                                      .Select(x => new TransactionAnalyticsViewModel
+                                      {
+                                          TransactionDate = x.TransactionDate.ToString("dd/MM/yyyy"),
+                                          Type = x.Category.Type.GetDescription(),
+                                          Description = x.Description,
+                                          CategoryDescription = x.Category.Description,
+                                          TotalAmount = x.Amount.ToString("C"),
+                                      })
+                                      .GroupBy(x => x.CategoryDescription)
+                                      .Select(group => new GroupedTransactionAnalyticsViewModel
+                                      {
+                                          CategoryDescription = group.Key,
+                                          Transactions = group.OrderBy(x => x.TransactionDate).ToList()
+                                      })
+                                      .ToList();
 
         return GenerateResponse(groupedTransactionsReport, HttpStatusCode.OK);
     }
