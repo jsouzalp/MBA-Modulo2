@@ -147,9 +147,13 @@ public class ReportController : MainController
                                           })
                                           .ToList();
 
+        decimal totalResult = summaryReport.Sum(transaction => transaction.Type == "Receitas" ? transaction.TotalAmount : -transaction.TotalAmount);
 
-        var parameters = summaryReport?.ToDictionary(summary => summary.Type, summary => (object)summary.TotalAmount) ?? [];
 
+        var parameters = summaryReport?.ToDictionary(summary => summary.Type, summary => (object)summary.TotalAmount.ToString("C")) ?? [];
+        parameters.Add("Resultado", totalResult.ToString("C"));
+        parameters.Add("DataInicial", startDate);
+        parameters.Add("DataFinal", endDate);
 
         var result = GenerateReportToFile.Generate<TransactionAnalyticsViewModel>(fileType, "CategoryAnalytics", transactionsReport, parameters);
 
