@@ -51,25 +51,6 @@ export class CategoryTransactionAnalyticsComponent implements OnDestroy {
       });
   }
 
-  // getTransactionSums(): { [key: string]: number } {
-  //   const sums: { [key: string]: number } = {};
-  
-  //   if (!this.reportcategoryModel) return sums;
-  
-  //   this.reportcategoryModel.forEach(category => {
-  //     category.transactions.forEach(transaction => {
-  //       const amount = parseFloat(transaction.totalAmount.replace('R$', '').replace('.', '').replace(',', '.')) || 0;
-  
-  //       if (!sums[transaction.type]) {
-  //         sums[transaction.type] = 0;
-  //       }
-  //       sums[transaction.type] += amount;
-  //     });
-  //   });
-  
-  //   return sums;
-  // }
-
   getTransactionSums(): { key: string; value: number }[] {
     const sums: { [key: string]: number } = {};
   
