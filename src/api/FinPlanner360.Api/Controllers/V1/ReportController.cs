@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Net;
 
 namespace FinPlanner360.Api.Controllers.V1;
@@ -107,6 +108,7 @@ public class ReportController : MainController
                                           Transactions = group.OrderBy(x => x.TransactionDate).ToList()
                                       })
                                       .ToList();
+
 
         return GenerateResponse(groupedTransactionsReport, HttpStatusCode.OK);
     }

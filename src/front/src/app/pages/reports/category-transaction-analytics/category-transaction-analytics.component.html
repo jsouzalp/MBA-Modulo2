@@ -34,8 +34,20 @@
               </mat-list-item>
             </div>
           </mat-list>
-
-
+          <div style="margin-left: 16px; margin-top: 10px; font-weight: bold;">
+            <div *ngFor="let type of getTransactionSums()">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="width: 200px;">Total para {{ type.key }}:</span>
+                <span style="width: 100px; text-align: right;">{{ type.value | currency }}</span>
+              </div>
+            </div>
+          </div>
+          <div style="margin-left: 16px; margin-top: 10px; font-weight: bold;">
+            <div style="display: flex; align-items: center; gap: 8px; border-top: 2px solid #000; padding-top: 8px;">
+              <span style="width: 200px;">Total Geral:</span>
+              <span style="width: 100px; text-align: right; font-weight: bold;">{{ getTotalAmount() | currency }}</span>
+            </div>
+          </div>
         </mat-card-content>
       </div>
     </mat-card-content>

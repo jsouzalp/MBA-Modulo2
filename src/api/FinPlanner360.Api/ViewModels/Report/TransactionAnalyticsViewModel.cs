@@ -2,6 +2,7 @@
 
 namespace FinPlanner360.Api.ViewModels.Report
 {
+
     public class TransactionAnalyticsViewModel
     {
         [Display(Name = "Categoria")]

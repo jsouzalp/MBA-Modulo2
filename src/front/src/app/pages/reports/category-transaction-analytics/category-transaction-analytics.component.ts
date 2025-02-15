@@ -51,6 +51,63 @@ export class CategoryTransactionAnalyticsComponent implements OnDestroy {
       });
   }
 
+  // getTransactionSums(): { [key: string]: number } {
+  //   const sums: { [key: string]: number } = {};
+  
+  //   if (!this.reportcategoryModel) return sums;
+  
+  //   this.reportcategoryModel.forEach(category => {
+  //     category.transactions.forEach(transaction => {
+  //       const amount = parseFloat(transaction.totalAmount.replace('R$', '').replace('.', '').replace(',', '.')) || 0;
+  
+  //       if (!sums[transaction.type]) {
+  //         sums[transaction.type] = 0;
+  //       }
+  //       sums[transaction.type] += amount;
+  //     });
+  //   });
+  
+  //   return sums;
+  // }
+
+  getTransactionSums(): { key: string; value: number }[] {
+    const sums: { [key: string]: number } = {};
+  
+    if (!this.reportcategoryModel) return [];
+  
+    this.reportcategoryModel.forEach(category => {
+      category.transactions.forEach(transaction => {
+        const amount = parseFloat(transaction.totalAmount.replace('R$', '').replace('.', '').replace(',', '.')) || 0;
+  
+        if (!sums[transaction.type]) {
+          sums[transaction.type] = 0;
+        }
+        sums[transaction.type] += amount;
+      });
+    });
+  
+    return Object.entries(sums)
+      .map(([key, value]) => ({ key, value })) 
+      .sort((b, a) => a.key.localeCompare(b.key)); 
+  }
+
+  getTotalAmount(): number {
+    let total = 0;
+    
+    this.getTransactionSums().forEach(transaction => {
+      if (transaction.key.toLowerCase() === 'receitas') {
+        total += transaction.value; // Soma as receitas
+      } else if (transaction.key.toLowerCase() === 'despesas') {
+        total -= transaction.value; // Subtrai as despesas
+      }
+    });
+  
+    return total;
+  }
+  
+
+  
+
   generatePDF(): void {
     this.reportcategoryService.getPdfAnalytics(this.startDate, this.endDate)
       .subscribe({
