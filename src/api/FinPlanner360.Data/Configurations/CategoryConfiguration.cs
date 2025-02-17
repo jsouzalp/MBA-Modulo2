@@ -10,41 +10,41 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
         #region Mapping columns
 
-        builder.ToTable("TB_CATEGORY");
+        builder.ToTable("Categories");
 
         builder.HasKey(x => x.CategoryId)
-            .HasName("PK_TB_CATEGORY");
+            .HasName("PK_Categories");
 
         builder.Property(x => x.CategoryId)
-            .HasColumnName("CATEGORY_ID")
+            .HasColumnName("CategoryId")
             .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
             .IsRequired();
 
         builder.Property(x => x.UserId)
-            .HasColumnName("USER_ID")
+            .HasColumnName("UserId")
             .HasColumnType(DatabaseTypeConstant.UniqueIdentifier);
 
         builder.Property(x => x.Description)
-            .HasColumnName("DESCRIPTION")
+            .HasColumnName("Description")
             .HasColumnType(DatabaseTypeConstant.Varchar)
             .HasMaxLength(25)
             .UseCollation(DatabaseTypeConstant.Collate)
             .IsRequired();
 
         builder.Property(x => x.Type)
-            .HasColumnName("TYPE")
+            .HasColumnName("Type")
             .HasColumnType(DatabaseTypeConstant.Byte)
             .IsRequired();
 
         builder.Property(x => x.CreatedDate)
-            .HasColumnName("CREATED_DATE")
+            .HasColumnName("CreatedDate")
             .HasColumnType(DatabaseTypeConstant.DateTime)
             .IsRequired();
         #endregion Mapping columns
 
         #region Indexes
 
-        builder.HasIndex(x => x.UserId).HasDatabaseName("IDX_TB_CATEGORY_01");
+        builder.HasIndex(x => x.UserId).HasDatabaseName("IX_Categories_UserId");
 
         #endregion Indexes
 
@@ -53,7 +53,7 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.HasOne(x => x.User)
             .WithMany(x => x.Categories)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_TB_CATEGORY_01")
+            .HasConstraintName("FK_Categories_User")
             .OnDelete(DeleteBehavior.NoAction);
 
         #endregion Relationships

@@ -3,6 +3,7 @@ using System;
 using FinPlanner360.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinPlanner360.Data.Migrations.FinPlanner360Db
 {
     [DbContext(typeof(FinPlanner360DbContext))]
-    partial class FinPlanner360DbContextModelSnapshot : ModelSnapshot
+    [Migration("20250217023635_RenameTablesAndColumns")]
+    partial class RenameTablesAndColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
