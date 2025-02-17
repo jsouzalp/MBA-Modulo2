@@ -80,18 +80,19 @@ public class ReportController : MainController
                                   .GroupBy(t => t.Type)
                                   .Select(g => new TransactionSummaryViewModel
                                   {
-                                      Type = g.Key,
+                                      Type = g.Key == "Despesas" ? "Expenses" : g.Key == "Receitas" ? "Income" : g.Key,
                                       TotalAmount = g.Sum(t => decimal.Parse(t.TotalAmount, System.Globalization.NumberStyles.Currency))
                                   })
                                   .ToList();
 
-        decimal totalResult = summaryReport.Sum(transaction => transaction.Type == "Receitas" ? transaction.TotalAmount : -transaction.TotalAmount);
+
+        decimal totalResult = summaryReport.Sum(transaction => transaction.Type == "Income" ? transaction.TotalAmount : -transaction.TotalAmount);
 
 
         var parameters = summaryReport?.ToDictionary(summary => summary.Type, summary => (object)summary.TotalAmount.ToString("C")) ?? [];
-        parameters.Add("Resultado", totalResult.ToString("C"));
-        parameters.Add("DataInicial", startDate);
-        parameters.Add("DataFinal", endDate);
+        parameters.Add("Result", totalResult.ToString("C"));
+        parameters.Add("StartDate", startDate);
+        parameters.Add("EndDate", endDate);
 
 
         var result = GenerateReportToFile.Generate<TransactionCategoyViewModel>(fileType, "Category", transactionsReport, parameters);
@@ -163,18 +164,18 @@ public class ReportController : MainController
                                           .GroupBy(t => t.Type)
                                           .Select(g => new TransactionSummaryViewModel
                                           {
-                                              Type = g.Key,
+                                              Type = g.Key == "Despesas" ? "Expenses" : g.Key == "Receitas" ? "Income" : g.Key,
                                               TotalAmount = g.Sum(t => decimal.Parse(t.TotalAmount, System.Globalization.NumberStyles.Currency))
                                           })
                                           .ToList();
 
-        decimal totalResult = summaryReport.Sum(transaction => transaction.Type == "Receitas" ? transaction.TotalAmount : -transaction.TotalAmount);
+        decimal totalResult = summaryReport.Sum(transaction => transaction.Type == "Income" ? transaction.TotalAmount : -transaction.TotalAmount);
 
 
         var parameters = summaryReport?.ToDictionary(summary => summary.Type, summary => (object)summary.TotalAmount.ToString("C")) ?? [];
-        parameters.Add("Resultado", totalResult.ToString("C"));
-        parameters.Add("DataInicial", startDate);
-        parameters.Add("DataFinal", endDate);
+        parameters.Add("Result", totalResult.ToString("C"));
+        parameters.Add("StartDate", startDate);
+        parameters.Add("EndDate", endDate);
 
         var result = GenerateReportToFile.Generate<TransactionAnalyticsViewModel>(fileType, "CategoryAnalytics", transactionsReport, parameters);
 

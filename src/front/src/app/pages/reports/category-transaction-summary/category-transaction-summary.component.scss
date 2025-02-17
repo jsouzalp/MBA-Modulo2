@@ -1,12 +1,12 @@
   .report-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; 
-    width: 100%;
-    font-size: 16px;
-    font-weight: 600;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
+     display: flex;
+     justify-content: space-between;
+     align-items: center; 
+     width: 100%;
+     font-size: 16px;
+     font-weight: 600;
+     padding: 10px 0;
+     border-bottom: 1px solid #ddd;
   }
 
   .category-description
@@ -122,12 +122,12 @@
     .report-item {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      //align-items: center;
       gap: 16px;
     }
     
     .category-type, .category-description, .total-amount {
-      font-size: 1rem;
+      font-size: 2rem;
     }
     
     .spacer {
