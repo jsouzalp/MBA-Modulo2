@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinPlanner360.Data.Migrations.FinPlanner360Db
 {
     [DbContext(typeof(FinPlanner360DbContext))]
-    [Migration("20250217023635_RenameTablesAndColumns")]
-    partial class RenameTablesAndColumns
+    [Migration("20250217152851_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
