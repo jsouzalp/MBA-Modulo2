@@ -26,16 +26,28 @@
                   <div style="display: flex; align-items: center; gap: 8px;">
                     <span matListItemLine class="mat-body-1" style="width: 200px;">{{transaction.description}}</span>
                     <span matListItemLine class="mat-body-1" style="width: 120px;">{{transaction.transactionDate}}</span>
-                    <span matListItemLine class="mat-body-1" style="width: 100px; text-align: right;">{{transaction.totalAmount}}</span>
                     <span matListItemLine class="mat-body-1" style="width: 80px; text-align: center;">{{transaction.type}}</span>
+                    <span matListItemLine class="mat-body-1" style="width: 100px; text-align: right;">{{transaction.totalAmount}}</span>
                   </div>
                 </div>
                 <div style="height: 20px;"></div>
               </mat-list-item>
             </div>
           </mat-list>
-
-
+          <div style="margin-left: 16px; margin-top: 10px; font-weight: bold;">
+            <div *ngFor="let type of getTransactionSums()">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="width: 200px;">Total para {{ type.key }}:</span>
+                <span style="width: 100px; text-align: right; margin-left: auto;">{{ type.value | currency }}</span>
+              </div>
+            </div>
+          </div>
+          <div style="margin-left: 16px; margin-top: 10px; font-weight: bold;">
+            <div style="display: flex; align-items: center; gap: 8px; border-top: 2px solid #000; padding-top: 8px;">
+              <span style="width: 200px;">Total Geral:</span>
+              <span style="width: 100px;  text-align: right; margin-left: auto;">{{ getTotalAmount() | currency }}</span>
+            </div>
+          </div>
         </mat-card-content>
       </div>
     </mat-card-content>

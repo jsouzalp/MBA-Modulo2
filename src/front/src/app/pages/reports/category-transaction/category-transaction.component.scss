@@ -1,14 +1,10 @@
 .date-picker-container {
-    display: flex;
-    gap: 20px;
-    align-items: center;
+     display: flex;
+     gap: 0px;
+     align-items: center;
   }
 
-  .align-right {
-    text-align: right;
-  }
-
-  .flex-align-right {
-    display: flex;
-    justify-content: flex-end;
+  .custom-margin {
+    margin-top: 10px; /* Margem superior */
+    margin-bottom: 20px; /* Margem inferior */
   }

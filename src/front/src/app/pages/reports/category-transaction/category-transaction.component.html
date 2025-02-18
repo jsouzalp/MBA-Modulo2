@@ -1,9 +1,43 @@
-<mat-card class="b-1 shadow-none">
+<!-- <mat-card class="b-1 shadow-none">
   <mat-card-content class="b-t-1">
 
     <div class="date-picker-container">
 
-      <div class="col-6 p-10">
+      <div class="col-4 p-10">
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Data Inicial</mat-label>
+        <mat-form-field appearance="outline" class="w-50">
+          <input matInput [matDatepicker]="startDate" [(ngModel)]="startDateValue">
+          <mat-hint>DD/MM/AAAA</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+          <mat-datepicker #startDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-4 p-10">
+        <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Data Final</mat-label>
+        <mat-form-field appearance="outline" class="w-50">
+          <input matInput [matDatepicker]="endDate" [(ngModel)]="endDateValue">
+          <mat-hint>DD/MM/AAAA</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+          <mat-datepicker #endDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="flex-align-left col-4">
+        <mat-chip-listbox aria-label="Selection" [(ngModel)]="selectedOption" (change)="alterouSelecao()">
+          <mat-chip-option class="f-s-14" color="primary" [value]="'summary'">Sintético</mat-chip-option>
+          <mat-chip-option class="f-s-14" color="primary" [value]="'analytics'">Analítico</mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+    </div>
+    <button mat-flat-button color="primary" class="m-r-8" (click)="onButtonClick()">Confirmar</button>
+  </mat-card-content>
+</mat-card> -->
+
+<mat-card class="b-1 shadow-none">
+  <mat-card-content class="b-t-1">
+    <div class="date-picker-container d-flex flex-wrap gap-2">
+      <div class="p-10 flex-grow-1 min-w-250">
         <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Data Inicial</mat-label>
         <mat-form-field appearance="outline" class="w-100">
           <input matInput [matDatepicker]="startDate" [(ngModel)]="startDateValue">
@@ -13,7 +47,7 @@
         </mat-form-field>
       </div>
 
-      <div class="col-6 p-10">
+      <div class="p-10 flex-grow-1 min-w-250">
         <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Data Final</mat-label>
         <mat-form-field appearance="outline" class="w-100">
           <input matInput [matDatepicker]="endDate" [(ngModel)]="endDateValue">
@@ -22,18 +56,22 @@
           <mat-datepicker #endDate></mat-datepicker>
         </mat-form-field>
       </div>
-    </div>
 
-    <div class="flex-align-right">
-      <mat-chip-listbox aria-label="Selection" [(ngModel)]="selectedOption" (change)="alterouSelecao()">
-        <mat-chip-option class="f-s-14" color="primary" [value]="'summary'">Sintético</mat-chip-option>
-        <mat-chip-option class="f-s-14" color="primary" [value]="'analytics'">Analítico</mat-chip-option>
-      </mat-chip-listbox>
+      <div class="p-10 flex-grow-1 min-w-250">
+        <mat-chip-listbox aria-label="Selection" [(ngModel)]="selectedOption" (change)="alterouSelecao()">
+          <mat-chip-option class="f-s-14" color="primary" [value]="'summary'">Sintético</mat-chip-option>
+          <mat-chip-option class="f-s-14" color="primary" [value]="'analytics'">Analítico</mat-chip-option>
+        </mat-chip-listbox>
+      </div>
     </div>
-
-    <button mat-flat-button color="primary" class="m-r-8" (click)="onButtonClick()">Confirmar</button>
+    <br>
+    <div class="d-flex justify-content-start mt-2">
+      <button mat-flat-button color="primary" class="m-r-8" (click)="onButtonClick()">Confirmar</button>
+    </div>
   </mat-card-content>
 </mat-card>
+
+
 
 <div [hidden]="!confirmed">
   <app-category-transaction-summary [startDate]="startDateValue" [endDate]="endDateValue" #summary
