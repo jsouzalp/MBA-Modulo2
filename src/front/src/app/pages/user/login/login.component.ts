@@ -68,7 +68,7 @@ export class LoginComponent extends FormBaseComponent implements OnInit, AfterVi
 
     this.form = new FormGroup({
       email: new FormControl(this.email, [Validators.required, Validators.email]),
-      password: new FormControl('Password@2024', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
     });
 
     this.route.queryParams.subscribe((params: any) => {
