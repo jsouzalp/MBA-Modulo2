@@ -13,7 +13,7 @@ public class BudgetConfiguration : IEntityTypeConfiguration<Budget>
         builder.ToTable("Budgets");
 
         builder.HasKey(x => x.BudgetId)
-            .HasName("PK_Budgets");
+            .HasName("BudgetsPK");
 
         builder.Property(x => x.BudgetId)
             .HasColumnName("BudgetId")
@@ -44,7 +44,7 @@ public class BudgetConfiguration : IEntityTypeConfiguration<Budget>
 
         #region Indexes
 
-        builder.HasIndex(x => x.UserId).HasDatabaseName("IX_Budgets_UserId");
+        builder.HasIndex(x => x.UserId).HasDatabaseName("BudgetsUserIdIX");
 
         #endregion Indexes
 
@@ -53,13 +53,13 @@ public class BudgetConfiguration : IEntityTypeConfiguration<Budget>
         builder.HasOne(x => x.User)
             .WithMany(x => x.Budgets)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_Budgets_User")
+            .HasConstraintName("BudgetsUserFK")
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(x => x.Category)
             .WithMany(x => x.Budgeties)
             .HasForeignKey(x => x.CategoryId)
-            .HasConstraintName("FK_Budgets_Category")
+            .HasConstraintName("BudgetsCategoryFK")
             .OnDelete(DeleteBehavior.NoAction);
 
         #endregion Relationships

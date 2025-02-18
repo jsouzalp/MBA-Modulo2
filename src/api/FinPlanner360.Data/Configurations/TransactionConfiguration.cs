@@ -13,7 +13,7 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
         builder.ToTable("Transactions");
 
         builder.HasKey(x => x.TransactionId)
-            .HasName("PK_Transactions");
+            .HasName("TransactionsPK");
 
         builder.Property(x => x.TransactionId)
             .HasColumnName("TransactionId")
@@ -56,7 +56,7 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
 
         #region Indexes
 
-        builder.HasIndex(x => x.UserId).HasDatabaseName("IX_Transactions_UserId");
+        builder.HasIndex(x => x.UserId).HasDatabaseName("TransactionsUserIdIX");
 
         #endregion Indexes
 
@@ -65,13 +65,13 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
         builder.HasOne(x => x.User)
             .WithMany(x => x.Transactions)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_Transactions_User")
+            .HasConstraintName("TransactionsUserFK")
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(x => x.Category)
             .WithMany(x => x.Transactions)
             .HasForeignKey(x => x.CategoryId)
-            .HasConstraintName("FK_Transactions_Category")
+            .HasConstraintName("TransactionsCategoryFK")
             .OnDelete(DeleteBehavior.Restrict);
 
         #endregion Relationships

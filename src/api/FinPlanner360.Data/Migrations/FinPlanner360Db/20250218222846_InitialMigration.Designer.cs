@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinPlanner360.Data.Migrations.FinPlanner360Db
 {
     [DbContext(typeof(FinPlanner360DbContext))]
-    [Migration("20250217152851_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250218222846_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,12 +45,12 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                         .HasColumnName("UserId");
 
                     b.HasKey("BudgetId")
-                        .HasName("PK_Budgets");
+                        .HasName("BudgetsPK");
 
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("UserId")
-                        .HasDatabaseName("IX_Budgets_UserId");
+                        .HasDatabaseName("BudgetsUserIdIX");
 
                     b.ToTable("Budgets", (string)null);
                 });
@@ -82,10 +82,10 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                         .HasColumnName("UserId");
 
                     b.HasKey("CategoryId")
-                        .HasName("PK_Categories");
+                        .HasName("CategoriesPK");
 
                     b.HasIndex("UserId")
-                        .HasDatabaseName("IX_Categories_UserId");
+                        .HasDatabaseName("CategoriesUserIdIX");
 
                     b.ToTable("Categories", (string)null);
                 });
@@ -112,10 +112,10 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                         .HasColumnName("UserId");
 
                     b.HasKey("GeneralBudgetId")
-                        .HasName("PK_GeneralBudgets");
+                        .HasName("GeneralBudgetsPK");
 
                     b.HasIndex("UserId")
-                        .HasDatabaseName("IX_GenerealBudgets_UserId");
+                        .HasDatabaseName("GenerealBudgetsUserIdIX");
 
                     b.ToTable("GeneralBudgets", (string)null);
                 });
@@ -156,12 +156,12 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                         .HasColumnName("UserId");
 
                     b.HasKey("TransactionId")
-                        .HasName("PK_Transactions");
+                        .HasName("TransactionsPK");
 
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("UserId")
-                        .HasDatabaseName("IX_Transactions_UserId");
+                        .HasDatabaseName("TransactionsUserIdIX");
 
                     b.ToTable("Transactions", (string)null);
                 });
@@ -192,7 +192,7 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                         .UseCollation("Latin1_General_CI_AI");
 
                     b.HasKey("UserId")
-                        .HasName("PK_Users");
+                        .HasName("UsersPK");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -204,14 +204,14 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
-                        .HasConstraintName("FK_Budgets_Category");
+                        .HasConstraintName("BudgetsCategoryFK");
 
                     b.HasOne("FinPlanner360.Business.Models.User", "User")
                         .WithMany("Budgets")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
-                        .HasConstraintName("FK_Budgets_User");
+                        .HasConstraintName("BudgetsUserFK");
 
                     b.Navigation("Category");
 
@@ -224,7 +224,7 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                         .WithMany("Categories")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
-                        .HasConstraintName("FK_Categories_User");
+                        .HasConstraintName("CategoriesUserFK");
 
                     b.Navigation("User");
                 });
@@ -236,7 +236,7 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
-                        .HasConstraintName("FK_GenerealBudgets_User");
+                        .HasConstraintName("GenerealBudgetsUserFK");
 
                     b.Navigation("User");
                 });
@@ -248,14 +248,14 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_Transactions_Category");
+                        .HasConstraintName("TransactionsCategoryFK");
 
                     b.HasOne("FinPlanner360.Business.Models.User", "User")
                         .WithMany("Transactions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
-                        .HasConstraintName("FK_Transactions_User");
+                        .HasConstraintName("TransactionsUserFK");
 
                     b.Navigation("Category");
 

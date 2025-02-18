@@ -13,7 +13,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.ToTable("Users");
 
         builder.HasKey(x => x.UserId)
-            .HasName("PK_Users");
+            .HasName("UsersPK");
 
         builder.Property(x => x.UserId)
             .HasColumnName("UserId")
@@ -52,25 +52,25 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(x => x.Transactions)
             .WithOne(x => x.User)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_Users_Transactions")
+            .HasConstraintName("UsersTransactionsFK")
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(x => x.Categories)
             .WithOne(x => x.User)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_Users_Categories")
+            .HasConstraintName("UsersCategoriesFK")
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(x => x.Budgets)
             .WithOne(x => x.User)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_Users_Budgets")
+            .HasConstraintName("UsersBudgetsFK")
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(x => x.GeneralBudgets)
             .WithOne(x => x.User)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_Users_GeneralBudgets")
+            .HasConstraintName("UsersGeneralBudgetsFK")
             .OnDelete(DeleteBehavior.Cascade);
 
         #endregion Relationships

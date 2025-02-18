@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace FinPlanner360.Data.Migrations.FinPlanner360Db
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +22,7 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.PrimaryKey("UsersPK", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -36,9 +37,9 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                    table.PrimaryKey("CategoriesPK", x => x.CategoryId);
                     table.ForeignKey(
-                        name: "FK_Categories_User",
+                        name: "CategoriesUserFK",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId");
@@ -55,9 +56,9 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GeneralBudgets", x => x.GeneralBudgetId);
+                    table.PrimaryKey("GeneralBudgetsPK", x => x.GeneralBudgetId);
                     table.ForeignKey(
-                        name: "FK_GeneralBudgets_User",
+                        name: "GenerealBudgetsUserFK",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId");
@@ -75,17 +76,17 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Budgets", x => x.BudgetId);
+                    table.PrimaryKey("BudgetsPK", x => x.BudgetId);
                     table.ForeignKey(
-                        name: "FK_Budgets_User",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId");
-                    table.ForeignKey(
-                        name: "FK_Budgets_Category",
+                        name: "BudgetsCategoryFK",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "CategoryId");
+                    table.ForeignKey(
+                        name: "BudgetsUserFK",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -102,23 +103,22 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transactions", x => x.TransactionId);
+                    table.PrimaryKey("TransactionsPK", x => x.TransactionId);
                     table.ForeignKey(
-                        name: "FK_Transactions_User",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId");
-                    table.ForeignKey(
-                        name: "FK_Transactions_Category",
+                        name: "TransactionsCategoryFK",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "TransactionsUserFK",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId");
                 });
 
-            // Índices adicionais, se necessário
             migrationBuilder.CreateIndex(
-                name: "IX_Budgets_UserId",
+                name: "BudgetsUserIdIX",
                 table: "Budgets",
                 column: "UserId");
 
@@ -128,35 +128,43 @@ namespace FinPlanner360.Data.Migrations.FinPlanner360Db
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_UserId",
+                name: "CategoriesUserIdIX",
                 table: "Categories",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GeneralBudgets_UserId",
+                name: "GenerealBudgetsUserIdIX",
                 table: "GeneralBudgets",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Transactions_UserId",
-                table: "Transactions",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_CategoryId",
                 table: "Transactions",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "TransactionsUserIdIX",
+                table: "Transactions",
+                column: "UserId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            // Código para reverter as mudanças no banco de dados, se necessário
-            migrationBuilder.DropTable(name: "Transactions");
-            migrationBuilder.DropTable(name: "Budgets");
-            migrationBuilder.DropTable(name: "GeneralBudgets");
-            migrationBuilder.DropTable(name: "Categories");
-            migrationBuilder.DropTable(name: "Users");
+            migrationBuilder.DropTable(
+                name: "Budgets");
+
+            migrationBuilder.DropTable(
+                name: "GeneralBudgets");
+
+            migrationBuilder.DropTable(
+                name: "Transactions");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

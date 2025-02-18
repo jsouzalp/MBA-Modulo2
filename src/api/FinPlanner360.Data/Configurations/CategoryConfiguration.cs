@@ -13,7 +13,7 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.ToTable("Categories");
 
         builder.HasKey(x => x.CategoryId)
-            .HasName("PK_Categories");
+            .HasName("CategoriesPK");
 
         builder.Property(x => x.CategoryId)
             .HasColumnName("CategoryId")
@@ -44,7 +44,7 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 
         #region Indexes
 
-        builder.HasIndex(x => x.UserId).HasDatabaseName("IX_Categories_UserId");
+        builder.HasIndex(x => x.UserId).HasDatabaseName("CategoriesUserIdIX");
 
         #endregion Indexes
 
@@ -53,7 +53,7 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.HasOne(x => x.User)
             .WithMany(x => x.Categories)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_Categories_User")
+            .HasConstraintName("CategoriesUserFK")
             .OnDelete(DeleteBehavior.NoAction);
 
         #endregion Relationships

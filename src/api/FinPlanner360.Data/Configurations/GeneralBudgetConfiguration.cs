@@ -13,7 +13,7 @@ public class GeneralBudgetConfiguration : IEntityTypeConfiguration<GeneralBudget
         builder.ToTable("GeneralBudgets");
 
         builder.HasKey(x => x.GeneralBudgetId)
-            .HasName("PK_GeneralBudgets");
+            .HasName("GeneralBudgetsPK");
 
         builder.Property(x => x.GeneralBudgetId)
             .HasColumnName("GeneralBudgetId")
@@ -45,7 +45,7 @@ public class GeneralBudgetConfiguration : IEntityTypeConfiguration<GeneralBudget
 
         #region Indexes
 
-        builder.HasIndex(x => x.UserId).HasDatabaseName("IX_GenerealBudgets_UserId");
+        builder.HasIndex(x => x.UserId).HasDatabaseName("GenerealBudgetsUserIdIX");
 
         #endregion Indexes
 
@@ -54,7 +54,7 @@ public class GeneralBudgetConfiguration : IEntityTypeConfiguration<GeneralBudget
         builder.HasOne(x => x.User)
             .WithMany(x => x.GeneralBudgets)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_GenerealBudgets_User")
+            .HasConstraintName("GenerealBudgetsUserFK")
             .OnDelete(DeleteBehavior.NoAction);
 
         #endregion Relationships
