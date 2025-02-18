@@ -10,39 +10,30 @@ public class GeneralBudgetConfiguration : IEntityTypeConfiguration<GeneralBudget
     {
         #region Mapping columns
 
-        builder.ToTable("TB_GENERAL_BUDGET");
+        builder.ToTable("GeneralBudgets");
 
         builder.HasKey(x => x.GeneralBudgetId)
-            .HasName("PK_TB_GENERAL_BUDGET");
+            .HasName("GeneralBudgetsPK");
 
         builder.Property(x => x.GeneralBudgetId)
-            .HasColumnName("GENERAL_BUDGET_ID")
+            .HasColumnName("GeneralBudgetId")
             .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
             .IsRequired();
 
         builder.Property(x => x.UserId)
-            .HasColumnName("USER_ID")
+            .HasColumnName("UserId")
             .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
             .IsRequired();
 
         builder.Property(x => x.Amount)
-            .HasColumnName("AMOUNT")
+            .HasColumnName("Amount")
             .HasColumnType(DatabaseTypeConstant.Money)
             .HasPrecision(2);
 
         builder.Property(x => x.Percentage)
-            .HasColumnName("PERCENTAGE")
+            .HasColumnName("Percentage")
             .HasColumnType(DatabaseTypeConstant.Money)
             .HasPrecision(0);
-
-        //builder.Property(x => x.CreatedDate)
-        //    .HasColumnName("CREATED_DATE")
-        //    .HasColumnType(DatabaseTypeConstant.DateTime)
-        //    .IsRequired();
-
-        //builder.Property(x => x.RemovedDate)
-        //    .HasColumnName("REMOVED_DATE")
-        //    .HasColumnType(DatabaseTypeConstant.DateTime);
 
         #endregion Mapping columns
 
@@ -54,7 +45,7 @@ public class GeneralBudgetConfiguration : IEntityTypeConfiguration<GeneralBudget
 
         #region Indexes
 
-        builder.HasIndex(x => x.UserId).HasDatabaseName("IDX_TB_GENERAL_BUDGET_01");
+        builder.HasIndex(x => x.UserId).HasDatabaseName("GenerealBudgetsUserIdIX");
 
         #endregion Indexes
 
@@ -63,7 +54,7 @@ public class GeneralBudgetConfiguration : IEntityTypeConfiguration<GeneralBudget
         builder.HasOne(x => x.User)
             .WithMany(x => x.GeneralBudgets)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_TB_GENERAL_BUDGET_01")
+            .HasConstraintName("GenerealBudgetsUserFK")
             .OnDelete(DeleteBehavior.NoAction);
 
         #endregion Relationships

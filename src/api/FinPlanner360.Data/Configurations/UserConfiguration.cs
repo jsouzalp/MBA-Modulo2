@@ -10,43 +10,34 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         #region Mapping columns
 
-        builder.ToTable("TB_USER");
+        builder.ToTable("Users");
 
         builder.HasKey(x => x.UserId)
-            .HasName("PK_TB_USER");
+            .HasName("UsersPK");
 
         builder.Property(x => x.UserId)
-            .HasColumnName("USER_ID")
+            .HasColumnName("UserId")
             .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
             .IsRequired();
 
         builder.Property(x => x.Name)
-            .HasColumnName("NAME")
+            .HasColumnName("Name")
             .HasColumnType(DatabaseTypeConstant.Varchar)
             .UseCollation(DatabaseTypeConstant.Collate)
             .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(x => x.Email)
-            .HasColumnName("EMAIL")
+            .HasColumnName("Email")
             .HasColumnType(DatabaseTypeConstant.Varchar)
             .UseCollation(DatabaseTypeConstant.Collate)
             .HasMaxLength(100)
             .IsRequired();
 
         builder.Property(x => x.AuthenticationId)
-            .HasColumnName("AUTHENTICATION_ID")
+            .HasColumnName("AuthenticationId")
             .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
             .IsRequired();
-
-        //builder.Property(x => x.CreatedDate)
-        //    .HasColumnName("CREATED_DATE")
-        //    .HasColumnType(DatabaseTypeConstant.DateTime)
-        //    .IsRequired();
-
-        //builder.Property(x => x.RemovedDate)
-        //    .HasColumnName("REMOVED_DATE")
-        //    .HasColumnType(DatabaseTypeConstant.DateTime);
 
         #endregion Mapping columns
 
@@ -61,25 +52,25 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(x => x.Transactions)
             .WithOne(x => x.User)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_TB_USER_01")
+            .HasConstraintName("UsersTransactionsFK")
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(x => x.Categories)
             .WithOne(x => x.User)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_TB_USER_02")
+            .HasConstraintName("UsersCategoriesFK")
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(x => x.Budgets)
             .WithOne(x => x.User)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_TB_USER_03")
+            .HasConstraintName("UsersBudgetsFK")
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(x => x.GeneralBudgets)
             .WithOne(x => x.User)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_TB_USER_04")
+            .HasConstraintName("UsersGeneralBudgetsFK")
             .OnDelete(DeleteBehavior.Cascade);
 
         #endregion Relationships
