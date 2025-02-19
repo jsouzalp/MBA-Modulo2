@@ -14,17 +14,19 @@ import {
   ApexDataLabels,
   ApexXAxis,
   ApexPlotOptions,
-  NgApexchartsModule, 
+  NgApexchartsModule,
   ApexNonAxisChartSeries,
-  ApexResponsive, 
+  ApexResponsive,
   ApexStroke,
   ApexMarkers,
   ApexYAxis,
   ApexGrid,
   ApexTitleSubtitle,
-  ApexLegend} from "ng-apexcharts";
+  ApexLegend,
+  ApexTooltip
+} from "ng-apexcharts";
 import { GenerateMontsToFilter } from 'src/app/utils/generate-monts-to-filter';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { TransactionYearEvolutionGraphModel } from './models/transaction-year-evolution-graph';
 
@@ -34,6 +36,7 @@ export type BarChartOptions = {
   dataLabels: ApexDataLabels;
   plotOptions: ApexPlotOptions;
   xaxis: ApexXAxis;
+  tooltip: ApexTooltip;
 };
 
 export type PieChartOptions = {
@@ -55,6 +58,7 @@ export type LineChartOptions = {
   grid: ApexGrid;
   legend: ApexLegend;
   title: ApexTitleSubtitle;
+  tooltip: ApexTooltip;
 };
 
 @Component({
@@ -62,9 +66,9 @@ export type LineChartOptions = {
   standalone: true,
   imports: [MatCardModule, MaterialModule, CommonModule, NgApexchartsModule],
   templateUrl: './transaction-category-graph.component.html',
-  styleUrl: './transaction-category-graph.component.scss'
+  styleUrl: './transaction-category-graph.component.scss',
+  providers: [CurrencyPipe]
 })
-
 export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
   @ViewChild("chart") chart: ChartComponent;
   public transactionAmountChart: Partial<BarChartOptions>;
@@ -80,13 +84,14 @@ export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
   showValues = false;
 
   constructor(private dashboardSevice: DashboardService,
-    private toastr: ToastrService) { 
-      this.fillMonths = new GenerateMontsToFilter();
-      this.monthModel = this.fillMonths.fillMonthsToFilter(new Date());
-      this.selectedMonth = this.monthModel[2]?.referenceDate;
-    }
+    private toastr: ToastrService,
+    private currency: CurrencyPipe) {
+    this.fillMonths = new GenerateMontsToFilter();
+    this.monthModel = this.fillMonths.fillMonthsToFilter(new Date());
+    this.selectedMonth = this.monthModel[2]?.referenceDate;
+  }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.getTransactionGraphData(null);
   }
 
@@ -125,16 +130,24 @@ export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
             }],
             chart: { type: "bar", height: 350 },
             plotOptions: { bar: { horizontal: true } },
-            dataLabels: { enabled: false, formatter: (val: number) => `R$ ${val.toFixed(2)}` },
+            dataLabels: { enabled: false, formatter: (val: number) => this.currency.transform(val)?.toString() ?? 'R$ -' },
+            tooltip: {
+              y: {
+                formatter: (val: number) => this.currency.transform(val)?.toString() ?? 'R$ -'
+              }
+            },
             xaxis: {
-              categories: this.categoryTransactionModel.map(item => item.categoryDescription)
+              categories: this.categoryTransactionModel.map(item => item.categoryDescription),
+              labels: {
+                formatter: (val) => this.currency.transform(val)?.toString() ?? 'R$ -'
+              }
             }
           };
 
           this.transactionQuantityChart = {
             series: this.categoryTransactionModel.map(item => item.quantity),
             chart: { width: 380, type: "pie" },
-            labels:this.categoryTransactionModel.map(item => item.categoryDescription),
+            labels: this.categoryTransactionModel.map(item => item.categoryDescription),
             responsive: [
               {
                 breakpoint: 480,
@@ -163,10 +176,10 @@ export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.transactionEvolutionModel = response;
 
-          let maxIncome:number = Math.max(...this.transactionEvolutionModel.map(item => item.totalIncome)) + 1000;
-          let minExpense:number = Math.min(...this.transactionEvolutionModel.map(item => item.totalExpense));
-          let minBalance:number = Math.min(...this.transactionEvolutionModel.map(item => item.totalBalance));
-          let minimalValue:number = (minExpense < minBalance ? minExpense : minBalance) - 1000;
+          let maxIncome: number = Math.max(...this.transactionEvolutionModel.map(item => item.totalIncome)) + 1000;
+          let minExpense: number = Math.min(...this.transactionEvolutionModel.map(item => item.totalExpense));
+          let minBalance: number = Math.min(...this.transactionEvolutionModel.map(item => item.totalBalance));
+          let minimalValue: number = (minExpense < minBalance ? minExpense : minBalance) - 1000;
 
           console.log(maxIncome);
           console.log(minExpense);
@@ -224,6 +237,11 @@ export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
             markers: {
               size: 1
             },
+            tooltip: {
+              y: {
+                formatter: (val: number) => this.currency.transform(val)?.toString() ?? 'R$ -'
+              }
+            },
             xaxis: {
               categories: this.transactionEvolutionModel.map(item => `${item.month}/${item.year}`),
               title: {
@@ -250,5 +268,5 @@ export class TransactionCategoryGraphComponent implements OnInit, OnDestroy {
           this.toastr.error(fail.error.errors);
         }
       });
-  }  
+  }
 }
