@@ -2,6 +2,7 @@
 
 namespace FinPlanner360.Api.ViewModels.Report
 {
+
     public class TransactionAnalyticsViewModel
     {
         [Display(Name = "Categoria")]
@@ -18,5 +19,14 @@ namespace FinPlanner360.Api.ViewModels.Report
 
         [Display(Name = "Tipo")]
         public string Type { get; set; }
+    }
+
+    public class TransactionSummaryViewModel
+    {
+        [Display(Name = "Tipo")]
+        public string Type { get; set; }
+
+        [Display(Name = "Valor Total")]
+        public decimal TotalAmount { get; set; }
     }
 }

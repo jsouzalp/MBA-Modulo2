@@ -125,7 +125,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
 
   deleteTransaction(transaction: TransactionModel) {
 
-    const dialogData = new ConfirmDialogModel('Atenção', `Confirma exclusão da transação <b>${transaction.description} [${transaction.amount}]</b>?`);
+    const dialogData = new ConfirmDialogModel('Atenção', `Confirma exclusão da transação <b>${transaction.description} [${this.currencyPipe.transform(transaction.amount)}]</b>?`);
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",

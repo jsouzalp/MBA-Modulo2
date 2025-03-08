@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using FinPlanner360.Business.Models;
 
-namespace FinPlanner360.Repositories.Configurations;
+namespace FinPlanner360.Data.Configurations;
 
 public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
 {
@@ -10,53 +10,53 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
     {
         #region Mapping columns
 
-        builder.ToTable("TB_TRANSACTION");
+        builder.ToTable("Transactions");
 
         builder.HasKey(x => x.TransactionId)
-            .HasName("PK_TB_TRANSACTION");
+            .HasName("TransactionsPK");
 
         builder.Property(x => x.TransactionId)
-            .HasColumnName("TRANSACTION_ID")
+            .HasColumnName("TransactionId")
             .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
             .IsRequired();
 
         builder.Property(x => x.UserId)
-            .HasColumnName("USER_ID")
+            .HasColumnName("UserId")
             .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
             .IsRequired();
 
         builder.Property(x => x.Description)
-            .HasColumnName("DESCRIPTION")
+            .HasColumnName("Description")
             .HasColumnType(DatabaseTypeConstant.Varchar)
             .UseCollation(DatabaseTypeConstant.Collate)
             .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(x => x.Amount)
-            .HasColumnName("AMOUNT")
+            .HasColumnName("Amount")
             .HasColumnType(DatabaseTypeConstant.Money)
             .HasPrecision(2)
             .IsRequired();
 
         builder.Property(x => x.CategoryId)
-            .HasColumnName("CATEGORY_ID")
+            .HasColumnName("CategoryId")
             .HasColumnType(DatabaseTypeConstant.UniqueIdentifier)
             .IsRequired();
 
         builder.Property(x => x.TransactionDate)
-            .HasColumnName("TRANSACTION_DATE")
+            .HasColumnName("TransactionDate")
             .HasColumnType(DatabaseTypeConstant.SmallDateTime)
             .IsRequired();
 
         builder.Property(x => x.CreatedDate)
-            .HasColumnName("CREATED_DATE")
+            .HasColumnName("CreatedDate")
             .HasColumnType(DatabaseTypeConstant.DateTime)
             .IsRequired();
         #endregion Mapping columns
 
         #region Indexes
 
-        builder.HasIndex(x => x.UserId).HasDatabaseName("IDX_TB_TRANSACTION_01");
+        builder.HasIndex(x => x.UserId).HasDatabaseName("TransactionsUserIdIX");
 
         #endregion Indexes
 
@@ -65,13 +65,13 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
         builder.HasOne(x => x.User)
             .WithMany(x => x.Transactions)
             .HasForeignKey(x => x.UserId)
-            .HasConstraintName("FK_TB_TRANSACTION_01")
+            .HasConstraintName("TransactionsUserFK")
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(x => x.Category)
             .WithMany(x => x.Transactions)
             .HasForeignKey(x => x.CategoryId)
-            .HasConstraintName("FK_TB_TRANSACTION_02")
+            .HasConstraintName("TransactionsCategoryFK")
             .OnDelete(DeleteBehavior.Restrict);
 
         #endregion Relationships

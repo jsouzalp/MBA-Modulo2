@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinPlanner360.Repositories.Contexts;
+namespace FinPlanner360.Data.Contexts;
 
 public class ApplicationDbContext : IdentityDbContext
 {

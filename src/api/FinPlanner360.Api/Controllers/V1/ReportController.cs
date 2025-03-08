@@ -8,13 +8,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Net;
 
 namespace FinPlanner360.Api.Controllers.V1;
 
 [Authorize(Roles = "USER")]
 [ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/[Controller]")]
+[Route("api/v{version:apiVersion}/report")]
 public class ReportController : MainController
 {
     private readonly ITransactionRepository _transactionRepository;
@@ -74,7 +75,27 @@ public class ReportController : MainController
                                                                     TotalAmount = g.Sum(x => x.Amount).ToString("C")
                                                                 }).ToList();
 
-        var result = GenerateReportToFile.Generate<TransactionCategoyViewModel>(fileType, "Category", transactionsReport);
+
+        List<TransactionSummaryViewModel> summaryReport = transactionsReport
+                                  .GroupBy(t => t.Type)
+                                  .Select(g => new TransactionSummaryViewModel
+                                  {
+                                      Type = g.Key == "Despesas" ? "Expenses" : g.Key == "Receitas" ? "Income" : g.Key,
+                                      TotalAmount = g.Sum(t => decimal.Parse(t.TotalAmount, System.Globalization.NumberStyles.Currency))
+                                  })
+                                  .ToList();
+
+
+        decimal totalResult = summaryReport.Sum(transaction => transaction.Type == "Income" ? transaction.TotalAmount : -transaction.TotalAmount);
+
+
+        var parameters = summaryReport?.ToDictionary(summary => summary.Type, summary => (object)summary.TotalAmount.ToString("C")) ?? [];
+        parameters.Add("Result", totalResult.ToString("C"));
+        parameters.Add("StartDate", startDate);
+        parameters.Add("EndDate", endDate);
+
+
+        var result = GenerateReportToFile.Generate<TransactionCategoyViewModel>(fileType, "Category", transactionsReport, parameters);
         return File(result.FileBytes, result.ContentType, result.FileName);
     }
 
@@ -92,21 +113,22 @@ public class ReportController : MainController
         if (!ExistsTransactions(transactionsList)) { return GenerateResponse(); }
 
         var groupedTransactionsReport = transactionsList
-                .Select(x => new TransactionAnalyticsViewModel
-                {
-                    TransactionDate = x.TransactionDate.ToString("dd/MM/yyyy"),
-                    Type = x.Category.Type.GetDescription(),
-                    Description = x.Description,
-                    CategoryDescription = x.Category.Description,
-                    TotalAmount = x.Amount.ToString("C"),
-                })
-                .GroupBy(x => x.CategoryDescription)
-                .Select(group => new GroupedTransactionAnalyticsViewModel
-                {
-                    CategoryDescription = group.Key,
-                    Transactions = group.OrderBy(x => x.TransactionDate).ToList()
-                })
-                .ToList();
+                                      .Select(x => new TransactionAnalyticsViewModel
+                                      {
+                                          TransactionDate = x.TransactionDate.ToString("dd/MM/yyyy"),
+                                          Type = x.Category.Type.GetDescription(),
+                                          Description = x.Description,
+                                          CategoryDescription = x.Category.Description,
+                                          TotalAmount = x.Amount.ToString("C"),
+                                      })
+                                      .GroupBy(x => x.CategoryDescription)
+                                      .Select(group => new GroupedTransactionAnalyticsViewModel
+                                      {
+                                          CategoryDescription = group.Key,
+                                          Transactions = group.OrderBy(x => x.TransactionDate).ToList()
+                                      })
+                                      .ToList();
+
 
         return GenerateResponse(groupedTransactionsReport, HttpStatusCode.OK);
     }
@@ -137,7 +159,27 @@ public class ReportController : MainController
                                             .OrderBy(x => x.TransactionDate)
                                             .ToList();
 
-        var result = GenerateReportToFile.Generate<TransactionAnalyticsViewModel>(fileType, "CategoryAnalytics", transactionsReport);
+
+        List<TransactionSummaryViewModel> summaryReport = transactionsReport
+                                          .GroupBy(t => t.Type)
+                                          .Select(g => new TransactionSummaryViewModel
+                                          {
+                                              Type = g.Key == "Despesas" ? "Expenses" : g.Key == "Receitas" ? "Income" : g.Key,
+                                              TotalAmount = g.Sum(t => decimal.Parse(t.TotalAmount, System.Globalization.NumberStyles.Currency))
+                                          })
+                                          .ToList();
+
+        decimal totalResult = summaryReport.Sum(transaction => transaction.Type == "Income" ? transaction.TotalAmount : -transaction.TotalAmount);
+
+
+        var parameters = summaryReport?.ToDictionary(summary => summary.Type, summary => (object)summary.TotalAmount.ToString("C")) ?? [];
+        parameters.Add("Result", totalResult.ToString("C"));
+        parameters.Add("StartDate", startDate);
+        parameters.Add("EndDate", endDate);
+
+        var result = GenerateReportToFile.Generate<TransactionAnalyticsViewModel>(fileType, "CategoryAnalytics", transactionsReport, parameters);
+
+
         return File(result.FileBytes, result.ContentType, result.FileName);
     }
 

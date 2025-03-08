@@ -1,6 +1,5 @@
 <div *ngIf="showContent">
   <mat-card class="cardWithShadow theme-card">
-    
     <mat-card-header>
       <div style="display: flex; align-items: center; justify-content: space-between;width: 100%;">
         <h2 style="margin: 0;">Relatório por categorias Sintético</h2>
@@ -16,24 +15,47 @@
   </mat-card-header>
 
     <mat-card-content class="b-t-1">
-      <div class="row">
-        <mat-card-content>
-          <mat-list>
-            <div *ngFor="let category of reportcategoryModel">
-              <mat-list-item>
-                <div class="report-item">
-                  <span class="category-type">{{category.type}}</span>
-                  <span class="spacer"></span>
-                  <span class="category-description">{{category.categoryDescription}}</span>
-                  <span class="spacer"></span>
-                  <span class="total-amount">{{category.totalAmount}}</span>
-                  <span class="spacer"></span>
-                </div>
-              </mat-list-item>
+      <mat-list class="category-list">
+
+        <mat-list-item class="category-header">
+          <div class="report-item">
+            <span class="category-type"><strong>Tipo</strong></span>
+            <span class="category-description"><strong>Descrição</strong></span>
+            <span class="spacer"></span>
+            <span class="total-amount" style="text-align: right; margin-left: auto;"><strong>Total</strong></span>
+          </div>
+        </mat-list-item>
+
+        <div *ngFor="let category of reportcategoryModel">
+          <mat-list-item class="category-item">
+            <div class="report-item">
+              <span class="category-type">{{category.type}}</span>
+              <span class="category-description">{{category.categoryDescription}}</span>
+              <span class="spacer"></span>
+              <span class="total-amount; text-align: right; margin-left: auto;">{{category.totalAmount}}</span>
             </div>
-          </mat-list>
-        </mat-card-content>
-      </div>
+          </mat-list-item>
+        </div>
+
+        
+        <br/><br/>
+        <div class="totals-section">
+          <div style="margin-left: 16px; margin-top: 10px; font-weight: bold;">
+            <div *ngFor="let type of getTransactionSums()">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="width: 200px;">Total para {{ type.key }}:</span>
+                <span style="width: 100px; text-align: right; margin-left: auto;">{{ type.value | currency }}</span>
+              </div>
+            </div>
+          </div>
+          <div style="margin-left: 16px; margin-top: 10px; font-weight: bold;">
+            <div style="display: flex; align-items: center; gap: 8px; border-top: 2px solid #000; padding-top: 8px;">
+              <span style="width: 200px;">Total Geral:</span>
+              <span style="width: 100px; text-align: right; margin-left: auto; font-weight: bold;">{{ getTotalAmount() | currency }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-list>
     </mat-card-content>
   </mat-card>
 </div>

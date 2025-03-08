@@ -2,10 +2,10 @@
 using FinPlanner360.Business.Interfaces.Services;
 using FinPlanner360.Business.Models;
 using FinPlanner360.Business.Models.Enums;
-using FinPlanner360.Repositories.Contexts;
+using FinPlanner360.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinPlanner360.Repositories.Repositories;
+namespace FinPlanner360.Data.Repositories;
 
 public class TransactionRepository : BaseRepository<Transaction>, ITransactionRepository
 {

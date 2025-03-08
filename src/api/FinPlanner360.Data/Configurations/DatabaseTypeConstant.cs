@@ -1,4 +1,4 @@
-﻿namespace FinPlanner360.Repositories.Configurations;
+﻿namespace FinPlanner360.Data.Configurations;
 
 public static class DatabaseTypeConstant
 {

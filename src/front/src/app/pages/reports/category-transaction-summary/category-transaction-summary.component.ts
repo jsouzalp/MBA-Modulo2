@@ -52,6 +52,44 @@ export class CategoryTransactionSummaryComponent implements OnInit, OnDestroy {
       });
   }
 
+  getTransactionSums(): { key: string; value: number }[] {
+    const sums: { [key: string]: number } = {};
+  
+    if (!this.reportcategoryModel) return [];
+  
+    this.reportcategoryModel.forEach((category: ReportCategory) => {
+      const amount = parseFloat(category.totalAmount.replace('R$', '').replace('.', '').replace(',', '.')) || 0;
+  
+      if (!sums[category.type]) {
+        sums[category.type] = 0;
+      }
+      sums[category.type] += amount;
+    });
+  
+    return Object.entries(sums)
+      .map(([key, value]) => ({ key, value })) 
+      .sort((b, a) => a.key.localeCompare(b.key)); 
+  }
+
+  getTotalAmount(): number {
+    let total = 0;
+  
+    this.getTransactionSums().forEach(transaction => {
+      if (transaction.key.toLowerCase() === 'receitas') {
+        total += transaction.value; 
+      } else if (transaction.key.toLowerCase() === 'despesas') {
+        total -= transaction.value; 
+      }
+    });
+  
+    return total;
+  }
+
+ 
+
+
+
+
   generatePDF(): void {
     this.reportcategoryService.getPdfSummary(this.startDate, this.endDate)
       .subscribe({

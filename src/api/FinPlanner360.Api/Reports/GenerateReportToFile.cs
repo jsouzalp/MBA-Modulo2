@@ -1,11 +1,12 @@
-﻿using FinPlanner360.Api.Reports.Closed_Xml;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using FinPlanner360.Api.Reports.Closed_Xml;
 using FinPlanner360.Api.Reports.Fast;
 
 namespace FinPlanner360.Api.Reports
 {
     public static class GenerateReportToFile
     {
-        public static (byte[] FileBytes, string ContentType, string FileName) Generate<T>(string fileType, string reportName, IEnumerable<T> transactionsReport)
+        public static (byte[] FileBytes, string ContentType, string FileName) Generate<T>(string fileType, string reportName, IEnumerable<T> transactionsReport, Dictionary<string, object> parameters)
         {
             byte[] fileBytes = null;
             string contentType = null;
@@ -14,7 +15,7 @@ namespace FinPlanner360.Api.Reports
             switch (fileType.ToLower())
             {
                 case "pdf":
-                    fileBytes = PdfReportService.GenerateReportPDF(reportName, transactionsReport);
+                    fileBytes = PdfReportService.GenerateReportPDF(reportName, transactionsReport, parameters);
                     contentType = "application/pdf";
                     fileName = $"{reportName}.pdf";
                     break;
@@ -28,5 +29,6 @@ namespace FinPlanner360.Api.Reports
 
             return (fileBytes, contentType, fileName);
         }
+
     }
 }
