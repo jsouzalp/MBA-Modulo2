@@ -1,5 +1,5 @@
 
-# Feedback 1a Entrega - Avaliação Geral e Recomendações
+# Feedback 2a Entrega - Avaliação Geral e Recomendações
 
 ## Front End
 
@@ -14,29 +14,33 @@
 
 ### Funcionalidade
 
-- Não consegui utilizar o sistema com meu usuário, provavelmente está faltando associar alguma claim ou role na criação, ao utilizar um usuário previamente registrado consegui navegar.
-- O relatório poderia fazer um total de entradas e saídas e demonstrar o resultado do período (positivo ou negativo)
-- A mensagem das notificações poderia ser um pouco mais detalhada (ex: ao atingir 80% do budget)
-- As demais funcionalidades estão atendendo ao proprósito do escopo
+- Funcionalidades muito bem implementadas
+
+- No popup de orçamento geral "Porcentual limite de despesas sobre a receita lançada"
+- Não ficou muito claro sobre a intenção
+- Não consegui inserir valores aceitos (o botão salvar não habilita)
+- Não precisa proibir o lançamento passando do limite, pois isso ocorre sempre no passado, ou seja o gasto foi realizado e precisa ser contabilizado
 
 ## Back End
 
 ### Arquitetura
 
-- A arquitetura está limpa, bem distribuida, na medida ideal
-- A camada “Repositories” faria mais sentido se fosse “Data”
+- A arquitetura está limpa, bem distribuida, na medida ideal, nada a pontuar de negativo.
 
 ### Funcionalidade
 
 - Boa implementação de validações de negócios via notificações
 - Boa implementação de geração de relatórios
-- A distribuição das extensões agrupadoras de configuração da program.cs ficou um pouco confusa para mim, mas não que esteja errada, mas dá para reorganizar de forma mais coerente.
-- Nomenclatura de tabelas e colunas segue um padrão antiguado “TB_” assim como as PKs ex: “BUDGET_ID”, não tem necessidade de CAPS e também de repetir o nome da entidade na PK.
+- Destaques e diferenciais positivos:
+    - ExceptionFilter
+    - Versionamento de API
+    - Validação de ambiente para uso do SQLite
 
 ### Modelagem
 
 - Modelagem ajustada ao propósito do projeto, as entidades estão anêmicas mas isto não é um problema, era esperado.
 - Os serviços de negócios estão orquestrando o fluxo de forma adequada e esperada.
+- Nos serviços poderia ter menos manipulação de dados, isso poderia ficar a cargo do repositório entregar, divisão negócios e dados.
 
 ## Projeto
 
@@ -51,4 +55,8 @@
 ### Instalação
 
 - Instalação ideal, bastou rodar os comandos especificados no repositório.
+
+### Sugestões
+
+- Transformar o projeto num case open source, implementar mais funcionalidades, deixar rodando em um server para acesso publico, futuramente implementar um meio de pagamento para transformar em um SaaS (não precisa ter objetivos financeiros, apenas case mesmo).
 
